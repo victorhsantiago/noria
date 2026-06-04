@@ -21,7 +21,7 @@ export interface TextFieldProps extends RACTextFieldProps {
   placeholder?: string;
 }
 
-export function TextField({
+export const TextField = ({
   label,
   description,
   errorMessage,
@@ -30,7 +30,7 @@ export function TextField({
   placeholder,
   className,
   ...props
-}: TextFieldProps) {
+}: TextFieldProps) => {
   const iconSize = 18;
 
   const renderIcon = (icon: ReactNode, position: 'start' | 'end') => {
@@ -39,7 +39,7 @@ export function TextField({
     return (
       <div className={`noria-textfield__icon noria-textfield__icon--${position}`}>
         {isValidElement(icon)
-          ? cloneElement(icon as React.ReactElement<any>, { 
+          ? cloneElement(icon as React.ReactElement<{ width?: number | string; height?: number | string; className?: string }>, { 
               width: iconSize, 
               height: iconSize 
             })

@@ -9,7 +9,7 @@ export interface ButtonProps extends RACButtonProps {
   icon?: ReactNode;
 }
 
-export function Button({ variant = 'secondary', className, icon, children, ...props }: ButtonProps) {
+export const Button = ({ variant = 'secondary', className, icon, children, ...props }: ButtonProps) => {
   return (
     <RACButton
       className={(renderProps) => {
@@ -32,7 +32,7 @@ export function Button({ variant = 'secondary', className, icon, children, ...pr
         return (
           <>
             {icon && isValidElement(icon)
-              ? cloneElement(icon as React.ReactElement<any>, { 
+              ? cloneElement(icon as React.ReactElement<{ width?: number | string; height?: number | string; className?: string }>, { 
                   width: iconSize, 
                   height: iconSize, 
                   className: "noria-button__icon" 
