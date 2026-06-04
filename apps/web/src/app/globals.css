@@ -1,13 +1,15 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f0eadd;
+  --foreground: #1f2937;
+  --neu-light-shadow: #ffffff;
+  --neu-dark-shadow: #d1c8b8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #1e293b;
+  --foreground: #f8fafc;
+  --neu-light-shadow: #26354c;
+  --neu-dark-shadow: #161d2a;
 }
 
 html {
@@ -46,4 +48,24 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+/* Neumorphic Utilities */
+.neu-flat {
+  background: var(--background);
+  box-shadow: 6px 6px 12px var(--neu-dark-shadow), -6px -6px 12px var(--neu-light-shadow);
+  border-radius: 12px;
+}
+
+.neu-pressed {
+  background: var(--background);
+  box-shadow: inset 6px 6px 12px var(--neu-dark-shadow), inset -6px -6px 12px var(--neu-light-shadow);
+  border-radius: 12px;
+}
+
+.neu-convex {
+  background: var(--background);
+  box-shadow: 6px 6px 12px var(--neu-dark-shadow), -6px -6px 12px var(--neu-light-shadow);
+  border-radius: 12px;
+  /* Convex effect usually achieved via background gradient, simplified here */
 }
