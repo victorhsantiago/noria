@@ -18,6 +18,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "supabase": "^2.104.0",
     "turbo": "^2.9.16"
   }
 }
