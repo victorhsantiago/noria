@@ -1,74 +1,39 @@
-import { Button, TextField, Card } from "@noria/ui";
-import { Star, Trash2, Home as HomeIcon, CheckCircle, Search, Mail } from "lucide-react";
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
+import { Button, Card } from '@noria/ui'
 
-export default function Home() {
+export default async function HomePage() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect('/login')
+  }
+
+  const signOut = async () => {
+    'use server'
+    const supabase = await createClient()
+    await supabase.auth.signOut()
+    redirect('/login')
+  }
+
   return (
-    <div style={{ minHeight: '100vh', padding: '4rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <h1>Noria UI Showcase</h1>
+    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--background)' }}>
+      <div style={{ padding: '2rem', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '0.5rem' }}>
+          Welcome to Noria
+        </h1>
+        <p style={{ color: 'var(--muted)', fontSize: '0.875rem', marginBottom: '2rem' }}>
+          Logged in as <strong>{user.email}</strong>
+        </p>
 
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Button Variants</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Button variant="primary" icon={<HomeIcon />}>Primary</Button>
-          <Button variant="secondary" icon={<CheckCircle />}>Secondary</Button>
-          <Button variant="danger" icon={<Trash2 />}>Danger</Button>
-          <Button variant="icon-only" icon={<Star />} aria-label="Star" />
-        </div>
-      </section>
-
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Button States (Hover / Press)</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <Button variant="secondary">Interactive Button</Button>
-          <Button variant="secondary" isDisabled>Disabled</Button>
-        </div>
-      </section>
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Text Fields</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', maxWidth: '600px', flexDirection: 'column' }}>
-          <TextField
-            label="Email Address"
-            placeholder="example@noria.app"
-            startIcon={<Mail />}
-            description="We'll never share your email with anyone else."
-          />
-          <TextField
-            label="Search"
-            placeholder="Search events..."
-            startIcon={<Search />}
-          />
-          <TextField
-            label="Username"
-            placeholder="johndoe"
-            isInvalid
-            errorMessage="Username is already taken."
-          />
-        </div>
-      </section>
-
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Cards</h2>
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-          <Card style={{ gap: '1.5rem', width: '320px' }}>
-            <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Sign In</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <TextField label="Email Address" placeholder="hello@noria.app" startIcon={<Mail />} />
-              <TextField label="Password" type="password" placeholder="••••••••" />
-            </div>
-            <Button variant="primary" style={{ marginTop: '0.5rem', width: '100%' }}>Login</Button>
-          </Card>
-
-          <Card as="a" href="#" style={{ gap: '1rem', width: '320px', textDecoration: 'none' }}>
-            <h3 style={{ margin: 0, fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Star size={20} />
-              Interactive Layout
-            </h3>
-            <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.95rem', lineHeight: '1.5' }}>
-              This entire card acts as a link. It elevates on hover to indicate interactivity while maintaining our neumorphic aesthetic.
-            </p>
-          </Card>
-        </div>
-      </section>
-    </div>
-  );
+        <form action={signOut}>
+          <Button type="submit" style={{ width: '100%' }}>
+            Log Out
+          </Button>
+        </form>
+      </div>
+    </main>
+  )
 }
