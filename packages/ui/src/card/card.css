@@ -1,0 +1,23 @@
+.noria-card {
+  padding: 1.5rem;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.noria-card--interactive {
+  cursor: pointer;
+}
+
+.noria-card--interactive:hover {
+  transform: translateY(-2px);
+  /* slightly intensify the shadow on hover for a lift effect */
+  box-shadow: 8px 8px 16px var(--neu-dark-shadow), -8px -8px 16px var(--neu-light-shadow);
+}
+
+.noria-card--interactive:active {
+  transform: translateY(0);
+  /* press it in slightly */
+  box-shadow: inset 2px 2px 5px var(--neu-dark-shadow), inset -2px -2px 5px var(--neu-light-shadow);
+}
