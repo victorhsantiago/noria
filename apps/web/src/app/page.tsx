@@ -1,8 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { Button, Card } from '@noria/ui'
+import { Button } from '@noria/ui'
 
-export default async function HomePage() {
+const HomePage = async () => {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -37,3 +37,5 @@ export default async function HomePage() {
     </main>
   )
 }
+
+export default HomePage;

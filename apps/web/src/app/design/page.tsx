@@ -1,7 +1,7 @@
 import { Button, TextField, Card } from "@noria/ui";
 import { Star, Trash2, Home as HomeIcon, CheckCircle, Search, Mail } from "lucide-react";
 
-export default function Home() {
+const Home = () => {
   return (
     <div style={{ minHeight: '100vh', padding: '4rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <h1>Noria UI Showcase</h1>
@@ -72,3 +72,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

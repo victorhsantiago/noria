@@ -17,7 +17,7 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -67,7 +67,7 @@ export default function LoginPage() {
         const result = await login(formData)
         if (result?.error) setError(result.error)
       }
-    } catch (e) {
+    } catch {
       setError("An unexpected error occurred.")
     } finally {
       setIsLoading(false)
@@ -77,7 +77,7 @@ export default function LoginPage() {
   const handleOAuth = async (provider: 'google' | 'github') => {
     try {
       await signInWithOAuth(provider)
-    } catch (e) {
+    } catch {
       setError(`Failed to sign in with ${provider}`)
     }
   }
@@ -190,10 +190,12 @@ export default function LoginPage() {
           </button>
 
           <div style={{ color: 'var(--muted)' }}>
-            Don't have an account? <Link href="/signup" style={{ color: 'var(--foreground)', fontWeight: 500 }}>Sign up</Link>
+            Don&apos;t have an account? <Link href="/signup" style={{ color: 'var(--foreground)', fontWeight: 500 }}>Sign up</Link>
           </div>
         </div>
       </Card>
     </div>
   )
 }
+
+export default LoginPage;

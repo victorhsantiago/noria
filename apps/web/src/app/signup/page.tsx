@@ -16,7 +16,7 @@ const signupSchema = z.object({
 
 type SignupFormValues = z.infer<typeof signupSchema>
 
-export default function SignupPage() {
+const SignupPage = () => {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -43,7 +43,7 @@ export default function SignupPage() {
       } else if (result?.success) {
         setSuccess(result.success)
       }
-    } catch (e) {
+    } catch {
       setError("An unexpected error occurred.")
     } finally {
       setIsLoading(false)
@@ -53,7 +53,7 @@ export default function SignupPage() {
   const handleOAuth = async (provider: 'google' | 'github') => {
     try {
       await signInWithOAuth(provider)
-    } catch (e) {
+    } catch {
       setError(`Failed to sign up with ${provider}`)
     }
   }
@@ -134,3 +134,5 @@ export default function SignupPage() {
     </div>
   )
 }
+
+export default SignupPage;
