@@ -1,0 +1,78 @@
+.noria-textfield {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.noria-textfield__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.noria-textfield__input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.noria-textfield__input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+/* Adjust padding if there are icons */
+.noria-textfield__input--has-start-icon {
+  padding-left: 2.5rem;
+}
+
+.noria-textfield__input--has-end-icon {
+  padding-right: 2.5rem;
+}
+
+.noria-textfield__icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.noria-textfield__icon--start {
+  left: 0.75rem;
+}
+
+.noria-textfield__icon--end {
+  right: 0.75rem;
+}
+
+/* Focus styles */
+.noria-textfield__input--focused {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.noria-textfield__description {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.noria-textfield__error {
+  font-size: 0.75rem;
+  color: var(--danger);
+}
+
+/* Invalid state outline */
+.noria-textfield__input[data-invalid] {
+  outline: 2px solid var(--danger);
+  outline-offset: -2px;
+}
