@@ -67,7 +67,7 @@ Noria provides a central place where groups can:
 ### Backend
 
 * Next.js Route Handlers / Server Actions
-* Prisma
+* Supabase
 * PostgreSQL
 
 ### Monorepo
@@ -93,7 +93,6 @@ noria/
 │   ├── ui/
 │   └── config/
 │
-├── docker-compose.yml
 ├── pnpm-workspace.yaml
 └── turbo.json
 ```
@@ -112,16 +111,16 @@ noria/
 pnpm install
 ```
 
-### Start PostgreSQL
+### Start Supabase (Database & Services)
 
 ```bash
-docker compose up -d
+pnpm --filter database db:start
 ```
 
-### Run database migrations
+### Generate Database Types
 
 ```bash
-pnpm --filter @noria/database db:migrate
+pnpm --filter database db:types
 ```
 
 ### Start development environment
