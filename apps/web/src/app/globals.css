@@ -1,20 +1,30 @@
+@import './tokens.css';
+
 :root {
   --background: #f0eadd;
   --foreground: #1f2937;
+  --border: #e5e7eb;
   --neu-light-shadow: #ffffff;
   --neu-dark-shadow: #d1c8b8;
   --primary: #3b82f6;
   --danger: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --info: #3b82f6;
   --muted: #6b7280;
 }
 
 .dark {
   --background: #1e293b;
   --foreground: #f8fafc;
+  --border: #334155;
   --neu-light-shadow: #26354c;
   --neu-dark-shadow: #161d2a;
   --primary: #60a5fa;
   --danger: #f87171;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --info: #60a5fa;
   --muted: #9ca3af;
 }
 
@@ -46,16 +56,29 @@ body {
 }
 
 /* Modern CSS Normalizations */
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
 }
 
@@ -74,18 +97,18 @@ a {
 .neu-flat {
   background: var(--background);
   box-shadow: 6px 6px 12px var(--neu-dark-shadow), -6px -6px 12px var(--neu-light-shadow);
-  border-radius: 12px;
+  border-radius: var(--radius);
 }
 
 .neu-pressed {
   background: var(--background);
   box-shadow: inset 6px 6px 12px var(--neu-dark-shadow), inset -6px -6px 12px var(--neu-light-shadow);
-  border-radius: 12px;
+  border-radius: var(--radius);
 }
 
 .neu-convex {
   background: var(--background);
   box-shadow: 6px 6px 12px var(--neu-dark-shadow), -6px -6px 12px var(--neu-light-shadow);
-  border-radius: 12px;
+  border-radius: var(--radius);
   /* Convex effect usually achieved via background gradient, simplified here */
 }

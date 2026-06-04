@@ -1,0 +1,30 @@
+.noria-alert {
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.noria-alert--error {
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.noria-alert--success {
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.noria-alert--info {
+  color: var(--info);
+  border: 1px solid var(--info);
+}
+
+.noria-alert--warning {
+  color: var(--warning);
+  border: 1px solid var(--warning);
+}
