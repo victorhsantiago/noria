@@ -7,6 +7,9 @@
     ".": "./src/index.ts",
     "./styles.css": "./src/button/button.css"
   },
+  "scripts": {
+    "lint": "eslint ."
+  },
   "dependencies": {
     "lucide-react": "^1.17.0",
     "react-aria-components": "^1.18.0"
@@ -18,6 +21,8 @@
   "devDependencies": {
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@noria/eslint-config": "workspace:*",
+    "eslint": "^9",
     "typescript": "^5"
   }
 }
