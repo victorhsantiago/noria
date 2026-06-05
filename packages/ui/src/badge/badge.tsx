@@ -1,13 +1,13 @@
 import React, { HTMLAttributes } from 'react';
 import './badge.css';
 
-export type BadgeVariant = 'default' | 'success' | 'warning' | 'danger' | 'info';
+export type BadgeVariant = 'success' | 'warning' | 'danger' | 'info';
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-  variant?: BadgeVariant;
+  variant: BadgeVariant;
 }
 
-export const Badge = ({ className = '', variant = 'default', children, ...props }: BadgeProps) => {
+export const Badge = ({ className = '', variant, children, ...props }: BadgeProps) => {
   return (
     <span
       className={`noria-badge noria-badge--${variant} ${className}`.trim()}
