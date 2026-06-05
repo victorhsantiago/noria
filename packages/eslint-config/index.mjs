@@ -14,6 +14,7 @@ export const config = defineConfig([
   ]),
   {
     rules: {
+      "@typescript-eslint/no-explicit-any": "error",
       "react/function-component-definition": [
         "error",
         {
