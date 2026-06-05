@@ -3,7 +3,8 @@ import { redirect } from 'next/navigation';
 import { Button, Typography, Flex, Container, Link, Card } from '@noria/ui';
 import { formatFullDateTime } from '@/utils/date';
 
-const EventDetailsPage = async ({ params }: { params: { id: string } }) => {
+const EventDetailsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+	const { id } = await params;
 	const supabase = await createClient();
 	const {
 		data: { user },
@@ -16,7 +17,7 @@ const EventDetailsPage = async ({ params }: { params: { id: string } }) => {
 	const { data: event, error } = await supabase
 		.from('events')
 		.select('*')
-		.eq('id', params.id)
+		.eq('id', id)
 		.single();
 
 	if (error || !event) {
