@@ -1,0 +1,52 @@
+.noria-typography {
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+/* Colors */
+.noria-typography--color-foreground { color: var(--foreground); }
+.noria-typography--color-muted { color: var(--muted); }
+.noria-typography--color-primary { color: var(--primary); }
+.noria-typography--color-success { color: var(--success); }
+.noria-typography--color-warning { color: var(--warning); }
+.noria-typography--color-danger { color: var(--danger); }
+
+/* Alignments */
+.noria-typography--align-left { text-align: left; }
+.noria-typography--align-center { text-align: center; }
+.noria-typography--align-right { text-align: right; }
+
+/* Variants */
+.noria-typography--variant-h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.noria-typography--variant-h2-caps {
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.noria-typography--variant-h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.noria-typography--variant-body {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.noria-typography--variant-body-small {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.noria-typography--variant-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

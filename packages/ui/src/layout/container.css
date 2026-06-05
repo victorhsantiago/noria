@@ -1,0 +1,21 @@
+.noria-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Max Widths */
+.noria-container--max-width-sm { max-width: 640px; }
+.noria-container--max-width-md { max-width: 768px; }
+.noria-container--max-width-lg { max-width: 1024px; }
+.noria-container--max-width-xl { max-width: 1280px; }
+/* Note: For specific pixel values, inline styles are used in the component */
+
+/* Padding */
+.noria-container--padding-none { padding: 0; }
+.noria-container--padding-xs { padding: var(--space-xs); }
+.noria-container--padding-sm { padding: var(--space-sm); }
+.noria-container--padding-md { padding: var(--space-md); }
+.noria-container--padding-lg { padding: var(--space-lg); }
+.noria-container--padding-xl { padding: var(--space-xl); }
+.noria-container--padding-2xl { padding: var(--space-2xl); }

@@ -9,7 +9,7 @@
   width: 100%;
 }
 
-.noria-alert--error {
+.noria-alert--danger {
   color: var(--danger);
   border: 1px solid var(--danger);
   background-color: var(--danger-bg);

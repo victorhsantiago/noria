@@ -15,7 +15,7 @@ import './toast.css';
 export interface NoriaToastContent {
   title: string;
   description?: string;
-  type?: 'success' | 'error' | 'info';
+  type?: 'success' | 'danger' | 'info';
 }
 
 export const toastQueue = new ToastQueue<NoriaToastContent>({
@@ -52,7 +52,7 @@ export const Toast = ({ toast, ...props }: { toast: { content: NoriaToastContent
     >
       <div className="noria-toast-icon">
         {type === 'success' && <CheckCircle2 size={20} />}
-        {type === 'error' && <AlertCircle size={20} />}
+        {type === 'danger' && <AlertCircle size={20} />}
         {type === 'info' && <Info size={20} />}
       </div>
       <ToastContent className="noria-toast-content">

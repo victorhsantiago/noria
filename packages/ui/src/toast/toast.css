@@ -43,10 +43,10 @@
 }
 .noria-toast.success .noria-toast-icon { color: var(--success); }
 
-.noria-toast.error {
+.noria-toast.danger {
   background-color: var(--danger-bg);
 }
-.noria-toast.error .noria-toast-icon { color: var(--danger); }
+.noria-toast.danger .noria-toast-icon { color: var(--danger); }
 
 .noria-toast.info {
   background-color: var(--primary-bg);

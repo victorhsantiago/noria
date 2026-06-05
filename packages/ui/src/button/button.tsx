@@ -7,9 +7,10 @@ import './button.css';
 export interface ButtonProps extends RACButtonProps {
   variant?: 'primary' | 'secondary' | 'danger' | 'icon-only';
   icon?: ReactNode;
+  fullWidth?: boolean;
 }
 
-export const Button = ({ variant = 'secondary', className, icon, children, ...props }: ButtonProps) => {
+export const Button = ({ variant = 'secondary', className, icon, fullWidth, children, ...props }: ButtonProps) => {
   return (
     <RACButton
       className={(renderProps) => {
@@ -18,10 +19,11 @@ export const Button = ({ variant = 'secondary', className, icon, children, ...pr
         const variantClass = `noria-button--${variant}`;
         const neuClass = isPressed ? 'neu-pressed' : 'neu-convex';
         const focusClass = isFocusVisible ? 'noria-button--focused' : '';
+        const widthClass = fullWidth ? 'noria-button--full-width' : '';
 
         const customClass = typeof className === 'function' ? className(renderProps) : className || '';
 
-        return `${baseClass} ${variantClass} ${neuClass} ${focusClass} ${customClass}`.trim();
+        return `${baseClass} ${variantClass} ${widthClass} ${neuClass} ${focusClass} ${customClass}`.trim();
       }}
       {...props}
     >

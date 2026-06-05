@@ -3,11 +3,11 @@ import './alert.css';
 
 export interface AlertProps {
   children: ReactNode;
-  variant?: 'error' | 'success' | 'info' | 'warning';
+  variant?: 'danger' | 'success' | 'info' | 'warning';
   className?: string;
 }
 
-export const Alert = ({ children, variant = 'error', className = '' }: AlertProps) => {
+export const Alert = ({ children, variant = 'danger', className = '' }: AlertProps) => {
   return (
     <div 
       className={`noria-alert noria-alert--${variant} ${className}`.trim()} 
