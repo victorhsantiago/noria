@@ -59,14 +59,18 @@ export async function getDashboardData() {
   // Past events should probably be sorted descending (most recent past first)
   const pastEventsRaw = processedEvents.filter(e => e.start_datetime < now);
   const pastEvents = [...pastEventsRaw].sort((a, b) => b.start_datetime.localeCompare(a.start_datetime)).slice(0, 3);
+  const hasMorePastEvents = pastEventsRaw.length > 3;
 
   const nextEvent = allUpcoming.length > 0 ? allUpcoming[0] : null;
   const upcomingEvents = allUpcoming.slice(1, 4);
+  const hasMoreUpcomingEvents = allUpcoming.length > 4;
 
   return {
     user,
     nextEvent,
     upcomingEvents,
+    hasMoreUpcomingEvents,
     pastEvents,
+    hasMorePastEvents,
   };
 }

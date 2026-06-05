@@ -11,7 +11,7 @@ const HomePage = async () => {
     redirect('/login');
   }
 
-  const { user, nextEvent, upcomingEvents, pastEvents } = data;
+  const { user, nextEvent, upcomingEvents, hasMoreUpcomingEvents, pastEvents, hasMorePastEvents } = data;
 
   const signOut = async () => {
     'use server'
@@ -72,9 +72,11 @@ const HomePage = async () => {
                 {upcomingEvents.map(event => (
                   <EventCard key={event.id} event={event} />
                 ))}
-                <Flex alignSelf="start">
-                  <Button variant="secondary">See All</Button>
-                </Flex>
+                {hasMoreUpcomingEvents && (
+                  <Flex alignSelf="start">
+                    <Button variant="secondary">See All</Button>
+                  </Flex>
+                )}
               </Flex>
             ) : (
               <Typography variant="body" color="muted">No other upcoming events.</Typography>
@@ -91,9 +93,11 @@ const HomePage = async () => {
                 {pastEvents.map(event => (
                   <EventCard key={event.id} event={event} />
                 ))}
-                <Flex alignSelf="start">
-                  <Button variant="secondary">See History</Button>
-                </Flex>
+                {hasMorePastEvents && (
+                  <Flex alignSelf="start">
+                    <Button variant="secondary">See History</Button>
+                  </Flex>
+                )}
               </Flex>
             ) : (
               <Typography variant="body" color="muted">No past events.</Typography>
