@@ -17,14 +17,17 @@ export const metadata: Metadata = {
 
 const RootLayout = ({
 	children,
+	modal,
 }: Readonly<{
 	children: React.ReactNode;
+	modal: React.ReactNode;
 }>) => {
 	return (
 		<html lang="en" className={outfit.variable} suppressHydrationWarning>
 			<body>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 					{children}
+					{modal}
 					<Toaster />
 				</ThemeProvider>
 			</body>

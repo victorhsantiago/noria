@@ -1,0 +1,47 @@
+.noria-Tabs {
+	display: flex;
+	flex-direction: column;
+}
+
+.noria-TabList {
+	display: flex;
+	gap: 16px;
+	border-bottom: 1px solid var(--border);
+}
+
+.noria-Tab {
+	padding: 8px 12px;
+	cursor: pointer;
+	outline: none;
+	border-bottom: 2px solid transparent;
+	color: var(--muted);
+}
+
+.noria-Tab[data-selected] {
+	color: var(--foreground);
+	border-bottom-color: var(--primary);
+	font-weight: 600;
+}
+
+.noria-Tab[data-focus-visible] {
+	border-radius: var(--radius);
+	outline: 2px solid var(--primary);
+	outline-offset: 2px;
+}
+
+.noria-TabPanel {
+	padding-top: 16px;
+	outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	.noria-TabList {
+		border-color: var(--border);
+	}
+	.noria-Tab {
+		color: var(--muted);
+	}
+	.noria-Tab[data-selected] {
+		color: var(--foreground);
+	}
+}

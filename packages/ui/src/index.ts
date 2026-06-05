@@ -13,3 +13,6 @@ export * from './layout/container';
 export * from './separator/separator';
 export * from './text-area/text-area';
 export * from './link/link';
+export * from './dialog/dialog';
+export * from './menu/menu';
+export * from './tabs/tabs';

@@ -1,0 +1,68 @@
+.noria-Popover {
+	background: var(--background);
+	color: var(--foreground);
+	border: 1px solid var(--border);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	border-radius: var(--radius);
+	padding: 4px;
+	min-width: 150px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.noria-Popover {
+		background: var(--background);
+		color: var(--foreground);
+		border-color: var(--border);
+	}
+}
+
+.noria-Popover[data-entering] {
+	animation: popover-zoom-in 200ms ease-out;
+}
+
+.noria-Popover[data-exiting] {
+	animation: popover-zoom-out 150ms ease-in;
+}
+
+.noria-Menu {
+	outline: none;
+	display: flex;
+	flex-direction: column;
+}
+
+.noria-MenuItem {
+	padding: 8px 12px;
+	border-radius: var(--radius);
+	outline: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.noria-MenuItem[data-focused] {
+	background: var(--primary);
+	color: white;
+}
+
+@keyframes popover-zoom-in {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes popover-zoom-out {
+	from {
+		opacity: 1;
+		transform: scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+}

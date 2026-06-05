@@ -1,0 +1,12 @@
+@media (max-width: 639px) {
+	/* Double class for specificity over noria-flex default classes */
+	.noria-event-actions.noria-event-actions {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.noria-event-actions > * {
+		width: 100%;
+		justify-content: center;
+	}
+}

@@ -1,17 +1,17 @@
 import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
-import { Container, Link, Typography } from '@noria/ui';
-import { EventDetails } from '@/components';
+import { InterceptedModal, EventDetails } from '@/components';
+import { Dialog } from '@noria/ui';
 
-const EventDetailsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+const EventModal = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { id } = await params;
 	const supabase = await createClient();
+
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
 
 	if (!user) {
-		redirect('/login');
+		return null;
 	}
 
 	const { data: event, error } = await supabase
@@ -28,19 +28,7 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ id: string }> })
 		.single();
 
 	if (error || !event) {
-		return (
-			<main>
-				<Container maxWidth="800px" padding="lg">
-					<Typography variant="h1">Event not found</Typography>
-					<Typography variant="body" color="muted" mt="xs">
-						The event you are looking for does not exist.
-					</Typography>
-					<Link href="/" mt="sm" inlineBlock>
-						← Go back
-					</Link>
-				</Container>
-			</main>
-		);
+		return null;
 	}
 
 	const attendees = event.attendees || [];
@@ -53,17 +41,12 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ id: string }> })
 	};
 
 	return (
-		<main>
-			<Container maxWidth="800px" padding="lg">
-				<Typography color="primary" mb="lg">
-					<Link href="/" inlineBlock>
-						← Back to Dashboard
-					</Link>
-				</Typography>
+		<InterceptedModal>
+			<Dialog aria-label={eventWithRSVPs.title}>
 				<EventDetails event={eventWithRSVPs} />
-			</Container>
-		</main>
+			</Dialog>
+		</InterceptedModal>
 	);
 };
 
-export default EventDetailsPage;
+export default EventModal;
