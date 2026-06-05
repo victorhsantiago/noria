@@ -9,7 +9,7 @@ import { Mail, Key } from 'lucide-react';
 import { login, signInWithMagicLink, signInWithOAuth, verifyOtp } from '@/actions/auth';
 
 const loginSchema = z.object({
-	email: z.string().email({ message: 'Invalid email address' }),
+	email: z.email({ message: 'Invalid email address' }),
 	password: z.string().optional(),
 	otp: z.string().optional(),
 });
@@ -169,17 +169,17 @@ const LoginPage = () => {
 					</Flex>
 				</Flex>
 
-				<Flex align="center" gap="sm">
+				<Flex align="center" gap="sm" direction="column">
 					<Separator />
 					<Typography variant="label">OR CONTINUE WITH</Typography>
 					<Separator />
 				</Flex>
 
-				<Flex gap="sm">
-					<Button variant="secondary" onClick={() => handleOAuth('google')}>
+				<Flex gap="sm" fullWidth>
+					<Button variant="secondary" fullWidth onClick={() => handleOAuth('google')}>
 						Google
 					</Button>
-					<Button variant="secondary" onClick={() => handleOAuth('github')}>
+					<Button variant="secondary" fullWidth onClick={() => handleOAuth('github')}>
 						GitHub
 					</Button>
 				</Flex>

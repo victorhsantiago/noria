@@ -1,12 +1,12 @@
 .noria-separator {
-  background-color: var(--border);
+  background-color: color-mix(in srgb, var(--muted) 20%, transparent);
   flex-shrink: 0;
   border: none;
-  height: 1px;
+  height: 2px;
   width: 100%;
 }
 
 .noria-separator[aria-orientation='vertical'] {
-  width: 1px;
+  width: 2px;
   height: 100%;
 }
