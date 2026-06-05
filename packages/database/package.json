@@ -1,13 +1,13 @@
 {
-  "name": "database",
+  "name": "@noria/database",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "db:start": "supabase start",
-    "db:stop": "supabase stop",
-    "db:types": "supabase gen types typescript --local > types.ts"
+    "db:start": "npx supabase start",
+    "db:stop": "npx supabase stop",
+    "db:types": "npx supabase gen types typescript --local > types.ts"
   },
   "keywords": [],
   "author": "",
