@@ -159,6 +159,11 @@
   font-weight: 500;
 }
 
+.noria-calendar__cell[data-disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .noria-calendar__cell[data-unavailable] {
   color: var(--danger);
   text-decoration: line-through;
