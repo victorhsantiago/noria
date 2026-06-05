@@ -13,7 +13,7 @@ const NewEventPage = async () => {
 
   return (
     <Container maxWidth="42rem" padding="lg">
-      <Card style={{ padding: '1.5rem' }}>
+      <Card p="md">
         <Flex direction="column" gap="md">
           <Typography variant="h1">Create New Event</Typography>
           <EventForm />

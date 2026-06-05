@@ -4,10 +4,9 @@ import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Button, TextField, Card, Alert, Typography, Flex, Separator } from '@noria/ui'
+import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui'
 import { Mail, Key } from 'lucide-react'
 import { signup, signInWithOAuth } from '../login/actions'
-import Link from 'next/link'
 
 const signupSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -59,9 +58,9 @@ const SignupPage = () => {
   }
 
   return (
-    <Flex as="main" justify="center" align="center" style={{ padding: '2rem', flex: 1 }}>
-      <Card style={{ width: '100%', maxWidth: '400px', gap: '1.5rem' }}>
-        <Flex direction="column" gap="xs" style={{ textAlign: 'center' }}>
+    <Flex as="main" justify="center" align="center" p="lg" grow>
+      <Card fullWidth maxWidth="400px" gap="md">
+        <Flex direction="column" gap="xs" textAlign="center">
           <Typography variant="h1">Create an Account</Typography>
           <Typography variant="body-small">Join Noria to start organizing events</Typography>
         </Flex>
@@ -127,9 +126,9 @@ const SignupPage = () => {
           </Button>
         </Flex>
 
-        <Flex justify="center" style={{ marginTop: '1rem' }}>
+        <Flex justify="center" mt="sm">
           <Typography variant="body-small" color="muted">
-            Already have an account? <Link href="/login" style={{ color: 'var(--foreground)', fontWeight: 500 }}>Sign in</Link>
+            Already have an account? <Link href="/login"><Typography as="span" color="foreground"><strong>Sign in</strong></Typography></Link>
           </Typography>
         </Flex>
       </Card>

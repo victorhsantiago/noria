@@ -4,10 +4,9 @@ import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Button, TextField, Card, Alert, Typography, Flex, Separator } from '@noria/ui'
+import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui'
 import { Mail, Key } from 'lucide-react'
 import { login, signInWithMagicLink, signInWithOAuth, verifyOtp } from './actions'
-import Link from 'next/link'
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -83,9 +82,9 @@ const LoginPage = () => {
   }
 
   return (
-    <Flex as="main" justify="center" align="center" style={{ padding: '2rem', flex: 1 }}>
-      <Card style={{ width: '100%', maxWidth: '400px', gap: '1.5rem' }}>
-        <Flex direction="column" gap="xs" style={{ textAlign: 'center' }}>
+    <Flex as="main" justify="center" align="center" p="lg" grow>
+      <Card fullWidth maxWidth="400px" gap="md">
+        <Flex direction="column" gap="xs" textAlign="center">
           <Typography variant="h1">Welcome Back</Typography>
           <Typography variant="body-small">Sign in to your Noria account</Typography>
         </Flex>
@@ -153,7 +152,7 @@ const LoginPage = () => {
             />
           )}
 
-          <Flex style={{ marginTop: '0.5rem' }}>
+          <Flex mt="xs">
             <Button type="submit" variant="primary" isDisabled={isLoading} fullWidth>
               {isLoading 
                 ? 'Signing in...' 
@@ -180,19 +179,18 @@ const LoginPage = () => {
         </Flex>
 
         <Flex direction="column" align="center" gap="xs">
-          <button 
-            type="button" 
-            onClick={() => {
+          <Button 
+            variant="link"
+            onPress={() => {
               setIsMagicLink(!isMagicLink)
               setIsOtpSent(false)
             }}
-            style={{ background: 'none', border: 'none', color: 'var(--foreground)', cursor: 'pointer', textDecoration: 'underline' }}
           >
             <Typography variant="body-small" color="foreground">{isMagicLink ? 'Sign in with password instead' : 'Sign in with Magic Link instead'}</Typography>
-          </button>
+          </Button>
 
           <Typography variant="body-small">
-            Don&apos;t have an account? <Link href="/signup" style={{ color: 'var(--foreground)', fontWeight: 500 }}>Sign up</Link>
+            Don&apos;t have an account? <Link href="/signup"><Typography as="span" color="foreground"><strong>Sign up</strong></Typography></Link>
           </Typography>
         </Flex>
       </Card>

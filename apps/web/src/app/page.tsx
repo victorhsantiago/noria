@@ -1,9 +1,8 @@
 import { redirect } from 'next/navigation'
-import { Button, Typography, Flex, Container } from '@noria/ui'
+import { Button, Typography, Flex, Container, Link } from '@noria/ui'
 import { CreateEventButton } from './create-event-button'
 import { getDashboardData } from './dashboard-actions'
 import { EventCard } from './event-card'
-import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 
 const HomePage = async () => {
@@ -27,7 +26,7 @@ const HomePage = async () => {
       <Container maxWidth="800px" padding="lg">
         
         {/* Header section */}
-        <Flex as="header" justify="space-between" align="center" wrap gap="sm" style={{ marginBottom: '2rem' }}>
+        <Flex as="header" justify="space-between" align="center" wrap gap="sm" mb="lg">
           <div>
             <Typography variant="h1">
               Noria
@@ -43,9 +42,9 @@ const HomePage = async () => {
             <Link href="/design">
               <Button variant="secondary">UI Tokens</Button>
             </Link>
-            <div style={{ width: '150px' }}>
+            <Flex maxWidth="150px">
               <CreateEventButton />
-            </div>
+            </Flex>
           </Flex>
         </Flex>
 
@@ -54,7 +53,7 @@ const HomePage = async () => {
           
           {/* Next Event Section */}
           <section>
-            <Typography variant="h2-caps" style={{ marginBottom: '1rem' }}>
+            <Typography variant="h2-caps" mb="sm">
               Next Event
             </Typography>
             {nextEvent ? (
@@ -66,7 +65,7 @@ const HomePage = async () => {
 
           {/* Upcoming Events Section */}
           <section>
-            <Typography variant="h2-caps" style={{ marginBottom: '1rem' }}>
+            <Typography variant="h2-caps" mb="sm">
               Upcoming Events
             </Typography>
             {upcomingEvents.length > 0 ? (
@@ -74,9 +73,9 @@ const HomePage = async () => {
                 {upcomingEvents.map(event => (
                   <EventCard key={event.id} event={event} />
                 ))}
-                <div style={{ alignSelf: 'flex-start' }}>
+                <Flex alignSelf="start">
                   <Button variant="secondary">See All</Button>
-                </div>
+                </Flex>
               </Flex>
             ) : (
               <Typography variant="body" color="muted">No other upcoming events.</Typography>
@@ -85,7 +84,7 @@ const HomePage = async () => {
 
           {/* Past Events Section */}
           <section>
-            <Typography variant="h2-caps" style={{ marginBottom: '1rem' }}>
+            <Typography variant="h2-caps" mb="sm">
               Past Events
             </Typography>
             {pastEvents.length > 0 ? (
@@ -93,9 +92,9 @@ const HomePage = async () => {
                 {pastEvents.map(event => (
                   <EventCard key={event.id} event={event} />
                 ))}
-                <div style={{ alignSelf: 'flex-start' }}>
+                <Flex alignSelf="start">
                   <Button variant="secondary">See History</Button>
-                </div>
+                </Flex>
               </Flex>
             ) : (
               <Typography variant="body" color="muted">No past events.</Typography>

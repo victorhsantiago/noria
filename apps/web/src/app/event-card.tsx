@@ -11,11 +11,7 @@ export const EventCard = ({ event, highlight = false }: { event: EventWithRSVPs,
     <Card
       interactive
       onClick={() => router.push(`/events/${event.id}`)}
-      style={{
-        padding: '1.5rem',
-        marginBottom: '1rem',
-        cursor: 'pointer',
-      }}
+      p="md"
     >
       <Flex direction="column" gap="sm">
         <Flex justify="space-between" align="start">

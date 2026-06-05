@@ -1,7 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { Button, Typography, Flex, Container } from "@noria/ui";
-import Link from "next/link";
+import { Button, Typography, Flex, Container, Link, Card } from "@noria/ui";
 
 const EventDetailsPage = async ({ params }: { params: { id: string } }) => {
   const supabase = await createClient();
@@ -19,14 +18,14 @@ const EventDetailsPage = async ({ params }: { params: { id: string } }) => {
 
   if (error || !event) {
     return (
-      <Flex as="main" justify="center" align="center" style={{ flex: 1 }}>
-        <div style={{ textAlign: 'center' }}>
+      <Flex as="main" justify="center" align="center" grow>
+        <Flex direction="column" align="center" textAlign="center">
           <Typography variant="h1">Event not found</Typography>
-          <Typography variant="body" color="muted" style={{ marginTop: '0.5rem' }}>The event you are looking for does not exist.</Typography>
-          <Link href="/" style={{ marginTop: '1rem', display: 'inline-block' }}>
+          <Typography variant="body" color="muted" mt="xs">The event you are looking for does not exist.</Typography>
+          <Link href="/" mt="sm" inlineBlock>
             <Button>Go back</Button>
           </Link>
-        </div>
+        </Flex>
       </Flex>
     );
   }
@@ -34,15 +33,19 @@ const EventDetailsPage = async ({ params }: { params: { id: string } }) => {
   return (
     <main>
       <Container maxWidth="800px" padding="lg">
-        <Link href="/" style={{ display: 'inline-block', marginBottom: '2rem', color: 'var(--primary)' }}>
-          ← Back to Dashboard
-        </Link>
+        <Typography color="primary" mb="lg">
+          <Link href="/" inlineBlock>
+            ← Back to Dashboard
+          </Link>
+        </Typography>
         <Typography variant="h1">{event.title}</Typography>
-        <Typography variant="body" color="muted" style={{ marginTop: '0.5rem' }}>{new Date(event.start_datetime).toLocaleString()}</Typography>
-        <div style={{ marginTop: '2rem', padding: '1.5rem', backgroundColor: 'var(--surface)', borderRadius: '1rem' }}>
-          <Typography variant="body">This is a placeholder for the event details page.</Typography>
-          <Typography variant="body-small" style={{ marginTop: '1rem' }}>Location: {event.location}</Typography>
-        </div>
+        <Typography variant="body" color="muted" mt="xs">{new Date(event.start_datetime).toLocaleString()}</Typography>
+        <Flex mt="lg">
+          <Card p="md" fullWidth>
+            <Typography variant="body">This is a placeholder for the event details page.</Typography>
+            <Typography variant="body-small" mt="sm">Location: {event.location}</Typography>
+          </Card>
+        </Flex>
       </Container>
     </main>
   );

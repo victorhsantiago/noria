@@ -5,7 +5,7 @@ import { Star, Trash2, Home as HomeIcon, CheckCircle, Search, Mail } from "lucid
 
 const Home = () => {
   return (
-    <Flex as="main" direction="column" gap="lg" style={{ padding: '4rem', flex: 1 }}>
+    <Flex as="main" direction="column" gap="lg" p="2xl" grow>
       <Typography variant="h1">Noria UI Showcase</Typography>
 
       <Flex as="section" direction="column" gap="sm">
@@ -51,23 +51,23 @@ const Home = () => {
       <Flex as="section" direction="column" gap="sm">
         <Typography variant="h2-caps">Cards</Typography>
         <Flex gap="lg" wrap align="start">
-          <Card style={{ gap: '1.5rem', width: '320px' }}>
+          <Card gap="md" maxWidth="320px">
             <Typography variant="h3">Sign In</Typography>
             <Flex direction="column" gap="sm">
               <TextField label="Email Address" placeholder="hello@noria.app" startIcon={<Mail />} />
               <TextField label="Password" type="password" placeholder="••••••••" />
             </Flex>
-            <Button variant="primary" style={{ marginTop: '0.5rem' }} fullWidth>Login</Button>
+            <Button variant="primary" fullWidth>Login</Button>
           </Card>
 
-          <Card as="a" href="#" style={{ gap: '1rem', width: '320px' }}>
+          <Card as="a" href="#" gap="sm" maxWidth="320px">
             <Typography variant="h3">
               <Flex align="center" gap="xs">
                 <Star size={20} />
                 Interactive Layout
               </Flex>
             </Typography>
-            <Typography variant="body" color="muted" style={{ lineHeight: '1.5' }}>
+            <Typography variant="body" color="muted">
               This entire card acts as a link. It elevates on hover to indicate interactivity while maintaining our neumorphic aesthetic.
             </Typography>
           </Card>
