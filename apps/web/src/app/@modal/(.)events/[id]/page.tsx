@@ -6,14 +6,6 @@ const EventModal = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { id } = await params;
 	const supabase = await createClient();
 
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) {
-		return null;
-	}
-
 	const { data: event, error } = await supabase
 		.from('events')
 		.select(

@@ -1,18 +1,11 @@
 import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+
 import { Container, Link, Typography } from '@noria/ui';
 import { EventDetails } from '@/components';
 
 const EventDetailsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { id } = await params;
 	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) {
-		redirect('/login');
-	}
 
 	const { data: event, error } = await supabase
 		.from('events')
