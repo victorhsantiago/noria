@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { Provider } from '@supabase/supabase-js';
+import { getURL } from '@/utils/url';
 
 export async function login(formData: FormData) {
 	const supabase = await createClient();
@@ -33,6 +34,9 @@ export async function signup(formData: FormData) {
 	const { error } = await supabase.auth.signUp({
 		email,
 		password,
+		options: {
+			emailRedirectTo: `${getURL()}auth/callback`,
+		},
 	});
 
 	if (error) {
@@ -48,16 +52,10 @@ export async function signInWithMagicLink(formData: FormData) {
 	const supabase = await createClient();
 	const email = formData.get('email') as string;
 
-	// Generate a magic link redirect URL based on environment
-	const redirectUrl =
-		process.env.NODE_ENV === 'development'
-			? 'http://localhost:3000/auth/callback'
-			: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
-
 	const { error } = await supabase.auth.signInWithOtp({
 		email,
 		options: {
-			emailRedirectTo: redirectUrl,
+			emailRedirectTo: `${getURL()}auth/callback`,
 		},
 	});
 
@@ -71,15 +69,10 @@ export async function signInWithMagicLink(formData: FormData) {
 export async function signInWithOAuth(provider: Provider) {
 	const supabase = await createClient();
 
-	const redirectUrl =
-		process.env.NODE_ENV === 'development'
-			? 'http://localhost:3000/auth/callback'
-			: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
-
 	const { data, error } = await supabase.auth.signInWithOAuth({
 		provider,
 		options: {
-			redirectTo: redirectUrl,
+			redirectTo: `${getURL()}auth/callback`,
 		},
 	});
 
