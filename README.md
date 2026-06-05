@@ -14,71 +14,71 @@ Groups often rely on a mix of messaging apps, spreadsheets, calendars, polls, an
 
 Noria provides a central place where groups can:
 
-* Organise events
-* Coordinate availability
-* Track attendance
-* Share notes and updates
-* Maintain continuity between meetings
+- Organise events
+- Coordinate availability
+- Track attendance
+- Share notes and updates
+- Maintain continuity between meetings
 
 ## MVP Features
 
 ### Group Management
 
-* Create groups
-* Invite members
-* Manage membership
+- Create groups
+- Invite members
+- Manage membership
 
 ### Events
 
-* Create events
-* RSVP (Yes / No / Maybe)
-* Track attendance
+- Create events
+- RSVP (Yes / No / Maybe)
+- Track attendance
 
 ### Scheduling
 
-* Availability polls
-* Date selection
-* Recurring events
+- Availability polls
+- Date selection
+- Recurring events
 
 ### Communication
 
-* Event notes
-* Announcements
-* Session summaries
+- Event notes
+- Announcements
+- Session summaries
 
 ## Future Features
 
-* Campaign management for RPG groups
-* Character and player profiles
-* Discord integration
-* Google Calendar integration
-* Notifications and reminders
-* Mobile applications
-* Community discovery
+- Campaign management for RPG groups
+- Character and player profiles
+- Discord integration
+- Google Calendar integration
+- Notifications and reminders
+- Mobile applications
+- Community discovery
 
 ## Technology Stack
 
 ### Frontend
 
-* Next.js
-* React
-* TypeScript
+- Next.js
+- React
+- TypeScript
 
 ### Backend
 
-* Next.js Route Handlers / Server Actions
-* Supabase
-* PostgreSQL
+- Next.js Route Handlers / Server Actions
+- Supabase
+- PostgreSQL
 
 ### Monorepo
 
-* pnpm Workspaces
-* Turborepo
+- pnpm Workspaces
+- Turborepo
 
 ### Shared Packages
 
-* Zod
-* Shared schemas and types
+- Zod
+- Shared schemas and types
 
 ## Project Structure
 
@@ -101,9 +101,9 @@ noria/
 
 ### Requirements
 
-* Node.js 22+
-* pnpm
-* Docker
+- Node.js 22+
+- pnpm
+- Docker
 
 ### Install dependencies
 
@@ -153,6 +153,6 @@ Noria should feel welcoming and lightweight, not like project management softwar
 
 ## Name
 
-A *noria* is a water wheel that continuously lifts and moves water.
+A _noria_ is a water wheel that continuously lifts and moves water.
 
 The name reflects the idea of helping groups maintain momentum and keep activities moving forward.

@@ -8,6 +8,7 @@ When creating new UI components in this workspace, strictly adhere to the follow
 4. **Package Export**: The package's main `src/index.ts` file should export the component via the folder's barrel file (`export * from './component-name';`).
 
 ## Example Structure
+
 ```
 src/
   button/

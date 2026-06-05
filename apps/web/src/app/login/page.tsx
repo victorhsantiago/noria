@@ -1,201 +1,214 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui'
-import { Mail, Key } from 'lucide-react'
-import { login, signInWithMagicLink, signInWithOAuth, verifyOtp } from '@/actions/auth'
+import { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui';
+import { Mail, Key } from 'lucide-react';
+import { login, signInWithMagicLink, signInWithOAuth, verifyOtp } from '@/actions/auth';
 
 const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().optional(),
-  otp: z.string().optional(),
-})
+	email: z.string().email({ message: 'Invalid email address' }),
+	password: z.string().optional(),
+	otp: z.string().optional(),
+});
 
-type LoginFormValues = z.infer<typeof loginSchema>
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isMagicLink, setIsMagicLink] = useState(false)
-  const [isOtpSent, setIsOtpSent] = useState(false)
+	const [error, setError] = useState<string | null>(null);
+	const [success, setSuccess] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isMagicLink, setIsMagicLink] = useState(false);
+	const [isOtpSent, setIsOtpSent] = useState(false);
 
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '', otp: '' }
-  })
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<LoginFormValues>({
+		resolver: zodResolver(loginSchema),
+		defaultValues: { email: '', password: '', otp: '' },
+	});
 
-  const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true)
-    setError(null)
-    setSuccess(null)
+	const onSubmit = async (data: LoginFormValues) => {
+		setIsLoading(true);
+		setError(null);
+		setSuccess(null);
 
-    try {
-      const formData = new FormData()
-      formData.append('email', data.email)
+		try {
+			const formData = new FormData();
+			formData.append('email', data.email);
 
-      if (isMagicLink) {
-        if (isOtpSent) {
-          if (!data.otp) {
-            setError("Verification code is required.")
-            setIsLoading(false)
-            return
-          }
-          formData.append('otp', data.otp)
-          const result = await verifyOtp(formData)
-          if (result?.error) setError(result.error)
-        } else {
-          const result = await signInWithMagicLink(formData)
-          if (result?.error) {
-            setError(result.error)
-          } else {
-            if (result?.success) setSuccess(result.success)
-            setIsOtpSent(true)
-          }
-        }
-      } else {
-        if (!data.password) {
-          setError("Password is required for email login.")
-          setIsLoading(false)
-          return
-        }
-        formData.append('password', data.password)
-        const result = await login(formData)
-        if (result?.error) setError(result.error)
-      }
-    } catch {
-      setError("An unexpected error occurred.")
-    } finally {
-      setIsLoading(false)
-    }
-  }
+			if (isMagicLink) {
+				if (isOtpSent) {
+					if (!data.otp) {
+						setError('Verification code is required.');
+						setIsLoading(false);
+						return;
+					}
+					formData.append('otp', data.otp);
+					const result = await verifyOtp(formData);
+					if (result?.error) setError(result.error);
+				} else {
+					const result = await signInWithMagicLink(formData);
+					if (result?.error) {
+						setError(result.error);
+					} else {
+						if (result?.success) setSuccess(result.success);
+						setIsOtpSent(true);
+					}
+				}
+			} else {
+				if (!data.password) {
+					setError('Password is required for email login.');
+					setIsLoading(false);
+					return;
+				}
+				formData.append('password', data.password);
+				const result = await login(formData);
+				if (result?.error) setError(result.error);
+			}
+		} catch {
+			setError('An unexpected error occurred.');
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-  const handleOAuth = async (provider: 'google' | 'github') => {
-    try {
-      await signInWithOAuth(provider)
-    } catch {
-      setError(`Failed to sign in with ${provider}`)
-    }
-  }
+	const handleOAuth = async (provider: 'google' | 'github') => {
+		try {
+			await signInWithOAuth(provider);
+		} catch {
+			setError(`Failed to sign in with ${provider}`);
+		}
+	};
 
-  return (
-    <Flex as="main" justify="center" align="center" p="lg" grow>
-      <Card fullWidth maxWidth="400px" gap="md">
-        <Flex direction="column" gap="xs" textAlign="center">
-          <Typography variant="h1">Welcome Back</Typography>
-          <Typography variant="body-small">Sign in to your Noria account</Typography>
-        </Flex>
+	return (
+		<Flex as="main" justify="center" align="center" p="lg" grow>
+			<Card fullWidth maxWidth="400px" gap="md">
+				<Flex direction="column" gap="xs" textAlign="center">
+					<Typography variant="h1">Welcome Back</Typography>
+					<Typography variant="body-small">Sign in to your Noria account</Typography>
+				</Flex>
 
-        {error && <Alert variant="danger">{error}</Alert>}
-        {success && <Alert variant="success">{success}</Alert>}
+				{error && <Alert variant="danger">{error}</Alert>}
+				{success && <Alert variant="success">{success}</Alert>}
 
-        <Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" gap="sm">
-          <Controller
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <TextField 
-                label="Email Address" 
-                placeholder="hello@noria.app" 
-                startIcon={<Mail size={18} />}
-                isInvalid={!!errors.email}
-                errorMessage={errors.email?.message}
-                value={field.value}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-                name={field.name}
-              />
-            )}
-          />
+				<Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" gap="sm">
+					<Controller
+						control={control}
+						name="email"
+						render={({ field }) => (
+							<TextField
+								label="Email Address"
+								placeholder="hello@noria.app"
+								startIcon={<Mail size={18} />}
+								isInvalid={!!errors.email}
+								errorMessage={errors.email?.message}
+								value={field.value}
+								onChange={field.onChange}
+								onBlur={field.onBlur}
+								name={field.name}
+							/>
+						)}
+					/>
 
-          {!isMagicLink && (
-            <Controller
-              control={control}
-              name="password"
-              render={({ field }) => (
-                <TextField 
-                  label="Password" 
-                  type="password" 
-                  placeholder="••••••••" 
-                  startIcon={<Key size={18} />}
-                  isInvalid={!!errors.password}
-                  errorMessage={errors.password?.message}
-                  value={field.value}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                  name={field.name}
-                />
-              )}
-            />
-          )}
+					{!isMagicLink && (
+						<Controller
+							control={control}
+							name="password"
+							render={({ field }) => (
+								<TextField
+									label="Password"
+									type="password"
+									placeholder="••••••••"
+									startIcon={<Key size={18} />}
+									isInvalid={!!errors.password}
+									errorMessage={errors.password?.message}
+									value={field.value}
+									onChange={field.onChange}
+									onBlur={field.onBlur}
+									name={field.name}
+								/>
+							)}
+						/>
+					)}
 
-          {isMagicLink && isOtpSent && (
-            <Controller
-              control={control}
-              name="otp"
-              render={({ field }) => (
-                <TextField 
-                  label="Verification Code" 
-                  placeholder="123456" 
-                  startIcon={<Key size={18} />}
-                  isInvalid={!!errors.otp}
-                  errorMessage={errors.otp?.message}
-                  value={field.value}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                  name={field.name}
-                />
-              )}
-            />
-          )}
+					{isMagicLink && isOtpSent && (
+						<Controller
+							control={control}
+							name="otp"
+							render={({ field }) => (
+								<TextField
+									label="Verification Code"
+									placeholder="123456"
+									startIcon={<Key size={18} />}
+									isInvalid={!!errors.otp}
+									errorMessage={errors.otp?.message}
+									value={field.value}
+									onChange={field.onChange}
+									onBlur={field.onBlur}
+									name={field.name}
+								/>
+							)}
+						/>
+					)}
 
-          <Flex mt="xs">
-            <Button type="submit" variant="primary" isDisabled={isLoading} fullWidth>
-              {isLoading 
-                ? 'Signing in...' 
-                : isMagicLink 
-                  ? (isOtpSent ? 'Verify Code' : 'Send Magic Link') 
-                  : 'Sign In'}
-            </Button>
-          </Flex>
-        </Flex>
+					<Flex mt="xs">
+						<Button type="submit" variant="primary" isDisabled={isLoading} fullWidth>
+							{isLoading
+								? 'Signing in...'
+								: isMagicLink
+									? isOtpSent
+										? 'Verify Code'
+										: 'Send Magic Link'
+									: 'Sign In'}
+						</Button>
+					</Flex>
+				</Flex>
 
-        <Flex align="center" gap="sm">
-          <Separator />
-          <Typography variant="label">OR CONTINUE WITH</Typography>
-          <Separator />
-        </Flex>
+				<Flex align="center" gap="sm">
+					<Separator />
+					<Typography variant="label">OR CONTINUE WITH</Typography>
+					<Separator />
+				</Flex>
 
-        <Flex gap="sm">
-          <Button variant="secondary" onClick={() => handleOAuth('google')}>
-            Google
-          </Button>
-          <Button variant="secondary" onClick={() => handleOAuth('github')}>
-            GitHub
-          </Button>
-        </Flex>
+				<Flex gap="sm">
+					<Button variant="secondary" onClick={() => handleOAuth('google')}>
+						Google
+					</Button>
+					<Button variant="secondary" onClick={() => handleOAuth('github')}>
+						GitHub
+					</Button>
+				</Flex>
 
-        <Flex direction="column" align="center" gap="xs">
-          <Button 
-            variant="link"
-            onPress={() => {
-              setIsMagicLink(!isMagicLink)
-              setIsOtpSent(false)
-            }}
-          >
-            <Typography variant="body-small" color="foreground">{isMagicLink ? 'Sign in with password instead' : 'Sign in with Magic Link instead'}</Typography>
-          </Button>
+				<Flex direction="column" align="center" gap="xs">
+					<Button
+						variant="link"
+						onPress={() => {
+							setIsMagicLink(!isMagicLink);
+							setIsOtpSent(false);
+						}}
+					>
+						<Typography variant="body-small" color="foreground">
+							{isMagicLink ? 'Sign in with password instead' : 'Sign in with Magic Link instead'}
+						</Typography>
+					</Button>
 
-          <Typography variant="body-small">
-            Don&apos;t have an account? <Link href="/signup"><Typography as="span" color="foreground"><strong>Sign up</strong></Typography></Link>
-          </Typography>
-        </Flex>
-      </Card>
-    </Flex>
-  )
-}
+					<Typography variant="body-small">
+						Don&apos;t have an account?{' '}
+						<Link href="/signup">
+							<Typography as="span" color="foreground">
+								<strong>Sign up</strong>
+							</Typography>
+						</Link>
+					</Typography>
+				</Flex>
+			</Card>
+		</Flex>
+	);
+};
 
 export default LoginPage;

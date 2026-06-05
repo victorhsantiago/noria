@@ -1,21 +1,24 @@
 {
-  "name": "noria",
-  "version": "1.0.0",
-  "private": true,
-  "description": "",
-  "scripts": {
-    "dev": "turbo dev",
-    "db:start": "pnpm --filter @noria/database run db:start",
-    "db:stop": "pnpm --filter @noria/database run db:stop",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.34.1",
-  "type": "module",
-  "devDependencies": {
-    "supabase": "^2.104.0",
-    "turbo": "^2.9.16"
-  }
+	"name": "noria",
+	"version": "1.0.0",
+	"private": true,
+	"description": "",
+	"scripts": {
+		"dev": "turbo dev",
+		"db:start": "pnpm --filter @noria/database run db:start",
+		"db:stop": "pnpm --filter @noria/database run db:stop",
+		"format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,json}\"",
+		"format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,md,json}\"",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.34.1",
+	"type": "module",
+	"devDependencies": {
+		"prettier": "^3.8.3",
+		"supabase": "^2.104.0",
+		"turbo": "^2.9.16"
+	}
 }
