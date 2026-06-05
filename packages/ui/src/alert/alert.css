@@ -12,19 +12,23 @@
 .noria-alert--error {
   color: var(--danger);
   border: 1px solid var(--danger);
+  background-color: var(--danger-bg);
 }
 
 .noria-alert--success {
   color: var(--success);
   border: 1px solid var(--success);
+  background-color: var(--success-bg);
 }
 
 .noria-alert--info {
   color: var(--info);
   border: 1px solid var(--info);
+  background-color: var(--info-bg);
 }
 
 .noria-alert--warning {
   color: var(--warning);
   border: 1px solid var(--warning);
+  background-color: var(--warning-bg);
 }
