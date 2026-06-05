@@ -34,6 +34,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      attendees: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          event_id: string
+          guest_name: string
+          id: string
+          phone: string | null
+          rsvp_status: Database["public"]["Enums"]["rsvp_status_enum"]
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          event_id: string
+          guest_name: string
+          id?: string
+          phone?: string | null
+          rsvp_status: Database["public"]["Enums"]["rsvp_status_enum"]
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          event_id?: string
+          guest_name?: string
+          id?: string
+          phone?: string | null
+          rsvp_status?: Database["public"]["Enums"]["rsvp_status_enum"]
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendees_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       events: {
         Row: {
           created_at: string | null
@@ -81,7 +125,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      rsvp_status_enum: "Going" | "Maybe" | "Not Going"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -211,7 +255,9 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      rsvp_status_enum: ["Going", "Maybe", "Not Going"],
+    },
   },
 } as const
 
