@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui'
 import { Mail, Key } from 'lucide-react'
-import { signup, signInWithOAuth } from '../login/actions'
+import { signInWithOAuth, signup } from '@/actions/auth'
 
 const signupSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -36,7 +36,7 @@ const SignupPage = () => {
       formData.append('password', data.password)
 
       const result = await signup(formData)
-      
+
       if (result?.error) {
         setError(result.error)
       } else if (result?.success) {
@@ -73,9 +73,9 @@ const SignupPage = () => {
             control={control}
             name="email"
             render={({ field }) => (
-              <TextField 
-                label="Email Address" 
-                placeholder="hello@noria.app" 
+              <TextField
+                label="Email Address"
+                placeholder="hello@noria.app"
                 startIcon={<Mail size={18} />}
                 isInvalid={!!errors.email}
                 errorMessage={errors.email?.message}
@@ -91,10 +91,10 @@ const SignupPage = () => {
             control={control}
             name="password"
             render={({ field }) => (
-              <TextField 
-                label="Password" 
-                type="password" 
-                placeholder="••••••••" 
+              <TextField
+                label="Password"
+                type="password"
+                placeholder="••••••••"
                 startIcon={<Key size={18} />}
                 isInvalid={!!errors.password}
                 errorMessage={errors.password?.message}
