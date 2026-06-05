@@ -1,17 +1,19 @@
-import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { Button } from '@noria/ui'
+import { Button, Typography, Flex, Container } from '@noria/ui'
 import { CreateEventButton } from './create-event-button'
+import { getDashboardData } from './dashboard-actions'
+import { EventCard } from './event-card'
 import Link from 'next/link'
+import { createClient } from '@/utils/supabase/server'
 
 const HomePage = async () => {
-  const supabase = await createClient()
+  const data = await getDashboardData();
 
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
+  if (!data) {
+    redirect('/login');
   }
+
+  const { user, nextEvent, upcomingEvents, pastEvents } = data;
 
   const signOut = async () => {
     'use server'
@@ -21,28 +23,87 @@ const HomePage = async () => {
   }
 
   return (
-    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--background)' }}>
-      <div style={{ padding: '2rem', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--foreground)', marginBottom: '0.5rem' }}>
-          Welcome to Noria
-        </h1>
-        <p style={{ color: 'var(--muted)', fontSize: '0.875rem', marginBottom: '2rem' }}>
-          Logged in as <strong>{user.email}</strong>
-        </p>
+    <main>
+      <Container maxWidth="800px" padding="lg">
+        
+        {/* Header section */}
+        <Flex as="header" justify="space-between" align="center" wrap gap="sm" style={{ marginBottom: '2rem' }}>
+          <div>
+            <Typography variant="h1">
+              Noria
+            </Typography>
+            <Typography variant="body" color="muted">
+              Welcome back 👋 <strong>{user.email}</strong>
+            </Typography>
+          </div>
+          <Flex gap="sm" align="center">
+            <form action={signOut}>
+              <Button type="submit" variant="secondary">Log Out</Button>
+            </form>
+            <Link href="/design">
+              <Button variant="secondary">UI Tokens</Button>
+            </Link>
+            <div style={{ width: '150px' }}>
+              <CreateEventButton />
+            </div>
+          </Flex>
+        </Flex>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
-          <CreateEventButton />
-          <Link href="/design" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
-            <Button variant="secondary" style={{ width: '100%' }}>View Design System</Button>
-          </Link>
-        </div>
+        {/* Dashboard Content */}
+        <Flex direction="column" gap="xl">
+          
+          {/* Next Event Section */}
+          <section>
+            <Typography variant="h2-caps" style={{ marginBottom: '1rem' }}>
+              Next Event
+            </Typography>
+            {nextEvent ? (
+              <EventCard event={nextEvent} highlight={true} />
+            ) : (
+              <Typography variant="body" color="muted">You have no upcoming events.</Typography>
+            )}
+          </section>
 
-        <form action={signOut}>
-          <Button type="submit" style={{ width: '100%' }}>
-            Log Out
-          </Button>
-        </form>
-      </div>
+          {/* Upcoming Events Section */}
+          <section>
+            <Typography variant="h2-caps" style={{ marginBottom: '1rem' }}>
+              Upcoming Events
+            </Typography>
+            {upcomingEvents.length > 0 ? (
+              <Flex direction="column" gap="sm">
+                {upcomingEvents.map(event => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+                <div style={{ alignSelf: 'flex-start' }}>
+                  <Button variant="secondary">See All</Button>
+                </div>
+              </Flex>
+            ) : (
+              <Typography variant="body" color="muted">No other upcoming events.</Typography>
+            )}
+          </section>
+
+          {/* Past Events Section */}
+          <section>
+            <Typography variant="h2-caps" style={{ marginBottom: '1rem' }}>
+              Past Events
+            </Typography>
+            {pastEvents.length > 0 ? (
+              <Flex direction="column" gap="sm">
+                {pastEvents.map(event => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+                <div style={{ alignSelf: 'flex-start' }}>
+                  <Button variant="secondary">See History</Button>
+                </div>
+              </Flex>
+            ) : (
+              <Typography variant="body" color="muted">No past events.</Typography>
+            )}
+          </section>
+
+        </Flex>
+      </Container>
     </main>
   )
 }

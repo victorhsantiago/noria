@@ -1,33 +1,33 @@
 "use client";
 
-import { Button, TextField, Card, Select, SelectItem, DatePicker, TimeField, toastQueue } from "@noria/ui";
+import { Button, TextField, Card, Select, SelectItem, DatePicker, TimeField, toastQueue, Flex, Typography } from "@noria/ui";
 import { Star, Trash2, Home as HomeIcon, CheckCircle, Search, Mail } from "lucide-react";
 
 const Home = () => {
   return (
-    <div style={{ minHeight: '100vh', padding: '4rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <h1>Noria UI Showcase</h1>
+    <Flex as="main" direction="column" gap="lg" style={{ padding: '4rem', flex: 1 }}>
+      <Typography variant="h1">Noria UI Showcase</Typography>
 
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Button Variants</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+      <Flex as="section" direction="column" gap="sm">
+        <Typography variant="h2-caps">Button Variants</Typography>
+        <Flex gap="sm" wrap align="center">
           <Button variant="primary" icon={<HomeIcon />}>Primary</Button>
           <Button variant="secondary" icon={<CheckCircle />}>Secondary</Button>
           <Button variant="danger" icon={<Trash2 />}>Danger</Button>
           <Button variant="icon-only" icon={<Star />} aria-label="Star" />
-        </div>
-      </section>
+        </Flex>
+      </Flex>
 
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Button States (Hover / Press)</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <Flex as="section" direction="column" gap="sm">
+        <Typography variant="h2-caps">Button States (Hover / Press)</Typography>
+        <Flex gap="sm" wrap>
           <Button variant="secondary">Interactive Button</Button>
           <Button variant="secondary" isDisabled>Disabled</Button>
-        </div>
-      </section>
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Text Fields</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', maxWidth: '600px', flexDirection: 'column' }}>
+        </Flex>
+      </Flex>
+      <Flex as="section" direction="column" gap="sm">
+        <Typography variant="h2-caps">Text Fields</Typography>
+        <Flex direction="column" gap="sm" wrap maxWidth="600px">
           <TextField
             label="Email Address"
             placeholder="example@noria.app"
@@ -45,60 +45,62 @@ const Home = () => {
             isInvalid
             errorMessage="Username is already taken."
           />
-        </div>
-      </section>
+        </Flex>
+      </Flex>
 
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Cards</h2>
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <Flex as="section" direction="column" gap="sm">
+        <Typography variant="h2-caps">Cards</Typography>
+        <Flex gap="lg" wrap align="start">
           <Card style={{ gap: '1.5rem', width: '320px' }}>
-            <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Sign In</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <Typography variant="h3">Sign In</Typography>
+            <Flex direction="column" gap="sm">
               <TextField label="Email Address" placeholder="hello@noria.app" startIcon={<Mail />} />
               <TextField label="Password" type="password" placeholder="••••••••" />
-            </div>
-            <Button variant="primary" style={{ marginTop: '0.5rem', width: '100%' }}>Login</Button>
+            </Flex>
+            <Button variant="primary" style={{ marginTop: '0.5rem' }} fullWidth>Login</Button>
           </Card>
 
-          <Card as="a" href="#" style={{ gap: '1rem', width: '320px', textDecoration: 'none' }}>
-            <h3 style={{ margin: 0, fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Star size={20} />
-              Interactive Layout
-            </h3>
-            <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.95rem', lineHeight: '1.5' }}>
+          <Card as="a" href="#" style={{ gap: '1rem', width: '320px' }}>
+            <Typography variant="h3">
+              <Flex align="center" gap="xs">
+                <Star size={20} />
+                Interactive Layout
+              </Flex>
+            </Typography>
+            <Typography variant="body" color="muted" style={{ lineHeight: '1.5' }}>
               This entire card acts as a link. It elevates on hover to indicate interactivity while maintaining our neumorphic aesthetic.
-            </p>
+            </Typography>
           </Card>
-        </div>
-      </section>
+        </Flex>
+      </Flex>
 
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Date & Time</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', maxWidth: '600px', flexDirection: 'column' }}>
+      <Flex as="section" direction="column" gap="sm">
+        <Typography variant="h2-caps">Date & Time</Typography>
+        <Flex direction="column" gap="sm" wrap maxWidth="600px">
           <DatePicker label="Event Date" />
           <TimeField label="Start Time" hourCycle={24} />
-        </div>
-      </section>
+        </Flex>
+      </Flex>
 
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Select (Dropdown)</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', maxWidth: '300px', flexDirection: 'column' }}>
+      <Flex as="section" direction="column" gap="sm">
+        <Typography variant="h2-caps">Select (Dropdown)</Typography>
+        <Flex direction="column" gap="sm" wrap maxWidth="300px">
           <Select label="Frequency">
             <SelectItem id="daily">Daily</SelectItem>
             <SelectItem id="weekly">Weekly</SelectItem>
             <SelectItem id="monthly">Monthly</SelectItem>
           </Select>
-        </div>
-      </section>
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <h2>Toast Notifications</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+        </Flex>
+      </Flex>
+      <Flex as="section" direction="column" gap="sm">
+        <Typography variant="h2-caps">Toast Notifications</Typography>
+        <Flex gap="sm" wrap align="center">
           <Button variant="secondary" onPress={() => toastQueue.add({ title: 'Information', description: 'This is a default info toast.', type: 'info' }, { timeout: 5000 })}>Show Info Toast</Button>
           <Button variant="primary" onPress={() => toastQueue.add({ title: 'Success', description: 'Your action was successful!', type: 'success' }, { timeout: 5000 })}>Show Success Toast</Button>
-          <Button variant="danger" onPress={() => toastQueue.add({ title: 'Error', description: 'Something went wrong.', type: 'error' }, { timeout: 5000 })}>Show Error Toast</Button>
-        </div>
-      </section>
-    </div>
+          <Button variant="danger" onPress={() => toastQueue.add({ title: 'Error', description: 'Something went wrong.', type: 'danger' }, { timeout: 5000 })}>Show Error Toast</Button>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 }
 export default Home;

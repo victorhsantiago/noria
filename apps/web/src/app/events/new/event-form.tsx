@@ -3,7 +3,7 @@
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { TextField, Button, Select, SelectItem, TimeField, DatePicker, toastQueue, TextArea } from "@noria/ui";
+import { TextField, Button, Select, SelectItem, TimeField, DatePicker, toastQueue, TextArea, Flex } from "@noria/ui";
 import { useRouter } from "next/navigation";
 import { createEvent } from "../actions";
 import { useState } from "react";
@@ -97,13 +97,13 @@ export const EventForm = () => {
     } catch (e: unknown) {
       console.error(e);
       const errorMessage = e instanceof Error ? e.message : 'There was an error creating the event.';
-      toastQueue.add({ title: 'Creation Failed', description: errorMessage, type: 'error' }, { timeout: 5000 });
+      toastQueue.add({ title: 'Creation Failed', description: errorMessage, type: 'danger' }, { timeout: 5000 });
       setIsPending(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" gap="sm">
       <Controller
         name="title"
         control={control}
@@ -194,6 +194,6 @@ export const EventForm = () => {
       <Button type="submit" variant="primary" isDisabled={isPending}>
         {isPending ? "Creating..." : "Create Event"}
       </Button>
-    </form>
+    </Flex>
   );
 };

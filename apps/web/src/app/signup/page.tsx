@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Button, TextField, Card, Alert } from '@noria/ui'
+import { Button, TextField, Card, Alert, Typography, Flex, Separator } from '@noria/ui'
 import { Mail, Key } from 'lucide-react'
 import { signup, signInWithOAuth } from '../login/actions'
 import Link from 'next/link'
@@ -59,17 +59,17 @@ const SignupPage = () => {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: '2rem' }}>
+    <Flex as="main" justify="center" align="center" style={{ padding: '2rem', flex: 1 }}>
       <Card style={{ width: '100%', maxWidth: '400px', gap: '1.5rem' }}>
-        <div style={{ textAlign: 'center' }}>
-          <h1 style={{ margin: '0 0 0.5rem 0', fontSize: '1.5rem' }}>Create an Account</h1>
-          <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.875rem' }}>Join Noria to start organizing events</p>
-        </div>
+        <Flex direction="column" gap="xs" style={{ textAlign: 'center' }}>
+          <Typography variant="h1">Create an Account</Typography>
+          <Typography variant="body-small">Join Noria to start organizing events</Typography>
+        </Flex>
 
-        {error && <Alert variant="error">{error}</Alert>}
+        {error && <Alert variant="danger">{error}</Alert>}
         {success && <Alert variant="success">{success}</Alert>}
 
-        <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" gap="sm">
           <Controller
             control={control}
             name="email"
@@ -107,31 +107,33 @@ const SignupPage = () => {
             )}
           />
 
-          <Button type="submit" variant="primary" isDisabled={isLoading} style={{ marginTop: '0.5rem' }}>
+          <Button type="submit" variant="primary" isDisabled={isLoading}>
             {isLoading ? 'Creating account...' : 'Sign Up'}
           </Button>
-        </form>
+        </Flex>
 
-        <div style={{ display: 'flex', alignItems: 'center', margin: '0.5rem 0' }}>
-          <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border)' }} />
-          <span style={{ padding: '0 0.75rem', color: 'var(--muted)', fontSize: '0.75rem', textTransform: 'uppercase' }}>OR CONTINUE WITH</span>
-          <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border)' }} />
-        </div>
+        <Flex align="center" gap="sm">
+          <Separator />
+          <Typography variant="label">OR CONTINUE WITH</Typography>
+          <Separator />
+        </Flex>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <Button variant="secondary" onClick={() => handleOAuth('google')} style={{ flex: 1, display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+        <Flex gap="sm">
+          <Button variant="secondary" onClick={() => handleOAuth('google')}>
             Google
           </Button>
-          <Button variant="secondary" onClick={() => handleOAuth('github')} style={{ flex: 1, display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+          <Button variant="secondary" onClick={() => handleOAuth('github')}>
             GitHub
           </Button>
-        </div>
+        </Flex>
 
-        <div style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.875rem', color: 'var(--muted)' }}>
-          Already have an account? <Link href="/login" style={{ color: 'var(--foreground)', fontWeight: 500 }}>Sign in</Link>
-        </div>
+        <Flex justify="center" style={{ marginTop: '1rem' }}>
+          <Typography variant="body-small" color="muted">
+            Already have an account? <Link href="/login" style={{ color: 'var(--foreground)', fontWeight: 500 }}>Sign in</Link>
+          </Typography>
+        </Flex>
       </Card>
-    </div>
+    </Flex>
   )
 }
 

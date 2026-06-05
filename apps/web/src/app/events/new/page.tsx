@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { Typography, Card, Flex, Container } from "@noria/ui";
 import { EventForm } from "./event-form";
-import { Card } from "@noria/ui";
 
 const NewEventPage = async () => {
   const supabase = await createClient();
@@ -12,12 +12,14 @@ const NewEventPage = async () => {
   }
 
   return (
-    <div style={{ maxWidth: '42rem', margin: '0 auto', padding: '2rem 1rem' }}>
-      <Card style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>Create New Event</h1>
-        <EventForm />
+    <Container maxWidth="42rem" padding="lg">
+      <Card style={{ padding: '1.5rem' }}>
+        <Flex direction="column" gap="md">
+          <Typography variant="h1">Create New Event</Typography>
+          <EventForm />
+        </Flex>
       </Card>
-    </div>
+    </Container>
   );
 }
 
