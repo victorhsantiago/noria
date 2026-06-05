@@ -10,6 +10,7 @@ import {
 	TabPanel,
 	Separator,
 	Badge,
+	toastQueue,
 } from '@noria/ui';
 import { Calendar, Clock, MapPin, Copy, CheckCircle } from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
@@ -31,7 +32,26 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 
 	const handleRSVP = (status: 'Going' | 'Maybe' | 'Not Going') => {
 		startTransition(async () => {
-			await upsertRsvp(event.id, status);
+			try {
+				await upsertRsvp(event.id, status);
+				toastQueue.add(
+					{
+						title: 'Got it! 🎉',
+						description: `Awesome! We've got you down as ${status}.`,
+						type: 'success',
+					},
+					{ timeout: 3000 }
+				);
+			} catch {
+				toastQueue.add(
+					{
+						title: 'Oops!',
+						description: "We hit a snag saving your response. Give it another try!",
+						type: 'danger',
+					},
+					{ timeout: 5000 }
+				);
+			}
 		});
 	};
 
