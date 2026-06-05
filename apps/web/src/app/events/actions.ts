@@ -22,12 +22,12 @@ export async function createEvent(formData: FormData) {
   }
 
   const rawData = {
-    title: formData.get("title") as string,
-    description: formData.get("description") as string,
-    location: formData.get("location") as string,
-    start_datetime: formData.get("start_datetime") as string,
-    duration: formData.get("duration") as string,
-    frequency: formData.get("frequency") as string,
+    title: formData.get("title")?.toString() || "",
+    description: formData.get("description")?.toString() || undefined,
+    location: formData.get("location")?.toString() || "",
+    start_datetime: formData.get("start_datetime")?.toString() || "",
+    duration: formData.get("duration")?.toString() || "",
+    frequency: formData.get("frequency")?.toString() || "",
   };
 
   const parsed = eventSchema.parse(rawData);
