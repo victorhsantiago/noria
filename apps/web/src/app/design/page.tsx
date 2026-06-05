@@ -1,4 +1,6 @@
-import { Button, TextField, Card, Select, SelectItem, DatePicker, TimeField } from "@noria/ui";
+"use client";
+
+import { Button, TextField, Card, Select, SelectItem, DatePicker, TimeField, toastQueue } from "@noria/ui";
 import { Star, Trash2, Home as HomeIcon, CheckCircle, Search, Mail } from "lucide-react";
 
 const Home = () => {
@@ -86,6 +88,14 @@ const Home = () => {
             <SelectItem id="weekly">Weekly</SelectItem>
             <SelectItem id="monthly">Monthly</SelectItem>
           </Select>
+        </div>
+      </section>
+      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <h2>Toast Notifications</h2>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Button variant="secondary" onPress={() => toastQueue.add({ title: 'Information', description: 'This is a default info toast.', type: 'info' }, { timeout: 5000 })}>Show Info Toast</Button>
+          <Button variant="primary" onPress={() => toastQueue.add({ title: 'Success', description: 'Your action was successful!', type: 'success' }, { timeout: 5000 })}>Show Success Toast</Button>
+          <Button variant="danger" onPress={() => toastQueue.add({ title: 'Error', description: 'Something went wrong.', type: 'error' }, { timeout: 5000 })}>Show Error Toast</Button>
         </div>
       </section>
     </div>

@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { Button } from '@noria/ui'
 import { CreateEventButton } from './create-event-button'
+import Link from 'next/link'
 
 const HomePage = async () => {
   const supabase = await createClient()
@@ -31,6 +32,9 @@ const HomePage = async () => {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
           <CreateEventButton />
+          <Link href="/design" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
+            <Button variant="secondary" style={{ width: '100%' }}>View Design System</Button>
+          </Link>
         </div>
 
         <form action={signOut}>
