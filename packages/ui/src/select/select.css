@@ -1,0 +1,103 @@
+.noria-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.noria-select__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.noria-select__button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--foreground);
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+}
+
+.noria-select__button[data-focus-visible] {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.noria-select__button[data-invalid] {
+  outline: 2px solid var(--danger);
+  outline-offset: -2px;
+}
+
+.noria-select__value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.noria-select__value[data-placeholder] {
+  color: var(--muted);
+}
+
+.noria-select__icon {
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+}
+
+.noria-select__popover {
+  border-radius: var(--radius);
+  padding: 0.25rem;
+  min-width: var(--trigger-width, 100%);
+  box-sizing: border-box;
+  z-index: 50;
+  background-color: var(--background);
+}
+
+.noria-select__listbox {
+  outline: none;
+  max-height: 300px;
+  overflow: auto;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.noria-select__item {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  outline: none;
+  color: var(--foreground);
+}
+
+.noria-select__item[data-focused],
+.noria-select__item[data-hovered] {
+  background-color: var(--neu-dark-shadow);
+}
+
+.noria-select__item[data-selected] {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 500;
+}
+
+.noria-select__description {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.noria-select__error {
+  font-size: 0.75rem;
+  color: var(--danger);
+}

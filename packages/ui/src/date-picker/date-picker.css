@@ -1,0 +1,165 @@
+.noria-date-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.noria-date-picker__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.noria-date-picker__group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.noria-date-picker__group[data-focus-within] {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.noria-date-picker__group[data-invalid] {
+  outline: 2px solid var(--danger);
+  outline-offset: -2px;
+}
+
+.noria-date-picker__input {
+  display: flex;
+  flex: 1;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--foreground);
+}
+
+.noria-date-picker__segment {
+  padding: 0 2px;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+  border-radius: 2px;
+}
+
+.noria-date-picker__segment[data-focused] {
+  background: var(--primary);
+  color: white;
+}
+
+.noria-date-picker__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  outline: none;
+  border-radius: 50%;
+  padding: 0.25rem;
+}
+
+.noria-date-picker__button[data-focus-visible] {
+  outline: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.noria-date-picker__description {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.noria-date-picker__error {
+  font-size: 0.75rem;
+  color: var(--danger);
+}
+
+/* Calendar Styles */
+.noria-date-picker__popover {
+  border-radius: var(--radius);
+  padding: 1rem;
+  z-index: 50;
+  background-color: var(--background);
+}
+
+.noria-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.noria-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.noria-calendar__heading {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.noria-calendar__nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--foreground);
+  cursor: pointer;
+  outline: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.noria-calendar__nav-button:hover {
+  background-color: var(--neu-dark-shadow);
+}
+
+.noria-calendar__grid {
+  border-collapse: collapse;
+}
+
+.noria-calendar__header-cell {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  padding-bottom: 0.5rem;
+}
+
+.noria-calendar__cell {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  font-size: 0.875rem;
+}
+
+.noria-calendar__cell[data-outside-month] {
+  color: var(--muted);
+}
+
+.noria-calendar__cell[data-hovered],
+.noria-calendar__cell[data-focused] {
+  background-color: var(--neu-dark-shadow);
+}
+
+.noria-calendar__cell[data-selected] {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 500;
+}
+
+.noria-calendar__cell[data-unavailable] {
+  color: var(--danger);
+  text-decoration: line-through;
+}

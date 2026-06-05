@@ -1,0 +1,56 @@
+.noria-time-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.noria-time-field__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.noria-time-field__input {
+  display: flex;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.noria-time-field__input[data-focus-visible] {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.noria-time-field__input[data-invalid] {
+  outline: 2px solid var(--danger);
+  outline-offset: -2px;
+}
+
+.noria-time-field__segment {
+  padding: 0 2px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  outline: none;
+  border-radius: 2px;
+}
+
+.noria-time-field__segment[data-focused] {
+  background: var(--primary);
+  color: white;
+}
+
+.noria-time-field__description {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.noria-time-field__error {
+  font-size: 0.75rem;
+  color: var(--danger);
+}
