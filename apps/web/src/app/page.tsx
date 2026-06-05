@@ -23,7 +23,7 @@ const HomePage = async () => {
   return (
     <main>
       <Container maxWidth="800px" padding="lg">
-        
+
         {/* Header section */}
         <Flex as="header" justify="space-between" align="center" wrap gap="sm" mb="lg">
           <div>
@@ -49,7 +49,7 @@ const HomePage = async () => {
 
         {/* Dashboard Content */}
         <Flex direction="column" gap="xl">
-          
+
           {/* Next Event Section */}
           <section>
             <Typography variant="h2-caps" mb="sm">
@@ -65,7 +65,7 @@ const HomePage = async () => {
           {/* Upcoming Events Section */}
           <section>
             <Typography variant="h2-caps" mb="sm">
-              Upcoming Events
+              Upcoming
             </Typography>
             {upcomingEvents.length > 0 ? (
               <Flex direction="column" gap="sm">
@@ -84,7 +84,7 @@ const HomePage = async () => {
           {/* Past Events Section */}
           <section>
             <Typography variant="h2-caps" mb="sm">
-              Past Events
+              Past
             </Typography>
             {pastEvents.length > 0 ? (
               <Flex direction="column" gap="sm">

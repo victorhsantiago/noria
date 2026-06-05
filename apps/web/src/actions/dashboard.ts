@@ -20,7 +20,7 @@ export type EventWithRSVPs = {
 export async function getDashboardData() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  
+
   if (!user) {
     return null;
   }
@@ -42,7 +42,7 @@ export async function getDashboardData() {
   }
 
   const processedEvents: EventWithRSVPs[] = events.map(event => {
-    const attendees = (event.attendees || []) as { rsvp_status: "Going" | "Maybe" | "Not Going" }[];
+    const attendees = (event.attendees || []);
     return {
       ...event,
       attendees,
