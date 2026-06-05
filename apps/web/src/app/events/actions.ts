@@ -43,8 +43,8 @@ export async function createEvent(formData: FormData) {
   }).select().single();
 
   if (error) {
-    throw new Error(error.message);
+    return { error: error.message };
   }
 
-  redirect(`/`);
+  return { success: true };
 }
