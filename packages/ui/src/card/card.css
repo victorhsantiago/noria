@@ -20,3 +20,23 @@
   /* press it in slightly */
   box-shadow: inset 2px 2px 5px var(--neu-dark-shadow), inset -2px -2px 5px var(--neu-light-shadow);
 }
+
+/* Custom Paddings */
+.noria-card--p-none { padding: 0; }
+.noria-card--p-xs { padding: var(--space-xs); }
+.noria-card--p-sm { padding: var(--space-sm); }
+.noria-card--p-md { padding: var(--space-md); }
+.noria-card--p-lg { padding: var(--space-lg); }
+.noria-card--p-xl { padding: var(--space-xl); }
+.noria-card--p-2xl { padding: var(--space-2xl); }
+
+/* Custom Gaps */
+.noria-card--gap-none { gap: 0; }
+.noria-card--gap-xs { gap: var(--space-xs); }
+.noria-card--gap-sm { gap: var(--space-sm); }
+.noria-card--gap-md { gap: var(--space-md); }
+.noria-card--gap-lg { gap: var(--space-lg); }
+.noria-card--gap-xl { gap: var(--space-xl); }
+.noria-card--gap-2xl { gap: var(--space-2xl); }
+
+.noria-card--full-width { width: 100%; }

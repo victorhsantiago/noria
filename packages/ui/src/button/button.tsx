@@ -5,7 +5,7 @@ import { Button as RACButton, ButtonProps as RACButtonProps } from 'react-aria-c
 import './button.css';
 
 export interface ButtonProps extends RACButtonProps {
-  variant?: 'primary' | 'secondary' | 'danger' | 'icon-only';
+  variant?: 'primary' | 'secondary' | 'danger' | 'icon-only' | 'link';
   icon?: ReactNode;
   fullWidth?: boolean;
 }
@@ -17,7 +17,7 @@ export const Button = ({ variant = 'secondary', className, icon, fullWidth, chil
         const { isPressed, isFocusVisible } = renderProps;
         const baseClass = 'noria-button';
         const variantClass = `noria-button--${variant}`;
-        const neuClass = isPressed ? 'neu-pressed' : 'neu-convex';
+        const neuClass = variant === 'link' ? '' : (isPressed ? 'neu-pressed' : 'neu-convex');
         const focusClass = isFocusVisible ? 'noria-button--focused' : '';
         const widthClass = fullWidth ? 'noria-button--full-width' : '';
 

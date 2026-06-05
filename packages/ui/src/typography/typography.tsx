@@ -1,5 +1,6 @@
 import React, { ElementType, HTMLAttributes, ReactNode } from 'react';
 import './typography.css';
+import { Spacing } from '../layout/flex';
 
 export type TypographyVariant = 'h1' | 'h2-caps' | 'h3' | 'body' | 'body-small' | 'label';
 export type TypographyColor = 'foreground' | 'muted' | 'primary' | 'success' | 'warning' | 'danger';
@@ -9,6 +10,8 @@ export interface TypographyProps extends HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant;
   color?: TypographyColor;
   align?: TypographyAlign;
+  mt?: Spacing;
+  mb?: Spacing;
   children: ReactNode;
   className?: string;
   as?: ElementType;
@@ -36,6 +39,8 @@ export const Typography = ({
   variant = 'body',
   color,
   align,
+  mt,
+  mb,
   as,
   className = '',
   children,
@@ -48,8 +53,10 @@ export const Typography = ({
   const variantClass = `noria-typography--variant-${variant}`;
   const colorClass = `noria-typography--color-${finalColor}`;
   const alignClass = align ? `noria-typography--align-${align}` : '';
+  const mtClass = mt ? `noria-typography--mt-${mt}` : '';
+  const mbClass = mb ? `noria-typography--mb-${mb}` : '';
 
-  const finalClassName = `${baseClass} ${variantClass} ${colorClass} ${alignClass} ${className}`.trim();
+  const finalClassName = [baseClass, variantClass, colorClass, alignClass, mtClass, mbClass, className].filter(Boolean).join(' ').trim();
 
   return (
     <Component className={finalClassName} {...props}>

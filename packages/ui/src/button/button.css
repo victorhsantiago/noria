@@ -46,3 +46,16 @@
   aspect-ratio: 1 / 1;
   border-radius: 50% !important; /* Override the 12px from globals.css */
 }
+
+.noria-button--link {
+  background: none;
+  border: none;
+  color: var(--foreground);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  min-height: auto;
+}
+.noria-button--link:hover {
+  color: var(--primary);
+}

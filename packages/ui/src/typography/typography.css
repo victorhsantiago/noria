@@ -50,3 +50,20 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* Spacing */
+.noria-typography--mt-xs { margin-top: var(--space-xs); }
+.noria-typography--mt-sm { margin-top: var(--space-sm); }
+.noria-typography--mt-md { margin-top: var(--space-md); }
+.noria-typography--mt-lg { margin-top: var(--space-lg); }
+.noria-typography--mt-xl { margin-top: var(--space-xl); }
+.noria-typography--mt-2xl { margin-top: var(--space-2xl); }
+.noria-typography--mt-none { margin-top: 0; }
+
+.noria-typography--mb-xs { margin-bottom: var(--space-xs); }
+.noria-typography--mb-sm { margin-bottom: var(--space-sm); }
+.noria-typography--mb-md { margin-bottom: var(--space-md); }
+.noria-typography--mb-lg { margin-bottom: var(--space-lg); }
+.noria-typography--mb-xl { margin-bottom: var(--space-xl); }
+.noria-typography--mb-2xl { margin-bottom: var(--space-2xl); }
+.noria-typography--mb-none { margin-bottom: 0; }

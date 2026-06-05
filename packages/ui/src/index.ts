@@ -12,3 +12,4 @@ export * from './layout/flex';
 export * from './layout/container';
 export * from './separator/separator';
 export * from './text-area/text-area';
+export * from './link/link';
