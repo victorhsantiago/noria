@@ -3,8 +3,9 @@
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
+import { RsvpStatus } from '@noria/schemas';
 
-export const upsertRsvp = async (eventId: string, status: 'Going' | 'Maybe' | 'Not Going') => {
+export const upsertRsvp = async (eventId: string, status: RsvpStatus) => {
 	const supabase = await createClient();
 	const {
 		data: { user },

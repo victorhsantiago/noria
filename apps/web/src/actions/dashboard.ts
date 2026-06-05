@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
+import { RsvpStatus } from '@noria/schemas';
 
 export type EventWithRSVPs = {
 	id: string;
@@ -11,7 +12,7 @@ export type EventWithRSVPs = {
 	duration: string | null;
 	frequency: string | null;
 	organizer_id: string;
-	attendees: { rsvp_status: 'Going' | 'Maybe' | 'Not Going' }[];
+	attendees: { rsvp_status: RsvpStatus }[];
 	goingCount: number;
 	maybeCount: number;
 	notGoingCount: number;

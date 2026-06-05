@@ -12,6 +12,7 @@
 		"@hookform/resolvers": "^5.4.0",
 		"@internationalized/date": "^3.12.2",
 		"@noria/database": "workspace:*",
+		"@noria/schemas": "workspace:*",
 		"@noria/ui": "workspace:*",
 		"@supabase/ssr": "^0.10.3",
 		"@supabase/supabase-js": "^2.107.0",
