@@ -1,0 +1,106 @@
+.noria-toast-region {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+  z-index: 100;
+  outline: none;
+}
+
+.noria-toast-region[data-focus-visible] {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.noria-toast {
+  width: 320px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  outline: none;
+  view-transition-class: toast;
+}
+
+.noria-toast[data-focus-visible] {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.noria-toast-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+}
+
+.noria-toast.success {
+  background-color: var(--success-bg);
+}
+.noria-toast.success .noria-toast-icon { color: var(--success); }
+
+.noria-toast.error {
+  background-color: var(--danger-bg);
+}
+.noria-toast.error .noria-toast-icon { color: var(--danger); }
+
+.noria-toast.info {
+  background-color: var(--primary-bg);
+}
+.noria-toast.info .noria-toast-icon { color: var(--primary); }
+
+.noria-toast-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: 0.125rem;
+}
+
+.noria-toast-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--foreground);
+}
+
+.noria-toast-description {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.125rem;
+}
+
+.noria-toast-close {
+  flex-shrink: 0;
+  margin-left: auto;
+  align-self: flex-start;
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+::view-transition-new(.toast):only-child {
+  animation: slide-in 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(.toast):only-child {
+  animation: slide-out 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes slide-out {
+  to {
+    translate: 100% 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    translate: 100% 0;
+    opacity: 0;
+  }
+}

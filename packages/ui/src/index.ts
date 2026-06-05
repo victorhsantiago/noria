@@ -5,3 +5,4 @@ export * from './alert';
 export * from './select';
 export * from './time-field';
 export * from './date-picker';
+export * from './toast';
