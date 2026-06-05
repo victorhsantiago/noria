@@ -26,12 +26,12 @@ const HomePage = async () => {
 			<Container maxWidth="800px" padding="lg">
 				{/* Header section */}
 				<Flex as="header" justify="space-between" align="center" wrap gap="sm" mb="lg">
-					<div>
+					<Flex direction="column">
 						<Typography variant="h1">Noria</Typography>
 						<Typography variant="body" color="muted">
 							Welcome back 👋 <strong>{user.email}</strong>
 						</Typography>
-					</div>
+					</Flex>
 					<Flex gap="sm" align="center">
 						<form action={signOut}>
 							<Button type="submit" variant="secondary">
@@ -50,7 +50,7 @@ const HomePage = async () => {
 				{/* Dashboard Content */}
 				<Flex direction="column" gap="xl">
 					{/* Next Event Section */}
-					<section>
+					<Flex as="section" direction="column">
 						<Typography variant="h2-caps" mb="sm">
 							Next Event
 						</Typography>
@@ -61,10 +61,10 @@ const HomePage = async () => {
 								You have no upcoming events.
 							</Typography>
 						)}
-					</section>
+					</Flex>
 
 					{/* Upcoming Events Section */}
-					<section>
+					<Flex as="section" direction="column">
 						<Typography variant="h2-caps" mb="sm">
 							Upcoming
 						</Typography>
@@ -84,10 +84,10 @@ const HomePage = async () => {
 								No other upcoming events.
 							</Typography>
 						)}
-					</section>
+					</Flex>
 
 					{/* Past Events Section */}
-					<section>
+					<Flex as="section" direction="column">
 						<Typography variant="h2-caps" mb="sm">
 							Past
 						</Typography>
@@ -107,7 +107,7 @@ const HomePage = async () => {
 								No past events.
 							</Typography>
 						)}
-					</section>
+					</Flex>
 				</Flex>
 			</Container>
 		</main>
