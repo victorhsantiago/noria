@@ -53,9 +53,12 @@ export const EventForm = () => {
   const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
   let dayOfWeekName = "day of the week";
+  let isWorkday = false;
   if (selectedDate) {
     const jsDate = selectedDate.toDate(getLocalTimeZone());
-    dayOfWeekName = daysOfWeek[jsDate.getDay()];
+    const day = jsDate.getDay();
+    dayOfWeekName = daysOfWeek[day];
+    isWorkday = day >= 1 && day <= 5;
   }
 
   const isToday = selectedDate?.compare(today(getLocalTimeZone())) === 0;
@@ -67,7 +70,7 @@ export const EventForm = () => {
     { id: `weekly on ${dayOfWeekName}`, name: `weekly on ${dayOfWeekName}` },
     { id: `every other ${dayOfWeekName}`, name: `every other ${dayOfWeekName}` },
     { id: `monthly on the first ${dayOfWeekName}`, name: `monthly on the first ${dayOfWeekName}` },
-    { id: "every workday", name: "every workday" },
+    ...(isWorkday ? [{ id: "every workday", name: "every workday" }] : []),
   ];
 
   const onSubmit = async (data: FormValues) => {
