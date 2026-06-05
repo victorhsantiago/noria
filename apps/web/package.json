@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
+    "@internationalized/date": "^3.12.2",
     "@noria/database": "workspace:*",
     "@noria/ui": "workspace:*",
     "@supabase/ssr": "^0.10.3",
@@ -23,10 +24,10 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@noria/eslint-config": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@noria/eslint-config": "workspace:*",
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
     "typescript": "^5"

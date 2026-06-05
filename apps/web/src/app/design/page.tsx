@@ -1,4 +1,4 @@
-import { Button, TextField, Card } from "@noria/ui";
+import { Button, TextField, Card, Select, SelectItem, DatePicker, TimeField } from "@noria/ui";
 import { Star, Trash2, Home as HomeIcon, CheckCircle, Search, Mail } from "lucide-react";
 
 const Home = () => {
@@ -69,8 +69,26 @@ const Home = () => {
           </Card>
         </div>
       </section>
+
+      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <h2>Date & Time</h2>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', maxWidth: '600px', flexDirection: 'column' }}>
+          <DatePicker label="Event Date" />
+          <TimeField label="Start Time" hourCycle={24} />
+        </div>
+      </section>
+
+      <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <h2>Select (Dropdown)</h2>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', maxWidth: '300px', flexDirection: 'column' }}>
+          <Select label="Frequency">
+            <SelectItem id="daily">Daily</SelectItem>
+            <SelectItem id="weekly">Weekly</SelectItem>
+            <SelectItem id="monthly">Monthly</SelectItem>
+          </Select>
+        </div>
+      </section>
     </div>
   );
 }
-
 export default Home;
