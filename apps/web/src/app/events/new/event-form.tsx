@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { TextField, Button, Select, SelectItem, TimeField, DatePicker, toastQueue, TextArea, Flex } from "@noria/ui";
 import { useRouter } from "next/navigation";
-import { createEvent } from "../actions";
+import { createEvent } from "@/actions/events";
 import { useState } from "react";
 import { getLocalTimeZone, CalendarDate, Time, today, now } from "@internationalized/date";
 

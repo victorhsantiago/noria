@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Button, Typography, Flex, Container, Link, Card } from "@noria/ui";
+import { formatFullDateTime } from "@/utils/date";
 
 const EventDetailsPage = async ({ params }: { params: { id: string } }) => {
   const supabase = await createClient();
@@ -39,7 +40,7 @@ const EventDetailsPage = async ({ params }: { params: { id: string } }) => {
           </Link>
         </Typography>
         <Typography variant="h1">{event.title}</Typography>
-        <Typography variant="body" color="muted" mt="xs">{new Date(event.start_datetime).toLocaleString()}</Typography>
+        <Typography variant="body" color="muted" mt="xs">{formatFullDateTime(event.start_datetime)}</Typography>
         <Flex mt="lg">
           <Card p="md" fullWidth>
             <Typography variant="body">This is a placeholder for the event details page.</Typography>

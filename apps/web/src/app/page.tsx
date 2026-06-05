@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation'
 import { Button, Typography, Flex, Container, Link } from '@noria/ui'
-import { CreateEventButton } from './create-event-button'
-import { getDashboardData } from './dashboard-actions'
-import { EventCard } from './event-card'
+import { CreateEventButton, EventCard } from '@/components';
+import { getDashboardData } from '@/actions/dashboard';
 import { createClient } from '@/utils/supabase/server'
 
 const HomePage = async () => {

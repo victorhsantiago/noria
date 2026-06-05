@@ -2,7 +2,8 @@
 
 import { Card, Badge, Typography, Flex } from "@noria/ui";
 import { useRouter } from "next/navigation";
-import { EventWithRSVPs } from "./dashboard-actions";
+import { EventWithRSVPs } from "@/actions/dashboard";
+import { formatEventDate } from "@/utils/date";
 
 export const EventCard = ({ event, highlight = false }: { event: EventWithRSVPs, highlight?: boolean }) => {
   const router = useRouter();
@@ -19,20 +20,20 @@ export const EventCard = ({ event, highlight = false }: { event: EventWithRSVPs,
             {event.title}
           </Typography>
         </Flex>
-        
+
         <Flex direction="column" gap="xs">
           <Typography variant="body-small" suppressHydrationWarning>
-            {new Date(event.start_datetime).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+            {formatEventDate(event.start_datetime)}
             {highlight && ` · ${event.location}`}
           </Typography>
 
           {highlight && (
             <Flex gap="xs" wrap>
-              {<Badge variant="success">{event.goingCount} Going</Badge>}
-              {<Badge variant="warning">{event.maybeCount} Maybe</Badge>}
-              {<Badge variant="danger">{event.notGoingCount} Not Going</Badge>}
+              {event.goingCount > 0 && <Badge variant="success">{event.goingCount} Going</Badge>}
+              {event.maybeCount > 0 && <Badge variant="warning">{event.maybeCount} Maybe</Badge>}
+              {event.notGoingCount > 0 && <Badge variant="danger">{event.notGoingCount} Not Going</Badge>}
               {event.goingCount === 0 && event.maybeCount === 0 && event.notGoingCount === 0 && (
-                <Badge variant="default">0 RSVPs</Badge>
+                <Badge variant="info">No one yet</Badge>
               )}
             </Flex>
           )}
