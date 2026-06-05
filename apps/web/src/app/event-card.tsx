@@ -21,7 +21,7 @@ export const EventCard = ({ event, highlight = false }: { event: EventWithRSVPs,
         </Flex>
         
         <Flex direction="column" gap="xs">
-          <Typography variant="body-small">
+          <Typography variant="body-small" suppressHydrationWarning>
             {new Date(event.start_datetime).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
             {highlight && ` · ${event.location}`}
           </Typography>
