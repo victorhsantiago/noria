@@ -10,9 +10,9 @@ import { useState } from "react";
 import { getLocalTimeZone, CalendarDate, Time, today, now } from "@internationalized/date";
 
 const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  title: z.string().min(1, "Title is required").max(100, "Title cannot exceed 100 characters"),
   description: z.string().max(500, "Description cannot exceed 500 characters").optional(),
-  location: z.string().min(1, "Location is required"),
+  location: z.string().min(1, "Location is required").max(150, "Location cannot exceed 150 characters"),
   date: z.instanceof(CalendarDate, { message: "Date is required" }),
   startTime: z.instanceof(Time, { message: "Start time is required" }),
   duration: z.instanceof(Time, { message: "Duration is required" }),
@@ -111,6 +111,7 @@ export const EventForm = () => {
           <TextField
             label="Title"
             isRequired
+            maxLength={100}
             value={field.value}
             onChange={field.onChange}
             onBlur={field.onBlur}
@@ -126,6 +127,7 @@ export const EventForm = () => {
           <TextField
             label="Location"
             isRequired
+            maxLength={150}
             value={field.value}
             onChange={field.onChange}
             onBlur={field.onBlur}

@@ -5,9 +5,9 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 const eventSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  title: z.string().min(1, "Title is required").max(100, "Title cannot exceed 100 characters"),
   description: z.string().max(500, "Description cannot exceed 500 characters").optional(),
-  location: z.string().min(1, "Location is required"),
+  location: z.string().min(1, "Location is required").max(150, "Location cannot exceed 150 characters"),
   start_datetime: z.string(),
   duration: z.string().min(1, "Duration is required"),
   frequency: z.string().min(1, "Frequency is required"),
