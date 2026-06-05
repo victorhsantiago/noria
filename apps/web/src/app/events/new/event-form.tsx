@@ -3,7 +3,7 @@
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { TextField, Button, Select, SelectItem, TimeField, DatePicker, toastQueue } from "@noria/ui";
+import { TextField, Button, Select, SelectItem, TimeField, DatePicker, toastQueue, TextArea } from "@noria/ui";
 import { useRouter } from "next/navigation";
 import { createEvent } from "../actions";
 import { useState } from "react";
@@ -11,7 +11,7 @@ import { getLocalTimeZone, CalendarDate, Time, today, now } from "@international
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  description: z.string().optional(),
+  description: z.string().max(500, "Description cannot exceed 500 characters").optional(),
   location: z.string().min(1, "Location is required"),
   date: z.instanceof(CalendarDate, { message: "Date is required" }),
   startTime: z.instanceof(Time, { message: "Start time is required" }),
@@ -23,7 +23,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export const EventForm = () => {
   const router = useRouter();
-  
+
   const [initialStartTime] = useState(() => {
     const current = now(getLocalTimeZone());
     let startHour = current.hour + 1;
@@ -118,19 +118,7 @@ export const EventForm = () => {
           />
         )}
       />
-      <Controller
-        name="description"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            label="Description"
-            value={field.value}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-            errorMessage={errors.description?.message as string}
-          />
-        )}
-      />
+
       <Controller
         name="location"
         control={control}
@@ -145,6 +133,7 @@ export const EventForm = () => {
           />
         )}
       />
+
       <DatePicker
         label="Date"
         isRequired
@@ -153,6 +142,7 @@ export const EventForm = () => {
         onChange={(val) => setValue("date", val as CalendarDate, { shouldValidate: true })}
         errorMessage={errors.date?.message as string}
       />
+
       <TimeField
         label="Start Time"
         isRequired
@@ -163,6 +153,7 @@ export const EventForm = () => {
         onChange={(val) => setValue("startTime", val as Time, { shouldValidate: true })}
         errorMessage={errors.startTime?.message as string}
       />
+
       <TimeField
         label="Duration (HH:mm)"
         isRequired
@@ -172,6 +163,7 @@ export const EventForm = () => {
         onChange={(val) => setValue("duration", val as Time, { shouldValidate: true })}
         errorMessage={errors.duration?.message as string}
       />
+
       <Select
         label="Frequency"
         defaultValue="not repeat"
@@ -180,6 +172,23 @@ export const EventForm = () => {
       >
         {(item: { id: string; name: string }) => <SelectItem id={item.id}>{item.name}</SelectItem>}
       </Select>
+
+      <Controller
+        name="description"
+        control={control}
+        render={({ field }) => (
+          <TextArea
+            label="Description"
+            maxLength={500}
+            rows={3}
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            errorMessage={errors.description?.message as string}
+          />
+        )}
+      />
+
       <Button type="submit" variant="primary" isDisabled={isPending}>
         {isPending ? "Creating..." : "Create Event"}
       </Button>

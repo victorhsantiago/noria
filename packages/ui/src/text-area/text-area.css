@@ -1,0 +1,56 @@
+.noria-textarea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.noria-textarea__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.noria-textarea__input-container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.noria-textarea__input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--foreground);
+  transition: outline 0.2s ease, border 0.2s ease, background 0.2s ease;
+  resize: vertical;
+  min-height: 80px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* Focus styles */
+.noria-textarea__input--focused {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.noria-textarea__description {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.noria-textarea__error {
+  font-size: 0.75rem;
+  color: var(--danger);
+}
+
+/* Invalid state outline */
+.noria-textarea__input[data-invalid] {
+  outline: 2px solid var(--danger);
+  outline-offset: -2px;
+}

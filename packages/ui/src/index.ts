@@ -6,3 +6,4 @@ export * from './select';
 export * from './time-field';
 export * from './date-picker';
 export * from './toast';
+export * from './text-area';

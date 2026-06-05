@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 const eventSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  description: z.string().optional(),
+  description: z.string().max(500, "Description cannot exceed 500 characters").optional(),
   location: z.string().min(1, "Location is required"),
   start_datetime: z.string(),
   duration: z.string().min(1, "Duration is required"),
