@@ -9,6 +9,7 @@
 		"db:stop": "pnpm --filter @noria/database run db:stop",
 		"format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,json}\"",
 		"format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,md,json}\"",
+		"start": "pnpm db:start && pnpm dev",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
