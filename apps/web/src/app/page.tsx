@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { Button, Typography, Flex, Container, Link } from '@noria/ui';
 import { CreateEventButton, EventCard } from '@/components';
 import { getDashboardData } from '@/actions/dashboard';
-import { createClient } from '@/utils/supabase/server';
+import { logout } from '@/actions/auth';
 
 const HomePage = async () => {
 	const data = await getDashboardData();
@@ -13,13 +13,6 @@ const HomePage = async () => {
 
 	const { user, nextEvent, upcomingEvents, hasMoreUpcomingEvents, pastEvents, hasMorePastEvents } =
 		data;
-
-	const signOut = async () => {
-		'use server';
-		const supabase = await createClient();
-		await supabase.auth.signOut();
-		redirect('/login');
-	};
 
 	return (
 		<main>
@@ -33,7 +26,7 @@ const HomePage = async () => {
 						</Typography>
 					</Flex>
 					<Flex gap="sm" align="center">
-						<form action={signOut}>
+						<form action={logout}>
 							<Button type="submit" variant="secondary">
 								Log Out
 							</Button>

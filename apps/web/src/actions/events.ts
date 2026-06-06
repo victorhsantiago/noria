@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+import { requireUser } from '@/actions/auth';
 
 const eventSchema = z.object({
 	title: z.string().min(1, 'Title is required').max(100, 'Title cannot exceed 100 characters'),
@@ -18,13 +18,7 @@ const eventSchema = z.object({
 
 export async function createEvent(formData: FormData) {
 	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) {
-		redirect('/login');
-	}
+	const user = await requireUser();
 
 	const rawData = {
 		title: formData.get('title')?.toString() || '',
@@ -56,4 +50,34 @@ export async function createEvent(formData: FormData) {
 	}
 
 	return { success: true };
+}
+
+export async function getEventById(id: string) {
+	const supabase = await createClient();
+
+	const { data: event, error } = await supabase
+		.from('events')
+		.select(
+			`
+      *,
+      attendees (
+        rsvp_status
+      )
+    `,
+		)
+		.eq('id', id)
+		.single();
+
+	if (error || !event) {
+		return null;
+	}
+
+	const attendees = event.attendees || [];
+	return {
+		...event,
+		attendees,
+		goingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Going').length,
+		maybeCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Maybe').length,
+		notGoingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Not Going').length,
+	};
 }

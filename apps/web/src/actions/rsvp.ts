@@ -1,15 +1,14 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
+import { getUser } from '@/actions/auth';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { RsvpStatus } from '@noria/schemas';
 
 export const upsertRsvp = async (eventId: string, status: RsvpStatus) => {
 	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getUser();
 
 	const cookieStore = await cookies();
 	const guestCookieKey = `noria_guest_rsvp_${eventId}`;

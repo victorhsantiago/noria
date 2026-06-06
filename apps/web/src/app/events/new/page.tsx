@@ -1,17 +1,9 @@
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+import { requireUser } from '@/actions/auth';
 import { Typography, Card, Flex, Container } from '@noria/ui';
 import { EventForm } from './event-form';
 
 const NewEventPage = async () => {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (!user) {
-		redirect('/login');
-	}
+	await requireUser();
 
 	return (
 		<Container maxWidth="42rem" padding="lg">

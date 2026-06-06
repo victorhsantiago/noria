@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
+import { getUser } from '@/actions/auth';
 import { RsvpStatus } from '@noria/schemas';
 
 export type EventWithRSVPs = {
@@ -20,9 +21,7 @@ export type EventWithRSVPs = {
 
 export async function getDashboardData() {
 	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = await getUser();
 
 	if (!user) {
 		return null;

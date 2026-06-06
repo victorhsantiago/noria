@@ -103,3 +103,25 @@ export async function verifyOtp(formData: FormData) {
 	revalidatePath('/', 'layout');
 	redirect('/');
 }
+
+export async function logout() {
+	const supabase = await createClient();
+	await supabase.auth.signOut();
+	redirect('/login');
+}
+
+export async function getUser() {
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	return user;
+}
+
+export async function requireUser() {
+	const user = await getUser();
+	if (!user) {
+		redirect('/login');
+	}
+	return user;
+}

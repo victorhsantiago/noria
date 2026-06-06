@@ -1,26 +1,13 @@
-import { createClient } from '@/utils/supabase/server';
+import { getEventById } from '@/actions/events';
 
 import { Container, Link, Typography } from '@noria/ui';
 import { EventDetails } from '@/components';
 
 const EventDetailsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { id } = await params;
-	const supabase = await createClient();
+	const eventWithRSVPs = await getEventById(id);
 
-	const { data: event, error } = await supabase
-		.from('events')
-		.select(
-			`
-      *,
-      attendees (
-        rsvp_status
-      )
-    `,
-		)
-		.eq('id', id)
-		.single();
-
-	if (error || !event) {
+	if (!eventWithRSVPs) {
 		return (
 			<main>
 				<Container maxWidth="800px" padding="lg">
@@ -35,15 +22,6 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ id: string }> })
 			</main>
 		);
 	}
-
-	const attendees = event.attendees || [];
-	const eventWithRSVPs = {
-		...event,
-		attendees,
-		goingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Going').length,
-		maybeCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Maybe').length,
-		notGoingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Not Going').length,
-	};
 
 	return (
 		<main>
