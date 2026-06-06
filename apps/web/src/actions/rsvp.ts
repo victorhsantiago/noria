@@ -16,17 +16,15 @@ export const upsertRsvp = async (eventId: string, status: RsvpStatus) => {
 	let error;
 
 	if (user) {
-		const { error: upsertError } = await supabase
-			.from('attendees')
-			.upsert(
-				{
-					event_id: eventId,
-					user_id: user.id,
-					guest_name: user.email || 'Unknown',
-					rsvp_status: status,
-				},
-				{ onConflict: 'event_id,user_id' },
-			);
+		const { error: upsertError } = await supabase.from('attendees').upsert(
+			{
+				event_id: eventId,
+				user_id: user.id,
+				guest_name: user.email || 'Unknown',
+				rsvp_status: status,
+			},
+			{ onConflict: 'event_id,user_id' },
+		);
 		error = upsertError;
 	} else {
 		const existingAttendeeId = cookieStore.get(guestCookieKey)?.value;
@@ -37,7 +35,7 @@ export const upsertRsvp = async (eventId: string, status: RsvpStatus) => {
 				.update({ rsvp_status: status })
 				.eq('id', existingAttendeeId)
 				.eq('event_id', eventId);
-			
+
 			error = updateError;
 		} else {
 			const { data: newAttendee, error: insertError } = await supabase
@@ -51,7 +49,7 @@ export const upsertRsvp = async (eventId: string, status: RsvpStatus) => {
 				.single();
 
 			error = insertError;
-			
+
 			if (newAttendee) {
 				cookieStore.set(guestCookieKey, newAttendee.id, {
 					path: '/',

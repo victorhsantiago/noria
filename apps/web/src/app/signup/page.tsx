@@ -115,7 +115,7 @@ const SignupPage = () => {
 					</Button>
 				</Flex>
 
-				<Flex align="center" gap="sm">
+				<Flex direction="column" align="center" gap="sm">
 					<Separator />
 					<Typography variant="label">OR CONTINUE WITH</Typography>
 					<Separator />

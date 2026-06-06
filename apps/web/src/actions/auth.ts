@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { Provider } from '@supabase/supabase-js';
@@ -21,7 +20,6 @@ export async function login(formData: FormData) {
 		return { error: error.message };
 	}
 
-	revalidatePath('/', 'layout');
 	redirect('/');
 }
 
@@ -100,7 +98,6 @@ export async function verifyOtp(formData: FormData) {
 		return { error: error.message };
 	}
 
-	revalidatePath('/', 'layout');
 	redirect('/');
 }
 

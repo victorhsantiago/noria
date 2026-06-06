@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -17,11 +18,16 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
+	const router = useRouter();
+	const [isPending, startTransition] = useTransition();
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState<string | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
 	const [isMagicLink, setIsMagicLink] = useState(false);
 	const [isOtpSent, setIsOtpSent] = useState(false);
+
+	useEffect(() => {
+		router.prefetch('/');
+	}, [router]);
 
 	const {
 		control,
@@ -33,48 +39,45 @@ const LoginPage = () => {
 	});
 
 	const onSubmit = async (data: LoginFormValues) => {
-		setIsLoading(true);
 		setError(null);
 		setSuccess(null);
 
-		try {
-			const formData = new FormData();
-			formData.append('email', data.email);
+		startTransition(async () => {
+			try {
+				const formData = new FormData();
+				formData.append('email', data.email);
 
-			if (isMagicLink) {
-				if (isOtpSent) {
-					if (!data.otp) {
-						setError('Verification code is required.');
-						setIsLoading(false);
+				if (isMagicLink) {
+					if (isOtpSent) {
+						if (!data.otp) {
+							setError('Verification code is required.');
+							return;
+						}
+						formData.append('otp', data.otp);
+						const result = await verifyOtp(formData);
+						if (result?.error) setError(result.error);
+					} else {
+						const result = await signInWithMagicLink(formData);
+						if (result?.error) {
+							setError(result.error);
+						} else {
+							if (result?.success) setSuccess(result.success);
+							setIsOtpSent(true);
+						}
+					}
+				} else {
+					if (!data.password) {
+						setError('Password is required for email login.');
 						return;
 					}
-					formData.append('otp', data.otp);
-					const result = await verifyOtp(formData);
+					formData.append('password', data.password);
+					const result = await login(formData);
 					if (result?.error) setError(result.error);
-				} else {
-					const result = await signInWithMagicLink(formData);
-					if (result?.error) {
-						setError(result.error);
-					} else {
-						if (result?.success) setSuccess(result.success);
-						setIsOtpSent(true);
-					}
 				}
-			} else {
-				if (!data.password) {
-					setError('Password is required for email login.');
-					setIsLoading(false);
-					return;
-				}
-				formData.append('password', data.password);
-				const result = await login(formData);
-				if (result?.error) setError(result.error);
+			} catch {
+				setError('An unexpected error occurred.');
 			}
-		} catch {
-			setError('An unexpected error occurred.');
-		} finally {
-			setIsLoading(false);
-		}
+		});
 	};
 
 	const handleOAuth = async (provider: 'google' | 'github') => {
@@ -105,8 +108,9 @@ const LoginPage = () => {
 								label="Email Address"
 								placeholder="hello@noria.app"
 								startIcon={<Mail size={18} />}
-								isInvalid={!!errors.email}
-								errorMessage={errors.email?.message}
+								isInvalid={!isPending && !!errors.email}
+								errorMessage={!isPending ? errors.email?.message : undefined}
+								isDisabled={isPending}
 								value={field.value}
 								onChange={field.onChange}
 								onBlur={field.onBlur}
@@ -125,8 +129,9 @@ const LoginPage = () => {
 									type="password"
 									placeholder="••••••••"
 									startIcon={<Key size={18} />}
-									isInvalid={!!errors.password}
-									errorMessage={errors.password?.message}
+									isInvalid={!isPending && !!errors.password}
+									errorMessage={!isPending ? errors.password?.message : undefined}
+									isDisabled={isPending}
 									value={field.value}
 									onChange={field.onChange}
 									onBlur={field.onBlur}
@@ -145,8 +150,9 @@ const LoginPage = () => {
 									label="Verification Code"
 									placeholder="123456"
 									startIcon={<Key size={18} />}
-									isInvalid={!!errors.otp}
-									errorMessage={errors.otp?.message}
+									isInvalid={!isPending && !!errors.otp}
+									errorMessage={!isPending ? errors.otp?.message : undefined}
+									isDisabled={isPending}
 									value={field.value}
 									onChange={field.onChange}
 									onBlur={field.onBlur}
@@ -157,8 +163,14 @@ const LoginPage = () => {
 					)}
 
 					<Flex mt="xs">
-						<Button type="submit" variant="primary" isDisabled={isLoading} fullWidth>
-							{isLoading
+						<Button
+							type="submit"
+							variant="primary"
+							isDisabled={isPending}
+							fullWidth
+							aria-busy={isPending}
+						>
+							{isPending
 								? 'Signing in...'
 								: isMagicLink
 									? isOtpSent
