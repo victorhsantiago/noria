@@ -10,12 +10,13 @@ import {
 	TabPanel,
 	Separator,
 	Badge,
+	Skeleton,
 } from '@noria/ui';
 import { Calendar, Clock, MapPin, Copy, CheckCircle } from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
 import { EventWithRSVPs } from '@/actions/dashboard';
 import { formatEventDateOnly, formatTimeOnly } from '@/utils/date';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRsvp } from '@/hooks/use-rsvp';
 import './event-details.css';
 
@@ -23,10 +24,23 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 	const [copied, setCopied] = useState(false);
 	const { isPending, handleRSVP } = useRsvp(event.id);
 
-	const handleCopy = () => {
-		navigator.clipboard.writeText(`${window.location.origin}/events/${event.id}`);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	useEffect(() => {
+		return () => {
+			if (timeoutRef.current) clearTimeout(timeoutRef.current);
+		};
+	}, []);
+
+	const handleCopy = async () => {
+		const url = `${window.location.origin}/events/${event.id}`;
+		try {
+			await navigator.clipboard.writeText(url);
+			setCopied(true);
+			timeoutRef.current = setTimeout(() => setCopied(false), 2000);
+		} catch (err) {
+			console.error('Failed to copy invite link', err);
+		}
 	};
 
 	const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`;
@@ -98,10 +112,63 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 			<Separator />
 
 			<Flex gap="sm" wrap justify="end" className="noria-event-actions">
-				<Button variant="secondary" onPress={handleCopy} icon={copied ? <CheckCircle /> : <Copy />}>
+				<Button
+					variant="secondary"
+					onPress={handleCopy}
+					icon={copied ? <CheckCircle /> : <Copy />}
+					aria-label={copied ? 'Invite link copied' : 'Copy invite link'}
+				>
 					{copied ? 'Copied!' : 'Copy Invite Link'}
 				</Button>
 				<AddToCalendar event={event} />
+			</Flex>
+		</Flex>
+	);
+};
+
+export const EventDetailsSkeleton = () => {
+	return (
+		<Flex direction="column" p="lg" gap="md" style={{ background: 'var(--background)' }}>
+			<Skeleton width="70%" height="32px" />
+
+			<Flex gap="md" mt="sm">
+				<Skeleton width="60px" height="24px" />
+				<Skeleton width="100px" height="24px" />
+			</Flex>
+
+			<Separator />
+
+			<Flex direction="column" gap="md">
+				<Flex direction="column" gap="xs">
+					<Flex align="center" gap="sm">
+						<Skeleton width="18px" height="18px" borderRadius="50%" />
+						<Skeleton width="40%" height="20px" />
+					</Flex>
+					<Flex align="center" gap="sm">
+						<Skeleton width="18px" height="18px" borderRadius="50%" />
+						<Skeleton width="30%" height="20px" />
+					</Flex>
+					<Flex align="center" gap="sm">
+						<Skeleton width="18px" height="18px" borderRadius="50%" />
+						<Skeleton width="50%" height="20px" />
+					</Flex>
+				</Flex>
+
+				<Skeleton width="100%" height="80px" mt="sm" />
+			</Flex>
+
+			<Separator />
+			<Flex gap="sm" direction="column">
+				<Skeleton width="100%" height="40px" borderRadius="8px" />
+				<Skeleton width="100%" height="40px" borderRadius="8px" />
+				<Skeleton width="100%" height="40px" borderRadius="8px" />
+			</Flex>
+
+			<Separator />
+
+			<Flex gap="sm" wrap justify="end" className="noria-event-actions">
+				<Skeleton width="150px" height="40px" borderRadius="8px" />
+				<Skeleton width="150px" height="40px" borderRadius="8px" />
 			</Flex>
 		</Flex>
 	);
