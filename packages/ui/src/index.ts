@@ -16,3 +16,4 @@ export * from './link/link';
 export * from './dialog/dialog';
 export * from './menu/menu';
 export * from './tabs/tabs';
+export * from './skeleton/skeleton';
