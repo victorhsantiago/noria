@@ -12,18 +12,27 @@ import {
 	Badge,
 	Skeleton,
 	Link,
+	MenuTrigger,
+	Popover,
+	Menu,
+	MenuItem,
 } from '@noria/ui';
-import { Calendar, Clock, MapPin, Copy, CheckCircle } from 'lucide-react';
+import { Calendar, Clock, MapPin, Copy, CheckCircle, MoreVertical, Edit2 } from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
 import { EventWithRSVPs } from '@/hooks/use-dashboard';
 import { formatEventDateOnly, formatTimeOnly } from '@/utils/date';
 import { useState, useRef, useEffect } from 'react';
 import { useRsvp } from '@/hooks/use-rsvp';
+import { useUser } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
 import './event-details.css';
 
 export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 	const [copied, setCopied] = useState(false);
 	const { isPending, handleRSVP } = useRsvp(event.id);
+	const { data: user } = useUser();
+	const router = useRouter();
+	const isOrganizer = user?.id === event.organizer_id;
 
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -48,7 +57,30 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 
 	return (
 		<Flex direction="column" p="lg" gap="md">
-			<Typography variant="h1">{event.title}</Typography>
+			<Flex justify="space-between" align="start">
+				<Typography variant="h1">{event.title}</Typography>
+				{isOrganizer && (
+					<MenuTrigger>
+						<Button variant="icon-only" icon={<MoreVertical />} aria-label="Event options" />
+						<Popover placement="bottom right">
+							<Menu
+								onAction={(key) => {
+									if (key === 'edit') {
+										router.push(`/events/${event.id}/edit`);
+									}
+								}}
+							>
+								<MenuItem id="edit" textValue="Edit Event">
+									<Flex align="center" gap="sm">
+										<Edit2 size={16} />
+										<Typography variant="body">Edit Event</Typography>
+									</Flex>
+								</MenuItem>
+							</Menu>
+						</Popover>
+					</MenuTrigger>
+				)}
+			</Flex>
 
 			<Tabs>
 				<TabList aria-label="Event details and attendees">

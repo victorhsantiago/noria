@@ -2,7 +2,7 @@
 
 import { InterceptedModal } from '@/components';
 import { Dialog, Typography, Flex } from '@noria/ui';
-import { EventForm } from '../../create-event/event-form';
+import { EventForm } from '@/components/event-form/event-form';
 
 const CreateEventModal = () => {
 	return (

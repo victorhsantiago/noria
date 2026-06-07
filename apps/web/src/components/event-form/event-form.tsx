@@ -15,9 +15,10 @@ import {
 	Flex,
 } from '@noria/ui';
 import { useRouter } from 'next/navigation';
-import { useCreateEvent } from '@/hooks/use-events';
+import { useCreateEvent, useUpdateEvent } from '@/hooks/use-events';
 import { useState } from 'react';
 import { getLocalTimeZone, CalendarDate, Time, today, now } from '@internationalized/date';
+import { EventWithRSVPs } from '@/hooks/use-dashboard'; // Note: you might want to move this type
 
 const formSchema = z
 	.object({
@@ -36,16 +37,42 @@ const formSchema = z
 
 type FormValues = z.infer<typeof formSchema>;
 
-export const EventForm = () => {
+export interface EventFormProps {
+	mode?: 'create' | 'edit';
+	initialData?: EventWithRSVPs;
+	onSuccess?: () => void;
+}
+
+export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventFormProps) => {
 	const router = useRouter();
 
+	const [initialDate] = useState(() => {
+		if (initialData?.start_datetime) {
+			const jsDate = new Date(initialData.start_datetime);
+			return new CalendarDate(jsDate.getFullYear(), jsDate.getMonth() + 1, jsDate.getDate());
+		}
+		return today(getLocalTimeZone());
+	});
+
 	const [initialStartTime] = useState(() => {
+		if (initialData?.start_datetime) {
+			const jsDate = new Date(initialData.start_datetime);
+			return new Time(jsDate.getHours(), jsDate.getMinutes(), jsDate.getSeconds());
+		}
 		const current = now(getLocalTimeZone());
 		let startHour = current.hour + 1;
 		if (current.minute >= 30) {
 			startHour += 1;
 		}
 		return new Time(startHour % 24, 0);
+	});
+
+	const [initialDuration] = useState(() => {
+		if (initialData?.duration) {
+			const [hours, minutes] = initialData.duration.split(':').map(Number);
+			return new Time(hours, minutes);
+		}
+		return new Time(2, 0);
 	});
 
 	const {
@@ -56,18 +83,21 @@ export const EventForm = () => {
 	} = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			frequency: 'not repeat',
-			title: '',
-			description: '',
-			location: '',
-			date: today(getLocalTimeZone()),
+			frequency: initialData?.frequency || 'not repeat',
+			title: initialData?.title || '',
+			description: initialData?.description || '',
+			location: initialData?.location || '',
+			date: initialDate,
 			startTime: initialStartTime,
-			duration: new Time(2, 0),
+			duration: initialDuration,
 		},
 	});
 
 	const selectedDate = useWatch({ control, name: 'date' });
-	const { mutate: createEventMutation, isPending } = useCreateEvent();
+	const { mutate: createEventMutation, isPending: isCreating } = useCreateEvent();
+	const { mutate: updateEventMutation, isPending: isUpdating } = useUpdateEvent(initialData?.id || '');
+
+	const isPending = mode === 'edit' ? isUpdating : isCreating;
 
 	// Generate dynamic frequency options
 	const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -93,6 +123,14 @@ export const EventForm = () => {
 		...(isWorkday ? [{ id: 'every workday', name: 'every workday' }] : []),
 	];
 
+	// Make sure the initial frequency value is in the options list if it's not dynamic
+	if (
+		initialData?.frequency &&
+		!frequencyOptions.find((opt) => opt.id === initialData.frequency)
+	) {
+		frequencyOptions.push({ id: initialData.frequency, name: initialData.frequency });
+	}
+
 	const onSubmit = (data: FormValues) => {
 		const formData = new FormData();
 		formData.append('title', data.title);
@@ -110,26 +148,42 @@ export const EventForm = () => {
 		formData.append('duration', durationStr);
 		formData.append('frequency', data.frequency);
 
-		createEventMutation(formData, {
+		const mutationOptions = {
 			onSuccess: () => {
 				toastQueue.add(
-					{ title: 'Event Created', description: 'Your new event is ready.', type: 'success' },
+					{
+						title: mode === 'edit' ? 'Event Updated' : 'Event Created',
+						description: mode === 'edit' ? 'Your event has been successfully updated.' : 'Your new event is ready.',
+						type: 'success',
+					},
 					{ timeout: 4000 },
 				);
-				router.push('/');
+				if (onSuccess) {
+					onSuccess();
+				} else if (mode === 'edit') {
+					router.push(`/events/${initialData?.id}`);
+				} else {
+					router.push('/');
+				}
 			},
 			onError: (e: Error) => {
 				console.error(e);
 				toastQueue.add(
 					{
-						title: 'Creation Failed',
-						description: e.message || 'There was an error creating the event.',
+						title: mode === 'edit' ? 'Update Failed' : 'Creation Failed',
+						description: e.message || `There was an error ${mode === 'edit' ? 'updating' : 'creating'} the event.`,
 						type: 'danger',
 					},
 					{ timeout: 5000 },
 				);
 			},
-		});
+		};
+
+		if (mode === 'edit') {
+			updateEventMutation(formData, mutationOptions);
+		} else {
+			createEventMutation(formData, mutationOptions);
+		}
 	};
 
 	return (
@@ -169,7 +223,7 @@ export const EventForm = () => {
 			<DatePicker
 				label="Date"
 				isRequired
-				minValue={today(getLocalTimeZone())}
+				minValue={mode === 'create' ? today(getLocalTimeZone()) : undefined}
 				value={selectedDate}
 				onChange={(val) => setValue('date', val as CalendarDate, { shouldValidate: true })}
 				errorMessage={errors.date?.message as string}
@@ -182,7 +236,7 @@ export const EventForm = () => {
 					hourCycle={24}
 					granularity="minute"
 					defaultValue={initialStartTime}
-					minValue={minTime}
+					minValue={mode === 'create' ? minTime : undefined}
 					onChange={(val) => setValue('startTime', val as Time, { shouldValidate: true })}
 					errorMessage={errors.startTime?.message as string}
 				/>
@@ -192,7 +246,7 @@ export const EventForm = () => {
 					isRequired
 					hourCycle={24}
 					granularity="minute"
-					defaultValue={new Time(2, 0)}
+					defaultValue={initialDuration}
 					onChange={(val) => setValue('duration', val as Time, { shouldValidate: true })}
 					errorMessage={errors.duration?.message as string}
 				/>
@@ -200,7 +254,7 @@ export const EventForm = () => {
 
 			<Select
 				label="Frequency"
-				defaultValue="not repeat"
+				defaultValue={initialData?.frequency || 'not repeat'}
 				onChange={(key) => setValue('frequency', key as string, { shouldValidate: true })}
 				items={frequencyOptions}
 			>
@@ -224,7 +278,7 @@ export const EventForm = () => {
 			/>
 
 			<Button type="submit" variant="primary" isDisabled={isPending}>
-				{isPending ? 'Creating...' : 'Create Event'}
+				{isPending ? (mode === 'edit' ? 'Updating...' : 'Creating...') : (mode === 'edit' ? 'Update Event' : 'Create Event')}
 			</Button>
 		</Flex>
 	);

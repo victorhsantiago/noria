@@ -95,3 +95,51 @@ export const useCreateEvent = () => {
 		},
 	});
 };
+
+export const useUpdateEvent = (id: string) => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (formData: FormData) => {
+			const supabase = createClient();
+			const { data: { user } } = await supabase.auth.getUser();
+			if (!user) {
+				return { error: 'You must be logged in to update an event.' };
+			}
+
+			const rawData = {
+				title: formData.get('title')?.toString() || '',
+				description: formData.get('description')?.toString() || undefined,
+				location: formData.get('location')?.toString() || '',
+				start_datetime: formData.get('start_datetime')?.toString() || '',
+				duration: formData.get('duration')?.toString() || '',
+				frequency: formData.get('frequency')?.toString() || '',
+			};
+
+			const parsed = eventSchema.parse(rawData);
+
+			const { error } = await supabase
+				.from('events')
+				.update({
+					title: parsed.title,
+					description: parsed.description || null,
+					location: parsed.location,
+					start_datetime: parsed.start_datetime,
+					duration: parsed.duration,
+					frequency: parsed.frequency,
+				})
+				.eq('id', id)
+				.eq('organizer_id', user.id);
+
+			if (error) {
+				return { error: error.message };
+			}
+
+			return { success: true };
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['event', id] });
+			queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+		},
+	});
+};

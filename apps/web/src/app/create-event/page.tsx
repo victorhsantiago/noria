@@ -1,6 +1,6 @@
 import { requireUser } from '@/utils/supabase/server';
 import { Typography, Card, Flex, Container } from '@noria/ui';
-import { EventForm } from './event-form';
+import { EventForm } from '@/components/event-form/event-form';
 
 const NewEventPage = async () => {
 	await requireUser();
