@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui';
 import { Mail, Key } from 'lucide-react';
-import { signInWithOAuth, signup } from '@/actions/auth';
+import { useSignup, useSignInWithOAuth } from '@/hooks/use-auth';
 
 const signupSchema = z.object({
 	email: z.string().email({ message: 'Invalid email address' }),
@@ -18,7 +18,9 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 const SignupPage = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState<string | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
+	const { mutate: signup, isPending: isSignupPending } = useSignup();
+	const { mutate: signInWithOAuth, isPending: isOAuthPending } = useSignInWithOAuth();
+	const isLoading = isSignupPending || isOAuthPending;
 
 	const {
 		control,
@@ -29,36 +31,29 @@ const SignupPage = () => {
 		defaultValues: { email: '', password: '' },
 	});
 
-	const onSubmit = async (data: SignupFormValues) => {
-		setIsLoading(true);
+	const onSubmit = (data: SignupFormValues) => {
 		setError(null);
 		setSuccess(null);
 
-		try {
-			const formData = new FormData();
-			formData.append('email', data.email);
-			formData.append('password', data.password);
+		const formData = new FormData();
+		formData.append('email', data.email);
+		formData.append('password', data.password);
 
-			const result = await signup(formData);
-
-			if (result?.error) {
-				setError(result.error);
-			} else if (result?.success) {
-				setSuccess(result.success);
-			}
-		} catch {
-			setError('An unexpected error occurred.');
-		} finally {
-			setIsLoading(false);
-		}
+		signup(formData, {
+			onSuccess: () => {
+				setSuccess('Check your email for a confirmation link.');
+			},
+			onError: (e) => {
+				setError(e.message || 'An unexpected error occurred.');
+			},
+		});
 	};
 
-	const handleOAuth = async (provider: 'google' | 'github') => {
-		try {
-			await signInWithOAuth(provider);
-		} catch {
-			setError(`Failed to sign up with ${provider}`);
-		}
+	const handleOAuth = (provider: 'google' | 'github') => {
+		setError(null);
+		signInWithOAuth(provider, {
+			onError: () => setError(`Failed to sign up with ${provider}`),
+		});
 	};
 
 	return (

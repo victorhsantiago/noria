@@ -4,6 +4,7 @@ import './globals.css';
 import '@noria/ui/styles.css';
 import { ThemeProvider } from '@/components';
 import { Toaster } from '@noria/ui';
+import { Providers } from './providers';
 
 const outfit = Outfit({
 	variable: '--font-outfit',
@@ -26,9 +27,11 @@ const RootLayout = ({
 		<html lang="en" className={outfit.variable} suppressHydrationWarning>
 			<body>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-					{children}
-					{modal}
-					<Toaster />
+					<Providers>
+						{children}
+						{modal}
+						<Toaster />
+					</Providers>
 				</ThemeProvider>
 			</body>
 		</html>

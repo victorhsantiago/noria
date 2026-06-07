@@ -15,7 +15,7 @@ import {
 	Flex,
 } from '@noria/ui';
 import { useRouter } from 'next/navigation';
-import { createEvent } from '@/actions/events';
+import { useCreateEvent } from '@/hooks/use-events';
 import { useState } from 'react';
 import { getLocalTimeZone, CalendarDate, Time, today, now } from '@internationalized/date';
 
@@ -67,7 +67,7 @@ export const EventForm = () => {
 	});
 
 	const selectedDate = useWatch({ control, name: 'date' });
-	const [isPending, setIsPending] = useState(false);
+	const { mutate: createEventMutation, isPending } = useCreateEvent();
 
 	// Generate dynamic frequency options
 	const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -93,43 +93,39 @@ export const EventForm = () => {
 		...(isWorkday ? [{ id: 'every workday', name: 'every workday' }] : []),
 	];
 
-	const onSubmit = async (data: FormValues) => {
-		setIsPending(true);
-		try {
-			const formData = new FormData();
-			formData.append('title', data.title);
-			if (data.description) formData.append('description', data.description);
-			formData.append('location', data.location);
+	const onSubmit = (data: FormValues) => {
+		const formData = new FormData();
+		formData.append('title', data.title);
+		if (data.description) formData.append('description', data.description);
+		formData.append('location', data.location);
 
-			const tz = getLocalTimeZone();
-			const date = data.date;
-			const time = data.startTime;
-			const jsDate = date.toDate(tz);
-			jsDate.setHours(time.hour, time.minute, time.second);
-			formData.append('start_datetime', jsDate.toISOString());
+		const tz = getLocalTimeZone();
+		const date = data.date;
+		const time = data.startTime;
+		const jsDate = date.toDate(tz);
+		jsDate.setHours(time.hour, time.minute, time.second);
+		formData.append('start_datetime', jsDate.toISOString());
 
-			const durationStr = `${data.duration.hour.toString().padStart(2, '0')}:${data.duration.minute.toString().padStart(2, '0')}`;
-			formData.append('duration', durationStr);
-			formData.append('frequency', data.frequency);
+		const durationStr = `${data.duration.hour.toString().padStart(2, '0')}:${data.duration.minute.toString().padStart(2, '0')}`;
+		formData.append('duration', durationStr);
+		formData.append('frequency', data.frequency);
 
-			const result = await createEvent(formData);
-			if (result.error) throw new Error(result.error);
-
-			toastQueue.add(
-				{ title: 'Event Created', description: 'Your new event is ready.', type: 'success' },
-				{ timeout: 4000 },
-			);
-			router.push('/');
-		} catch (e: unknown) {
-			console.error(e);
-			const errorMessage =
-				e instanceof Error ? e.message : 'There was an error creating the event.';
-			toastQueue.add(
-				{ title: 'Creation Failed', description: errorMessage, type: 'danger' },
-				{ timeout: 5000 },
-			);
-			setIsPending(false);
-		}
+		createEventMutation(formData, {
+			onSuccess: () => {
+				toastQueue.add(
+					{ title: 'Event Created', description: 'Your new event is ready.', type: 'success' },
+					{ timeout: 4000 },
+				);
+				router.push('/');
+			},
+			onError: (e: Error) => {
+				console.error(e);
+				toastQueue.add(
+					{ title: 'Creation Failed', description: e.message || 'There was an error creating the event.', type: 'danger' },
+					{ timeout: 5000 },
+				);
+			},
+		});
 	};
 
 	return (

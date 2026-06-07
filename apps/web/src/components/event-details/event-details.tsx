@@ -14,7 +14,7 @@ import {
 } from '@noria/ui';
 import { Calendar, Clock, MapPin, Copy, CheckCircle } from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
-import { EventWithRSVPs } from '@/actions/dashboard';
+import { EventWithRSVPs } from '@/hooks/use-dashboard';
 import { formatEventDateOnly, formatTimeOnly } from '@/utils/date';
 import { useState, useRef, useEffect } from 'react';
 import { useRsvp } from '@/hooks/use-rsvp';

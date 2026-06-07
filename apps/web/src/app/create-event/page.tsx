@@ -1,4 +1,4 @@
-import { requireUser } from '@/actions/auth';
+import { requireUser } from '@/utils/supabase/server';
 import { Typography, Card, Flex, Container } from '@noria/ui';
 import { EventForm } from './event-form';
 

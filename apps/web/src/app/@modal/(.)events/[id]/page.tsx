@@ -1,13 +1,22 @@
-import { getEventById } from '@/actions/events';
-import { InterceptedModal, EventDetails } from '@/components';
-import { Dialog } from '@noria/ui';
+'use client';
 
-const EventModal = async ({ params }: { params: Promise<{ id: string }> }) => {
-	const { id } = await params;
-	const eventWithRSVPs = await getEventById(id);
+import { useEventById } from '@/hooks/use-events';
+import { InterceptedModal, EventDetails } from '@/components';
+import { Dialog, Typography } from '@noria/ui';
+import { use } from 'react';
+
+const EventModal = ({ params }: { params: Promise<{ id: string }> }) => {
+	const { id } = use(params);
+	const { data: eventWithRSVPs } = useEventById(id);
 
 	if (!eventWithRSVPs) {
-		return null;
+		return (
+			<InterceptedModal>
+				<Dialog aria-label="Event not found">
+					<Typography variant="body">Event not found.</Typography>
+				</Dialog>
+			</InterceptedModal>
+		);
 	}
 
 	return (

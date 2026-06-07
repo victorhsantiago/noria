@@ -1,11 +1,14 @@
-import { getEventById } from '@/actions/events';
+'use client';
+
+import { useEventById } from '@/hooks/use-events';
+import { use } from 'react';
 
 import { Container, Link, Typography } from '@noria/ui';
 import { EventDetails } from '@/components';
 
-const EventDetailsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
-	const { id } = await params;
-	const eventWithRSVPs = await getEventById(id);
+const EventDetailsPage = ({ params }: { params: Promise<{ id: string }> }) => {
+	const { id } = use(params);
+	const { data: eventWithRSVPs } = useEventById(id);
 
 	if (!eventWithRSVPs) {
 		return (

@@ -2,7 +2,7 @@
 
 import { Card, Badge, Typography, Flex, Skeleton } from '@noria/ui';
 import Link from 'next/link';
-import { EventWithRSVPs } from '@/actions/dashboard';
+import { EventWithRSVPs } from '@/hooks/use-dashboard';
 import { formatEventDate } from '@/utils/date';
 
 export const EventCard = ({

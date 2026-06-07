@@ -1,18 +1,25 @@
-import { redirect } from 'next/navigation';
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { Button, Typography, Flex, Container, Link } from '@noria/ui';
-import { CreateEventButton, EventCard } from '@/components';
-import { getDashboardData } from '@/actions/dashboard';
-import { logout } from '@/actions/auth';
+import { CreateEventButton, EventList } from '@/components';
+import { useUser, useLogout } from '@/hooks/use-auth';
 
-const HomePage = async () => {
-	const data = await getDashboardData();
+const HomePage = () => {
+	const { data: user, isPending: isUserPending } = useUser();
+	const { mutate: logoutMutation } = useLogout();
+	const router = useRouter();
 
-	if (!data) {
-		redirect('/login');
+	useEffect(() => {
+		if (!isUserPending && !user) {
+			router.push('/login');
+		}
+	}, [isUserPending, user, router]);
+
+	if (!isUserPending && !user) {
+		return null;
 	}
-
-	const { user, nextEvent, upcomingEvents, hasMoreUpcomingEvents, pastEvents, hasMorePastEvents } =
-		data;
 
 	return (
 		<main>
@@ -22,15 +29,13 @@ const HomePage = async () => {
 					<Flex direction="column">
 						<Typography variant="h1">Noria</Typography>
 						<Typography variant="body" color="muted">
-							Welcome back 👋 <strong>{user.email}</strong>
+							Welcome back 👋 <strong>{user?.email || '...'}</strong>
 						</Typography>
 					</Flex>
 					<Flex gap="sm" align="center">
-						<form action={logout}>
-							<Button type="submit" variant="secondary">
-								Log Out
-							</Button>
-						</form>
+						<Button variant="secondary" onClick={() => logoutMutation()}>
+							Log Out
+						</Button>
 						<Link href="/design">
 							<Button variant="secondary">UI Tokens</Button>
 						</Link>
@@ -41,67 +46,7 @@ const HomePage = async () => {
 				</Flex>
 
 				{/* Dashboard Content */}
-				<Flex direction="column" gap="xl">
-					{/* Next Event Section */}
-					<Flex as="section" direction="column">
-						<Typography variant="h2-caps" mb="sm">
-							Next Event
-						</Typography>
-						{nextEvent ? (
-							<EventCard event={nextEvent} highlight={true} />
-						) : (
-							<Typography variant="body" color="muted">
-								You have no upcoming events.
-							</Typography>
-						)}
-					</Flex>
-
-					{/* Upcoming Events Section */}
-					<Flex as="section" direction="column">
-						<Typography variant="h2-caps" mb="sm">
-							Upcoming
-						</Typography>
-						{upcomingEvents.length > 0 ? (
-							<Flex direction="column" gap="sm">
-								{upcomingEvents.map((event) => (
-									<EventCard key={event.id} event={event} />
-								))}
-								{hasMoreUpcomingEvents && (
-									<Flex alignSelf="start">
-										<Button variant="secondary">See All</Button>
-									</Flex>
-								)}
-							</Flex>
-						) : (
-							<Typography variant="body" color="muted">
-								No other upcoming events.
-							</Typography>
-						)}
-					</Flex>
-
-					{/* Past Events Section */}
-					<Flex as="section" direction="column">
-						<Typography variant="h2-caps" mb="sm">
-							Past
-						</Typography>
-						{pastEvents.length > 0 ? (
-							<Flex direction="column" gap="sm">
-								{pastEvents.map((event) => (
-									<EventCard key={event.id} event={event} />
-								))}
-								{hasMorePastEvents && (
-									<Flex alignSelf="start">
-										<Button variant="secondary">See History</Button>
-									</Flex>
-								)}
-							</Flex>
-						) : (
-							<Typography variant="body" color="muted">
-								No past events.
-							</Typography>
-						)}
-					</Flex>
-				</Flex>
+				<EventList userId={user?.id} />
 			</Container>
 		</main>
 	);

@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useTransition, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui';
 import { Mail, Key } from 'lucide-react';
-import { login, signInWithMagicLink, signInWithOAuth, verifyOtp } from '@/actions/auth';
+import { useLogin, useSignInWithMagicLink, useSignInWithOAuth, useVerifyOtp } from '@/hooks/use-auth';
 
 const loginSchema = z.object({
 	email: z.email({ message: 'Invalid email address' }),
@@ -19,7 +19,12 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
 	const router = useRouter();
-	const [isPending, startTransition] = useTransition();
+	const { mutate: login, isPending: isLoginPending } = useLogin();
+	const { mutate: signInWithMagicLink, isPending: isMagicPending } = useSignInWithMagicLink();
+	const { mutate: verifyOtp, isPending: isVerifyPending } = useVerifyOtp();
+	const { mutate: signInWithOAuth, isPending: isOAuthPending } = useSignInWithOAuth();
+
+	const isPending = isLoginPending || isMagicPending || isVerifyPending || isOAuthPending;
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState<string | null>(null);
 	const [isMagicLink, setIsMagicLink] = useState(false);
@@ -38,54 +43,49 @@ const LoginPage = () => {
 		defaultValues: { email: '', password: '', otp: '' },
 	});
 
-	const onSubmit = async (data: LoginFormValues) => {
+	const onSubmit = (data: LoginFormValues) => {
 		setError(null);
 		setSuccess(null);
 
-		startTransition(async () => {
-			try {
-				const formData = new FormData();
-				formData.append('email', data.email);
+		const formData = new FormData();
+		formData.append('email', data.email);
 
-				if (isMagicLink) {
-					if (isOtpSent) {
-						if (!data.otp) {
-							setError('Verification code is required.');
-							return;
-						}
-						formData.append('otp', data.otp);
-						const result = await verifyOtp(formData);
-						if (result?.error) setError(result.error);
-					} else {
-						const result = await signInWithMagicLink(formData);
-						if (result?.error) {
-							setError(result.error);
-						} else {
-							if (result?.success) setSuccess(result.success);
-							setIsOtpSent(true);
-						}
-					}
-				} else {
-					if (!data.password) {
-						setError('Password is required for email login.');
-						return;
-					}
-					formData.append('password', data.password);
-					const result = await login(formData);
-					if (result?.error) setError(result.error);
+		if (isMagicLink) {
+			if (isOtpSent) {
+				if (!data.otp) {
+					setError('Verification code is required.');
+					return;
 				}
-			} catch {
-				setError('An unexpected error occurred.');
+				formData.append('otp', data.otp);
+				verifyOtp(formData, {
+					onError: (e) => setError(e.message),
+				});
+			} else {
+				signInWithMagicLink(formData, {
+					onSuccess: () => {
+						setSuccess('Magic link sent to your email.');
+						setIsOtpSent(true);
+					},
+					onError: (e) => setError(e.message),
+				});
 			}
-		});
+		} else {
+			if (!data.password) {
+				setError('Password is required for email login.');
+				return;
+			}
+			formData.append('password', data.password);
+			login(formData, {
+				onError: (e) => setError(e.message),
+			});
+		}
 	};
 
-	const handleOAuth = async (provider: 'google' | 'github') => {
-		try {
-			await signInWithOAuth(provider);
-		} catch {
-			setError(`Failed to sign in with ${provider}`);
-		}
+	const handleOAuth = (provider: 'google' | 'github') => {
+		setError(null);
+		signInWithOAuth(provider, {
+			onError: () => setError(`Failed to sign in with ${provider}`),
+		});
 	};
 
 	return (
