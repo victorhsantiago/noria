@@ -1,7 +1,7 @@
 'use client';
 
-import { Card, Badge, Typography, Flex, Skeleton } from '@noria/ui';
-import Link from 'next/link';
+import { Card, Badge, Typography, Flex, Skeleton, Link } from '@noria/ui';
+
 import { EventWithRSVPs } from '@/hooks/use-dashboard';
 import { formatEventDate } from '@/utils/date';
 
@@ -13,7 +13,7 @@ export const EventCard = ({
 	highlight?: boolean;
 }) => {
 	return (
-		<Link href={`/events/${event.id}`} style={{ textDecoration: 'none' }}>
+		<Link href={`/events/${event.id}`}>
 			<Card interactive p="md">
 				<Flex direction="column" gap="sm">
 					<Flex justify="space-between" align="start">

@@ -11,6 +11,7 @@ import {
 	Separator,
 	Badge,
 	Skeleton,
+	Link,
 } from '@noria/ui';
 import { Calendar, Clock, MapPin, Copy, CheckCircle } from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
@@ -46,7 +47,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 	const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`;
 
 	return (
-		<Flex direction="column" p="lg" gap="md" style={{ background: 'var(--background)' }}>
+		<Flex direction="column" p="lg" gap="md">
 			<Typography variant="h1">{event.title}</Typography>
 
 			<Tabs>
@@ -69,14 +70,9 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 							<Flex align="center" gap="sm">
 								<MapPin size={18} />
 								<Typography variant="body">
-									<a
-										href={mapUrl}
-										target="_blank"
-										rel="noopener noreferrer"
-										style={{ textDecoration: 'underline', color: 'inherit' }}
-									>
+									<Link href={mapUrl} target="_blank" rel="noopener noreferrer">
 										{event.location}
-									</a>
+									</Link>
 								</Typography>
 							</Flex>
 						</Flex>
@@ -128,7 +124,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 
 export const EventDetailsSkeleton = () => {
 	return (
-		<Flex direction="column" p="lg" gap="md" style={{ background: 'var(--background)' }}>
+		<Flex direction="column" p="lg" gap="md">
 			<Skeleton width="70%" height="32px" />
 
 			<Flex gap="md" mt="sm">
