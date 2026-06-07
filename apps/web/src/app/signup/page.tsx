@@ -75,7 +75,7 @@ const SignupPage = () => {
 							<TextField
 								label="Email Address"
 								placeholder="hello@noria.app"
-								startIcon={<Mail size={18} />}
+								startIcon={Mail}
 								isInvalid={!!errors.email}
 								errorMessage={errors.email?.message}
 								value={field.value}
@@ -94,7 +94,7 @@ const SignupPage = () => {
 								label="Password"
 								type="password"
 								placeholder="••••••••"
-								startIcon={<Key size={18} />}
+								startIcon={Key}
 								isInvalid={!!errors.password}
 								errorMessage={errors.password?.message}
 								value={field.value}

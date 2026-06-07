@@ -112,7 +112,7 @@ const LoginPage = () => {
 							<TextField
 								label="Email Address"
 								placeholder="hello@noria.app"
-								startIcon={<Mail size={18} />}
+								startIcon={Mail}
 								isInvalid={!isPending && !!errors.email}
 								errorMessage={!isPending ? errors.email?.message : undefined}
 								isDisabled={isPending}
@@ -133,7 +133,7 @@ const LoginPage = () => {
 									label="Password"
 									type="password"
 									placeholder="••••••••"
-									startIcon={<Key size={18} />}
+									startIcon={Key}
 									isInvalid={!isPending && !!errors.password}
 									errorMessage={!isPending ? errors.password?.message : undefined}
 									isDisabled={isPending}
@@ -154,7 +154,7 @@ const LoginPage = () => {
 								<TextField
 									label="Verification Code"
 									placeholder="123456"
-									startIcon={<Key size={18} />}
+									startIcon={Key}
 									isInvalid={!isPending && !!errors.otp}
 									errorMessage={!isPending ? errors.otp?.message : undefined}
 									isDisabled={isPending}

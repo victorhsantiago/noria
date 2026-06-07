@@ -29,7 +29,7 @@ export const AddToCalendar = ({ event }: { event: EventWithRSVPs }) => {
 
 	return (
 		<MenuTrigger>
-			<Button variant="secondary" icon={<CalendarDays />}>
+			<Button variant="secondary" icon={CalendarDays}>
 				Add to calendar
 			</Button>
 			<Popover>

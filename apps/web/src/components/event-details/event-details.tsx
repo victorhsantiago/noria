@@ -16,6 +16,7 @@ import {
 	Popover,
 	Menu,
 	MenuItem,
+	Icon,
 } from '@noria/ui';
 import { Calendar, Clock, MapPin, Copy, CheckCircle, MoreVertical, Edit2 } from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
@@ -61,7 +62,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 				<Typography variant="h1">{event.title}</Typography>
 				{isOrganizer && (
 					<MenuTrigger>
-						<Button variant="icon-only" icon={<MoreVertical />} aria-label="Event options" />
+						<Button variant="icon-only" icon={MoreVertical} aria-label="Event options" />
 						<Popover placement="bottom right">
 							<Menu
 								onAction={(key) => {
@@ -72,7 +73,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 							>
 								<MenuItem id="edit" textValue="Edit Event">
 									<Flex align="center" gap="sm">
-										<Edit2 size={16} />
+										<Icon icon={Edit2} size={16} />
 										<Typography variant="body">Edit Event</Typography>
 									</Flex>
 								</MenuItem>
@@ -92,15 +93,15 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 					<Flex direction="column" gap="md">
 						<Flex direction="column" gap="xs">
 							<Flex align="center" gap="sm">
-								<Calendar size={18} />
+								<Icon icon={Calendar} />
 								<Typography variant="body">{formatEventDateOnly(event.start_datetime)}</Typography>
 							</Flex>
 							<Flex align="center" gap="sm">
-								<Clock size={18} />
+								<Icon icon={Clock} />
 								<Typography variant="body">{formatTimeOnly(event.start_datetime)}</Typography>
 							</Flex>
 							<Flex align="center" gap="sm">
-								<MapPin size={18} />
+								<Icon icon={MapPin} />
 								<Typography variant="body">
 									<Link href={mapUrl} target="_blank" rel="noopener noreferrer">
 										{event.location}
@@ -143,7 +144,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 				<Button
 					variant="secondary"
 					onPress={handleCopy}
-					icon={copied ? <CheckCircle /> : <Copy />}
+					icon={copied ? CheckCircle : Copy}
 					aria-label={copied ? 'Invite link copied' : 'Copy invite link'}
 				>
 					{copied ? 'Copied!' : 'Copy Invite Link'}

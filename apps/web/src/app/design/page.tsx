@@ -22,16 +22,16 @@ const Home = () => {
 			<Flex as="section" direction="column" gap="sm">
 				<Typography variant="h2-caps">Button Variants</Typography>
 				<Flex gap="sm" wrap align="center">
-					<Button variant="primary" icon={<HomeIcon />}>
-						Primary
+					<Button variant="primary" icon={HomeIcon}>
+						Primary Button
 					</Button>
-					<Button variant="secondary" icon={<CheckCircle />}>
-						Secondary
+					<Button variant="secondary" icon={CheckCircle}>
+						Secondary Button
 					</Button>
-					<Button variant="danger" icon={<Trash2 />}>
-						Danger
+					<Button variant="danger" icon={Trash2}>
+						Danger Button
 					</Button>
-					<Button variant="icon-only" icon={<Star />} aria-label="Star" />
+					<Button variant="icon-only" icon={Star} aria-label="Star" />
 				</Flex>
 			</Flex>
 
@@ -50,10 +50,10 @@ const Home = () => {
 					<TextField
 						label="Email Address"
 						placeholder="example@noria.app"
-						startIcon={<Mail />}
+						startIcon={Mail}
 						description="We'll never share your email with anyone else."
 					/>
-					<TextField label="Search" placeholder="Search events..." startIcon={<Search />} />
+					<TextField label="Search" placeholder="Search events..." startIcon={Search} />
 					<TextField
 						label="Username"
 						placeholder="johndoe"
@@ -69,7 +69,7 @@ const Home = () => {
 					<Card gap="md" maxWidth="320px">
 						<Typography variant="h3">Sign In</Typography>
 						<Flex direction="column" gap="sm">
-							<TextField label="Email Address" placeholder="hello@noria.app" startIcon={<Mail />} />
+							<TextField label="Email Address" placeholder="hello@noria.app" startIcon={Mail} />
 							<TextField label="Password" type="password" placeholder="••••••••" />
 						</Flex>
 						<Button variant="primary" fullWidth>
