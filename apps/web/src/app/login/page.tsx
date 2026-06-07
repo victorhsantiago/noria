@@ -88,6 +88,11 @@ const LoginPage = () => {
 		});
 	};
 
+	let submitButtonText = 'Sign In';
+	if (isPending) submitButtonText = 'Signing in...';
+	else if (isMagicLink && isOtpSent) submitButtonText = 'Verify Code';
+	else if (isMagicLink) submitButtonText = 'Send Magic Link';
+
 	return (
 		<Flex as="main" justify="center" align="center" p="lg" grow>
 			<Card fullWidth maxWidth="400px" gap="md">
@@ -170,13 +175,7 @@ const LoginPage = () => {
 							fullWidth
 							aria-busy={isPending}
 						>
-							{isPending
-								? 'Signing in...'
-								: isMagicLink
-									? isOtpSent
-										? 'Verify Code'
-										: 'Send Magic Link'
-									: 'Sign In'}
+							{submitButtonText}
 						</Button>
 					</Flex>
 				</Flex>
