@@ -121,7 +121,11 @@ export const EventForm = () => {
 			onError: (e: Error) => {
 				console.error(e);
 				toastQueue.add(
-					{ title: 'Creation Failed', description: e.message || 'There was an error creating the event.', type: 'danger' },
+					{
+						title: 'Creation Failed',
+						description: e.message || 'There was an error creating the event.',
+						type: 'danger',
+					},
 					{ timeout: 5000 },
 				);
 			},
@@ -170,27 +174,28 @@ export const EventForm = () => {
 				onChange={(val) => setValue('date', val as CalendarDate, { shouldValidate: true })}
 				errorMessage={errors.date?.message as string}
 			/>
+			<Flex gap="md">
+				<TimeField
+					label="Start Time"
+					isRequired
+					hourCycle={24}
+					granularity="minute"
+					defaultValue={initialStartTime}
+					minValue={minTime}
+					onChange={(val) => setValue('startTime', val as Time, { shouldValidate: true })}
+					errorMessage={errors.startTime?.message as string}
+				/>
 
-			<TimeField
-				label="Start Time"
-				isRequired
-				hourCycle={24}
-				granularity="minute"
-				defaultValue={initialStartTime}
-				minValue={minTime}
-				onChange={(val) => setValue('startTime', val as Time, { shouldValidate: true })}
-				errorMessage={errors.startTime?.message as string}
-			/>
-
-			<TimeField
-				label="Duration (HH:mm)"
-				isRequired
-				hourCycle={24}
-				granularity="minute"
-				defaultValue={new Time(2, 0)}
-				onChange={(val) => setValue('duration', val as Time, { shouldValidate: true })}
-				errorMessage={errors.duration?.message as string}
-			/>
+				<TimeField
+					label="Duration (HH:mm)"
+					isRequired
+					hourCycle={24}
+					granularity="minute"
+					defaultValue={new Time(2, 0)}
+					onChange={(val) => setValue('duration', val as Time, { shouldValidate: true })}
+					errorMessage={errors.duration?.message as string}
+				/>
+			</Flex>
 
 			<Select
 				label="Frequency"
