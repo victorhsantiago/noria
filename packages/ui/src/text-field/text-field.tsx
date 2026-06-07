@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, isValidElement, cloneElement } from 'react';
+import React from 'react';
 import {
 	TextField as RACTextField,
 	Label,
@@ -10,14 +10,16 @@ import {
 	TextFieldProps as RACTextFieldProps,
 	ValidationResult,
 } from 'react-aria-components';
+import { LucideIcon } from 'lucide-react';
+import { Icon } from '../icon';
 import './text-field.css';
 
 export interface TextFieldProps extends RACTextFieldProps {
 	label?: string;
 	description?: string;
 	errorMessage?: string | ((validation: ValidationResult) => string);
-	startIcon?: ReactNode;
-	endIcon?: ReactNode;
+	startIcon?: LucideIcon;
+	endIcon?: LucideIcon;
 	placeholder?: string;
 }
 
@@ -31,26 +33,12 @@ export const TextField = ({
 	className,
 	...props
 }: TextFieldProps) => {
-	const iconSize = 18;
-
-	const renderIcon = (icon: ReactNode, position: 'start' | 'end') => {
+	const renderIcon = (icon: LucideIcon | undefined, position: 'start' | 'end') => {
 		if (!icon) return null;
 
 		return (
 			<div className={`noria-textfield__icon noria-textfield__icon--${position}`}>
-				{isValidElement(icon)
-					? cloneElement(
-							icon as React.ReactElement<{
-								width?: number | string;
-								height?: number | string;
-								className?: string;
-							}>,
-							{
-								width: iconSize,
-								height: iconSize,
-							},
-						)
-					: icon}
+				<Icon icon={icon} />
 			</div>
 		);
 	};

@@ -16,6 +16,7 @@ import {
 	ListBoxItemProps,
 } from 'react-aria-components';
 import { ChevronDown } from 'lucide-react';
+import { Icon } from '../icon';
 import './select.css';
 
 export interface SelectProps<T extends object> extends Omit<RACSelectProps<T>, 'children'> {
@@ -40,7 +41,7 @@ export const Select = <T extends object>({
 			<Button className="noria-select__button neu-pressed">
 				<SelectValue className="noria-select__value" />
 				<span aria-hidden="true" className="noria-select__icon">
-					<ChevronDown size={18} />
+					<Icon icon={ChevronDown} />
 				</span>
 			</Button>
 			{description && (

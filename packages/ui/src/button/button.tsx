@@ -1,12 +1,14 @@
 'use client';
 
-import React, { ReactNode, isValidElement, cloneElement } from 'react';
+import React from 'react';
 import { Button as RACButton, ButtonProps as RACButtonProps } from 'react-aria-components';
+import { LucideIcon } from 'lucide-react';
+import { Icon } from '../icon';
 import './button.css';
 
 export interface ButtonProps extends RACButtonProps {
 	variant?: 'primary' | 'secondary' | 'danger' | 'icon-only' | 'link';
-	icon?: ReactNode;
+	icon?: LucideIcon;
 	fullWidth?: boolean;
 }
 
@@ -41,20 +43,9 @@ export const Button = ({
 
 				return (
 					<>
-						{icon && isValidElement(icon)
-							? cloneElement(
-									icon as React.ReactElement<{
-										width?: number | string;
-										height?: number | string;
-										className?: string;
-									}>,
-									{
-										width: iconSize,
-										height: iconSize,
-										className: 'noria-button__icon',
-									},
-								)
-							: icon}
+						{icon && (
+							<Icon size={iconSize} className="noria-button__icon" icon={icon} />
+						)}
 						{variant !== 'icon-only' && kids && <span className="noria-button__text">{kids}</span>}
 						{variant === 'icon-only' && !icon && kids}
 					</>
