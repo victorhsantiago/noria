@@ -174,6 +174,7 @@ export const EventForm = () => {
 				onChange={(val) => setValue('date', val as CalendarDate, { shouldValidate: true })}
 				errorMessage={errors.date?.message as string}
 			/>
+
 			<Flex gap="sm">
 				<TimeField
 					label="Start Time"
