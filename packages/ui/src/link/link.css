@@ -1,15 +1,13 @@
 .noria-link {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  transition: text-decoration-color 0.2s ease, color 0.2s ease;
-  cursor: pointer;
-}
-
-.noria-link:hover {
-  text-decoration-color: currentColor;
+	color: inherit;
+	text-decoration: none;
+	text-decoration-color: transparent;
+	transition:
+		text-decoration-color 0.2s ease,
+		color 0.2s ease;
+	cursor: pointer;
 }
 
 .noria-link--inline-block {
-  display: inline-block;
+	display: inline-block;
 }
