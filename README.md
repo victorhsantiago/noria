@@ -22,6 +22,11 @@ Noria provides a central place where groups can:
 
 ## MVP Features
 
+### Authentication
+
+- Email / Password Login
+- User Registration
+
 ### Group Management
 
 - Create groups
@@ -60,15 +65,18 @@ Noria provides a central place where groups can:
 
 ### Frontend
 
-- Next.js
-- React
+- Next.js (App Router)
+- React 19
 - TypeScript
+- React Aria Components
+- React Hook Form
+- TanStack React Query
+- Vanilla CSS (Design Tokens)
 
 ### Backend
 
 - Next.js Route Handlers / Server Actions
-- Supabase
-- PostgreSQL
+- Supabase (PostgreSQL & Auth)
 
 ### Monorepo
 
@@ -77,21 +85,23 @@ Noria provides a central place where groups can:
 
 ### Shared Packages
 
-- Zod
-- Shared schemas and types
+- Zod (Data Validation)
+- @noria/ui (Component Library)
+- @noria/database (Database Client & Types)
 
 ## Project Structure
 
 ```txt
 noria/
 ├── apps/
-│   └── web/
+│   └── web/            # Next.js Application
 │
 ├── packages/
-│   ├── database/
-│   ├── schemas/
-│   ├── ui/
-│   └── config/
+│   ├── config/         # Shared configurations
+│   ├── database/       # Supabase client and types
+│   ├── eslint-config/  # Shared ESLint configuration
+│   ├── schemas/        # Zod schemas
+│   └── ui/             # React Aria component library
 │
 ├── pnpm-workspace.yaml
 └── turbo.json
