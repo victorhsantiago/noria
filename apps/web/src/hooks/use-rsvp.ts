@@ -18,64 +18,84 @@ const TOAST_MESSAGES: Record<RsvpStatus, { title: string; description: string }>
 	},
 } as const;
 
+type RsvpVariables = {
+	status: RsvpStatus;
+	guestDetails?: {
+		email: string;
+		name?: string;
+	};
+};
+
 export const useRsvp = (eventId: string) => {
 	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
-		mutationFn: async (status: RsvpStatus) => {
+		mutationFn: async ({ status, guestDetails }: RsvpVariables) => {
 			const supabase = createClient();
 			const { data: { user } } = await supabase.auth.getUser();
 			const guestCookieKey = `noria_guest_rsvp_${eventId}`;
 
+			const email = user ? user.email : guestDetails?.email;
+			const guest_name = user
+				? (user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Unknown')
+				: (guestDetails?.name || guestDetails?.email || 'Guest');
+
+			if (!email) {
+				throw new Error('Email is required to RSVP');
+			}
+
+			// Find existing RSVP by event and email
+			const { data: existing } = await supabase
+				.from('attendees')
+				.select('id')
+				.eq('event_id', eventId)
+				.eq('email', email)
+				.maybeSingle();
+
 			let error;
+			let attendeeId = existing?.id;
 
-			if (user) {
-				const { error: upsertError } = await supabase.from('attendees').upsert(
-					{
-						event_id: eventId,
-						user_id: user.id,
-						guest_name: user.email || 'Unknown',
+			if (attendeeId) {
+				const { error: updateError } = await supabase
+					.from('attendees')
+					.update({
 						rsvp_status: status,
-					},
-					{ onConflict: 'event_id,user_id' },
-				);
-				error = upsertError;
+						guest_name,
+						user_id: user?.id,
+					})
+					.eq('id', attendeeId);
+				error = updateError;
 			} else {
-				const existingAttendeeId = localStorage.getItem(guestCookieKey);
-
-				if (existingAttendeeId) {
-					const { error: updateError } = await supabase
-						.from('attendees')
-						.update({ rsvp_status: status })
-						.eq('id', existingAttendeeId)
-						.eq('event_id', eventId);
-
-					error = updateError;
-				} else {
-					const { data: newAttendee, error: insertError } = await supabase
-						.from('attendees')
-						.insert({
-							event_id: eventId,
-							guest_name: 'Guest',
-							rsvp_status: status,
-						})
-						.select('id')
-						.single();
-
-					error = insertError;
-
-					if (newAttendee) {
-						localStorage.setItem(guestCookieKey, newAttendee.id);
-					}
-				}
+				const { data: inserted, error: insertError } = await supabase
+					.from('attendees')
+					.insert({
+						event_id: eventId,
+						email,
+						guest_name,
+						rsvp_status: status,
+						user_id: user?.id,
+					})
+					.select('id')
+					.single();
+				error = insertError;
+				attendeeId = inserted?.id;
 			}
 
 			if (error) {
 				console.error('Failed to RSVP:', error);
 				throw new Error('Failed to RSVP');
 			}
+
+			if (!user && attendeeId) {
+				localStorage.setItem(
+					guestCookieKey,
+					JSON.stringify({ id: attendeeId, email, name: guestDetails?.name }),
+				);
+			}
+
+			return status;
 		},
-		onSuccess: (_, status) => {
+		onSuccess: (status) => {
 			const message = TOAST_MESSAGES[status];
 
 			toastQueue.add(

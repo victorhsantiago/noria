@@ -21,7 +21,17 @@ import {
 	Dialog,
 	toastQueue,
 } from '@noria/ui';
-import { Calendar, Clock, MapPin, Copy, CheckCircle, MoreVertical, Edit2, Trash2, CopyPlus } from 'lucide-react';
+import {
+	Calendar,
+	Clock,
+	MapPin,
+	Copy,
+	CheckCircle,
+	MoreVertical,
+	Edit2,
+	Trash2,
+	CopyPlus,
+} from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
 import { EventWithRSVPs } from '@/hooks/use-dashboard';
 import { formatEventDateOnly, formatTimeOnly } from '@/utils/date';
@@ -30,6 +40,8 @@ import { useRsvp } from '@/hooks/use-rsvp';
 import { useUser } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { useDeleteEvent } from '@/hooks/use-events';
+import { GuestRsvpModal, GuestRsvpFormValues } from './guest-rsvp-modal';
+import { RsvpStatus } from '@noria/schemas';
 import './event-details.css';
 
 export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
@@ -40,6 +52,45 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 	const isOrganizer = user?.id === event.organizer_id;
 	const { mutate: deleteEvent, isPending: isDeleting } = useDeleteEvent(event.id);
 	const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+	const [guestModalOpen, setGuestModalOpen] = useState(false);
+	const [selectedRsvp, setSelectedRsvp] = useState<RsvpStatus>('Going');
+	const [guestDefaults, setGuestDefaults] = useState<{ email?: string; name?: string }>(() => {
+		if (typeof window !== 'undefined') {
+			const guestCookieKey = `noria_guest_rsvp_${event.id}`;
+			const raw = localStorage.getItem(guestCookieKey);
+			if (raw) {
+				try {
+					const parsed = JSON.parse(raw);
+					return { email: parsed.email, name: parsed.name };
+				} catch {
+					return {};
+				}
+			}
+		}
+		return {};
+	});
+
+	const onRsvpClick = (status: RsvpStatus) => {
+		if (user) {
+			handleRSVP({ status });
+		} else {
+			setSelectedRsvp(status);
+			setGuestModalOpen(true);
+		}
+	};
+
+	const onGuestRsvpSubmit = (data: GuestRsvpFormValues) => {
+		handleRSVP(
+			{ status: selectedRsvp, guestDetails: data },
+			{
+				onSuccess: () => {
+					setGuestModalOpen(false);
+					setGuestDefaults({ email: data.email, name: data.name });
+				},
+			},
+		);
+	};
 
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -97,7 +148,9 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 									<MenuItem id="delete" textValue="Delete Event">
 										<Flex align="center" gap="sm" style={{ color: 'var(--color-danger)' }}>
 											<Icon icon={Trash2} size={16} />
-											<Typography variant="body" color="danger">Delete Event</Typography>
+											<Typography variant="body" color="danger">
+												Delete Event
+											</Typography>
 										</Flex>
 									</MenuItem>
 								</Menu>
@@ -110,31 +163,40 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 									<Flex direction="column" gap="md" p="lg">
 										<Typography variant="h3">Delete Event</Typography>
 										<Typography variant="body">
-											Are you sure you want to delete <strong>{event.title}</strong>? This action cannot be undone.
+											Are you sure you want to delete <strong>{event.title}</strong>? This action
+											cannot be undone.
 										</Typography>
 										<Flex gap="sm" justify="end" mt="md">
 											<Button variant="secondary" onPress={close} isDisabled={isDeleting}>
 												Cancel
 											</Button>
-											<Button 
-												variant="danger" 
+											<Button
+												variant="danger"
 												isDisabled={isDeleting}
 												onPress={() => {
 													deleteEvent(undefined, {
 														onSuccess: () => {
 															toastQueue.add(
-																{ title: 'Event Deleted', description: 'The event has been successfully deleted.', type: 'success' },
-																{ timeout: 4000 }
+																{
+																	title: 'Event Deleted',
+																	description: 'The event has been successfully deleted.',
+																	type: 'success',
+																},
+																{ timeout: 4000 },
 															);
 															router.push('/');
 														},
 														onError: (error) => {
 															toastQueue.add(
-																{ title: 'Delete Failed', description: error.message, type: 'danger' },
-																{ timeout: 5000 }
+																{
+																	title: 'Delete Failed',
+																	description: error.message,
+																	type: 'danger',
+																},
+																{ timeout: 5000 },
 															);
 															close();
-														}
+														},
 													});
 												}}
 											>
@@ -193,16 +255,25 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 			</Tabs>
 			<Separator />
 			<Flex gap="sm" direction="column">
-				<Button variant="primary" onPress={() => handleRSVP('Going')} isDisabled={isPending}>
+				<Button variant="primary" onPress={() => onRsvpClick('Going')} isDisabled={isPending}>
 					Going
 				</Button>
-				<Button variant="secondary" onPress={() => handleRSVP('Maybe')} isDisabled={isPending}>
+				<Button variant="secondary" onPress={() => onRsvpClick('Maybe')} isDisabled={isPending}>
 					Maybe
 				</Button>
-				<Button variant="danger" onPress={() => handleRSVP('Not Going')} isDisabled={isPending}>
+				<Button variant="danger" onPress={() => onRsvpClick('Not Going')} isDisabled={isPending}>
 					Can&apos;t Make It
 				</Button>
 			</Flex>
+
+			<GuestRsvpModal
+				isOpen={guestModalOpen}
+				onOpenChange={setGuestModalOpen}
+				onSubmit={onGuestRsvpSubmit}
+				status={selectedRsvp}
+				isPending={isPending}
+				defaultValues={guestDefaults}
+			/>
 
 			<Separator />
 

@@ -4,7 +4,7 @@ Whenever you finish a task, or before making any final commits to the Noria mono
 
 1. **Run Linter:**
    - Run `pnpm lint`.
-   - If there are any ESLint problem, YOU MUST FIX THEM proactively before committing. You should also run `pnpm lint --fix` to auto-fix where possible.
+   - If there are any ESLint problem (errors or warnings), YOU MUST FIX THEM proactively before committing. You should also run `pnpm lint --fix` to auto-fix where possible.
 
 2. **Run TypeScript Checker:**
    - Check for TypeScript compilation problems by running `pnpm tscheck`.
