@@ -2,7 +2,7 @@
 
 import { useEventById } from '@/hooks/use-events';
 import { InterceptedModal, EventDetails } from '@/components';
-import { Dialog, Typography } from '@noria/ui';
+import { Dialog, Flex, Typography } from '@noria/ui';
 import { use } from 'react';
 
 const EventModal = ({ params }: { params: Promise<{ id: string }> }) => {
@@ -22,7 +22,9 @@ const EventModal = ({ params }: { params: Promise<{ id: string }> }) => {
 	return (
 		<InterceptedModal>
 			<Dialog aria-label={eventWithRSVPs.title}>
-				<EventDetails event={eventWithRSVPs} />
+				<Flex p="lg" fullWidth>
+					<EventDetails event={eventWithRSVPs} />
+				</Flex>
 			</Dialog>
 		</InterceptedModal>
 	);

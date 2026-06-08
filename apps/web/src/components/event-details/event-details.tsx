@@ -114,7 +114,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 	const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`;
 
 	return (
-		<Flex direction="column" p="lg" gap="md">
+		<Flex direction="column" gap="md" fullWidth>
 			<Flex justify="space-between" align="start">
 				<Typography variant="h1">{event.title}</Typography>
 				{isOrganizer && (
@@ -254,14 +254,29 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 				</TabPanel>
 			</Tabs>
 			<Separator />
-			<Flex gap="sm" direction="column">
-				<Button variant="primary" onPress={() => onRsvpClick('Going')} isDisabled={isPending}>
+			<Flex gap="sm" justify="space-between">
+				<Button
+					fullWidth
+					variant="primary"
+					onPress={() => onRsvpClick('Going')}
+					isDisabled={isPending}
+				>
 					Going
 				</Button>
-				<Button variant="secondary" onPress={() => onRsvpClick('Maybe')} isDisabled={isPending}>
+				<Button
+					fullWidth
+					variant="secondary"
+					onPress={() => onRsvpClick('Maybe')}
+					isDisabled={isPending}
+				>
 					Maybe
 				</Button>
-				<Button variant="danger" onPress={() => onRsvpClick('Not Going')} isDisabled={isPending}>
+				<Button
+					fullWidth
+					variant="danger"
+					onPress={() => onRsvpClick('Not Going')}
+					isDisabled={isPending}
+				>
 					Can&apos;t Make It
 				</Button>
 			</Flex>
