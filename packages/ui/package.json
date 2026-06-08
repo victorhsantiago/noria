@@ -8,7 +8,8 @@
 		"./styles.css": "./src/button/button.css"
 	},
 	"scripts": {
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"tscheck": "pnpm tsc --noEmit"
 	},
 	"dependencies": {
 		"@internationalized/date": "^3.12.2",

@@ -71,7 +71,7 @@ export const Toast = ({
 					</span>
 				)}
 			</ToastContent>
-			<Button slot="close" aria-label="Close" variant="icon-only" icon={<XIcon size={16} />} />
+			<Button slot="close" aria-label="Close" variant="icon-only" icon={XIcon} />
 		</RACToast>
 	);
 };
