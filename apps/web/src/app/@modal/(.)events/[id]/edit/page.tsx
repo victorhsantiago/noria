@@ -21,9 +21,9 @@ const EditEventModal = ({ params }: { params: Promise<{ id: string }> }) => {
 			<Dialog aria-label="Edit Event">
 				<Flex direction="column" gap="md" p="lg">
 					<Typography variant="h1">Edit Event</Typography>
-					<EventForm 
-						mode="edit" 
-						initialData={eventWithRSVPs} 
+					<EventForm
+						mode="edit"
+						initialData={eventWithRSVPs}
 						onSuccess={() => {
 							router.back();
 						}}

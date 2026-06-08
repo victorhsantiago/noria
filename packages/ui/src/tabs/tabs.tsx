@@ -8,7 +8,7 @@ import {
 	TabsProps,
 	TabListProps,
 	TabProps,
-	TabPanelProps
+	TabPanelProps,
 } from 'react-aria-components';
 import './tabs.css';
 

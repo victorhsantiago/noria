@@ -43,9 +43,7 @@ export const Button = ({
 
 				return (
 					<>
-						{icon && (
-							<Icon size={iconSize} className="noria-button__icon" icon={icon} />
-						)}
+						{icon && <Icon size={iconSize} className="noria-button__icon" icon={icon} />}
 						{variant !== 'icon-only' && kids && <span className="noria-button__text">{kids}</span>}
 						{variant === 'icon-only' && !icon && kids}
 					</>

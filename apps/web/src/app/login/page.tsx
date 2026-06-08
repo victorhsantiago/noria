@@ -7,7 +7,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui';
 import { Mail, Key } from 'lucide-react';
-import { useLogin, useSignInWithMagicLink, useSignInWithOAuth, useVerifyOtp } from '@/hooks/use-auth';
+import {
+	useLogin,
+	useSignInWithMagicLink,
+	useSignInWithOAuth,
+	useVerifyOtp,
+} from '@/hooks/use-auth';
 
 const loginSchema = z.object({
 	email: z.email({ message: 'Invalid email address' }),

@@ -27,7 +27,7 @@ export const generateGoogleCalendarUrl = (event: EventWithRSVPs) => {
 	const start = formatGoogleDate(event.start_datetime);
 	const endObj = getEndDate(event.start_datetime, event.duration);
 	const end = formatGoogleDate(endObj.toISOString());
-	
+
 	const url = new URL('https://calendar.google.com/calendar/render');
 	url.searchParams.append('action', 'TEMPLATE');
 	url.searchParams.append('text', event.title);
@@ -41,7 +41,7 @@ export const generateYahooCalendarUrl = (event: EventWithRSVPs) => {
 	const start = formatGoogleDate(event.start_datetime);
 	const endObj = getEndDate(event.start_datetime, event.duration);
 	const end = formatGoogleDate(endObj.toISOString());
-	
+
 	const url = new URL('https://calendar.yahoo.com/');
 	url.searchParams.append('v', '60');
 	url.searchParams.append('title', event.title);
@@ -54,7 +54,7 @@ export const generateYahooCalendarUrl = (event: EventWithRSVPs) => {
 
 export const generateOutlookCalendarUrl = (event: EventWithRSVPs) => {
 	const endObj = getEndDate(event.start_datetime, event.duration);
-	
+
 	const url = new URL('https://outlook.live.com/calendar/0/deeplink/compose');
 	url.searchParams.append('path', '/calendar/action/compose');
 	url.searchParams.append('rru', 'addevent');

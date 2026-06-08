@@ -9,7 +9,9 @@ export const useUser = () => {
 		queryKey: ['user'],
 		queryFn: async () => {
 			const supabase = createClient();
-			const { data: { user } } = await supabase.auth.getUser();
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
 			return user;
 		},
 	});

@@ -32,13 +32,15 @@ export const useRsvp = (eventId: string) => {
 	const mutation = useMutation({
 		mutationFn: async ({ status, guestDetails }: RsvpVariables) => {
 			const supabase = createClient();
-			const { data: { user } } = await supabase.auth.getUser();
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
 			const guestCookieKey = `noria_guest_rsvp_${eventId}`;
 
 			const email = user ? user.email : guestDetails?.email;
 			const guest_name = user
-				? (user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Unknown')
-				: (guestDetails?.name || guestDetails?.email || 'Guest');
+				? user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Unknown'
+				: guestDetails?.name || guestDetails?.email || 'Guest';
 
 			if (!email) {
 				throw new Error('Email is required to RSVP');

@@ -10,9 +10,9 @@ export interface IconProps {
 
 export const Icon = ({ icon: IconComponent, className = '', size = 18 }: IconProps) => {
 	return (
-		<IconComponent 
-			className={['noria-icon', className].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim()} 
-			size={size} 
+		<IconComponent
+			className={['noria-icon', className].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim()}
+			size={size}
 		/>
 	);
 };

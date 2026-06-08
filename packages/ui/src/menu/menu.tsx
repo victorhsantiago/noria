@@ -8,7 +8,7 @@ import {
 	MenuProps,
 	MenuItemProps,
 	MenuTriggerProps,
-	PopoverProps
+	PopoverProps,
 } from 'react-aria-components';
 import './menu.css';
 

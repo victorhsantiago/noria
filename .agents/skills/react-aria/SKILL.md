@@ -87,16 +87,14 @@ import { installMouseEvent } from '@react-aria/test-utils';
 installMouseEvent();
 
 beforeAll(() => {
-	jest
-		.spyOn(window.HTMLElement.prototype, 'getBoundingClientRect')
-		.mockImplementation(() => ({
-			top: 0,
-			left: 0,
-			width: 100,
-			height: 10,
-			bottom: 10,
-			right: 100,
-		}));
+	jest.spyOn(window.HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({
+		top: 0,
+		left: 0,
+		width: 100,
+		height: 10,
+		bottom: 10,
+		right: 100,
+	}));
 });
 ```
 

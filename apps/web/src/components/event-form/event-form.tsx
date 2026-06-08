@@ -95,7 +95,9 @@ export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventForm
 
 	const selectedDate = useWatch({ control, name: 'date' });
 	const { mutate: createEventMutation, isPending: isCreating } = useCreateEvent();
-	const { mutate: updateEventMutation, isPending: isUpdating } = useUpdateEvent(initialData?.id || '');
+	const { mutate: updateEventMutation, isPending: isUpdating } = useUpdateEvent(
+		initialData?.id || '',
+	);
 
 	const isPending = mode === 'edit' ? isUpdating : isCreating;
 
@@ -124,10 +126,7 @@ export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventForm
 	];
 
 	// Make sure the initial frequency value is in the options list if it's not dynamic
-	if (
-		initialData?.frequency &&
-		!frequencyOptions.find((opt) => opt.id === initialData.frequency)
-	) {
+	if (initialData?.frequency && !frequencyOptions.find((opt) => opt.id === initialData.frequency)) {
 		frequencyOptions.push({ id: initialData.frequency, name: initialData.frequency });
 	}
 
@@ -153,7 +152,10 @@ export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventForm
 				toastQueue.add(
 					{
 						title: mode === 'edit' ? 'Event Updated' : 'Event Created',
-						description: mode === 'edit' ? 'Your event has been successfully updated.' : 'Your new event is ready.',
+						description:
+							mode === 'edit'
+								? 'Your event has been successfully updated.'
+								: 'Your new event is ready.',
 						type: 'success',
 					},
 					{ timeout: 4000 },
@@ -171,7 +173,9 @@ export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventForm
 				toastQueue.add(
 					{
 						title: mode === 'edit' ? 'Update Failed' : 'Creation Failed',
-						description: e.message || `There was an error ${mode === 'edit' ? 'updating' : 'creating'} the event.`,
+						description:
+							e.message ||
+							`There was an error ${mode === 'edit' ? 'updating' : 'creating'} the event.`,
 						type: 'danger',
 					},
 					{ timeout: 5000 },
@@ -278,7 +282,13 @@ export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventForm
 			/>
 
 			<Button type="submit" variant="primary" isDisabled={isPending}>
-				{isPending ? (mode === 'edit' ? 'Updating...' : 'Creating...') : (mode === 'edit' ? 'Update Event' : 'Create Event')}
+				{isPending
+					? mode === 'edit'
+						? 'Updating...'
+						: 'Creating...'
+					: mode === 'edit'
+						? 'Update Event'
+						: 'Create Event'}
 			</Button>
 		</Flex>
 	);

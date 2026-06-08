@@ -28,9 +28,13 @@ export const useEventById = (id: string) => {
 			return {
 				...event,
 				attendees,
-				goingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Going').length,
-				maybeCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Maybe').length,
-				notGoingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Not Going').length,
+				goingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Going')
+					.length,
+				maybeCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Maybe')
+					.length,
+				notGoingCount: attendees.filter(
+					(a: { rsvp_status: string }) => a.rsvp_status === 'Not Going',
+				).length,
 			};
 		},
 	});
@@ -54,7 +58,9 @@ export const useCreateEvent = () => {
 	return useMutation({
 		mutationFn: async (formData: FormData) => {
 			const supabase = createClient();
-			const { data: { user } } = await supabase.auth.getUser();
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
 			if (!user) {
 				return { error: 'You must be logged in to create an event.' };
 			}
@@ -102,7 +108,9 @@ export const useUpdateEvent = (id: string) => {
 	return useMutation({
 		mutationFn: async (formData: FormData) => {
 			const supabase = createClient();
-			const { data: { user } } = await supabase.auth.getUser();
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
 			if (!user) {
 				return { error: 'You must be logged in to update an event.' };
 			}
@@ -150,7 +158,9 @@ export const useDeleteEvent = (id: string) => {
 	return useMutation({
 		mutationFn: async () => {
 			const supabase = createClient();
-			const { data: { user } } = await supabase.auth.getUser();
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
 			if (!user) {
 				throw new Error('You must be logged in to delete an event.');
 			}
@@ -172,4 +182,3 @@ export const useDeleteEvent = (id: string) => {
 		},
 	});
 };
-

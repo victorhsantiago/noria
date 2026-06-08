@@ -49,9 +49,13 @@ export const useDashboardData = (userId: string | undefined) => {
 				return {
 					...event,
 					attendees,
-					goingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Going').length,
-					maybeCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Maybe').length,
-					notGoingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Not Going').length,
+					goingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Going')
+						.length,
+					maybeCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Maybe')
+						.length,
+					notGoingCount: attendees.filter(
+						(a: { rsvp_status: string }) => a.rsvp_status === 'Not Going',
+					).length,
 				};
 			});
 

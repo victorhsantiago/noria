@@ -3,7 +3,12 @@
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from '@noria/ui';
 import { CalendarDays } from 'lucide-react';
 import { EventWithRSVPs } from '@/hooks/use-dashboard';
-import { generateGoogleCalendarUrl, generateYahooCalendarUrl, generateOutlookCalendarUrl, generateIcsContent } from '@/utils/calendar';
+import {
+	generateGoogleCalendarUrl,
+	generateYahooCalendarUrl,
+	generateOutlookCalendarUrl,
+	generateIcsContent,
+} from '@/utils/calendar';
 
 export const AddToCalendar = ({ event }: { event: EventWithRSVPs }) => {
 	const handleAction = (key: React.Key) => {
