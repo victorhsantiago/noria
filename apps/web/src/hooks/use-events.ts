@@ -143,3 +143,33 @@ export const useUpdateEvent = (id: string) => {
 		},
 	});
 };
+
+export const useDeleteEvent = (id: string) => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async () => {
+			const supabase = createClient();
+			const { data: { user } } = await supabase.auth.getUser();
+			if (!user) {
+				throw new Error('You must be logged in to delete an event.');
+			}
+
+			const { error } = await supabase
+				.from('events')
+				.delete()
+				.eq('id', id)
+				.eq('organizer_id', user.id);
+
+			if (error) {
+				throw new Error(error.message);
+			}
+
+			return { success: true };
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+		},
+	});
+};
+
