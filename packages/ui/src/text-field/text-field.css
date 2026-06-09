@@ -76,3 +76,27 @@
   outline: 2px solid var(--danger);
   outline-offset: -2px;
 }
+
+.noria-textfield__password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.noria-textfield__password-toggle:hover {
+  color: var(--foreground);
+}
+
+.noria-textfield__password-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}

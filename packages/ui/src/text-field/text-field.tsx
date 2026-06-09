@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	TextField as RACTextField,
 	Label,
@@ -10,7 +10,7 @@ import {
 	TextFieldProps as RACTextFieldProps,
 	ValidationResult,
 } from 'react-aria-components';
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon, Eye, EyeOff } from 'lucide-react';
 import { Icon } from '../icon';
 import './text-field.css';
 
@@ -33,6 +33,9 @@ export const TextField = ({
 	className,
 	...props
 }: TextFieldProps) => {
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+	const isPassword = props.type === 'password';
+
 	const renderIcon = (icon: LucideIcon | undefined, position: 'start' | 'end') => {
 		if (!icon) return null;
 
@@ -42,6 +45,8 @@ export const TextField = ({
 			</div>
 		);
 	};
+
+	const hasEndIcon = !!endIcon || isPassword;
 
 	return (
 		<RACTextField
@@ -60,18 +65,30 @@ export const TextField = ({
 
 				<Input
 					placeholder={placeholder}
+					type={isPassword ? (isPasswordVisible ? 'text' : 'password') : undefined}
 					className={(renderProps) => {
 						const { isFocusVisible } = renderProps;
 						const baseClass = 'noria-textfield__input neu-pressed';
 						const focusClass = isFocusVisible ? 'noria-textfield__input--focused' : '';
 						const startIconClass = startIcon ? 'noria-textfield__input--has-start-icon' : '';
-						const endIconClass = endIcon ? 'noria-textfield__input--has-end-icon' : '';
+						const endIconClass = hasEndIcon ? 'noria-textfield__input--has-end-icon' : '';
 
 						return `${baseClass} ${focusClass} ${startIconClass} ${endIconClass}`.trim();
 					}}
 				/>
 
-				{renderIcon(endIcon, 'end')}
+				{isPassword ? (
+					<button
+						type="button"
+						onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+						className="noria-textfield__password-toggle"
+						aria-label={isPasswordVisible ? 'Hide password' : 'Show password'}
+					>
+						<Icon icon={isPasswordVisible ? EyeOff : Eye} />
+					</button>
+				) : (
+					renderIcon(endIcon, 'end')
+				)}
 			</div>
 
 			{description && (
@@ -83,3 +100,4 @@ export const TextField = ({
 		</RACTextField>
 	);
 };
+
