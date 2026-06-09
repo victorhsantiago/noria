@@ -11,7 +11,14 @@ export type EventWithRSVPs = {
 	duration: string | null;
 	frequency: string | null;
 	organizer_id: string;
-	attendees: { rsvp_status: RsvpStatus }[];
+	attendees: {
+		id?: string;
+		guest_name?: string;
+		email?: string | null;
+		rsvp_status: RsvpStatus;
+		user_id?: string | null;
+		created_at?: string | null;
+	}[];
 	goingCount: number;
 	maybeCount: number;
 	notGoingCount: number;

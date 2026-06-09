@@ -13,7 +13,12 @@ export const useEventById = (id: string) => {
 					`
 			*,
 			attendees (
-			  rsvp_status
+			  id,
+			  guest_name,
+			  email,
+			  rsvp_status,
+			  user_id,
+			  created_at
 			)
 		  `,
 				)

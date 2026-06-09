@@ -14,18 +14,70 @@ import {
 	Link,
 	Icon,
 } from '@noria/ui';
-import { Calendar, Clock, MapPin, Copy, CheckCircle } from 'lucide-react';
+import { Calendar, Clock, MapPin, Copy, CheckCircle, HelpCircle, XCircle } from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
 import { EventWithRSVPs } from '@/hooks/use-dashboard';
 import { formatEventDateOnly, formatTimeOnly } from '@/utils/date';
 import { useState, useRef, useEffect } from 'react';
 import { EventOrganizerMenu } from './event-organizer-menu';
 import { EventRsvpActions } from './event-rsvp-actions';
+import { useUser } from '@/hooks/use-auth';
+import { RsvpStatus } from '@noria/schemas';
 import './event-details.css';
+
+const STATUS_CONFIG: Record<
+	RsvpStatus,
+	{ icon: typeof CheckCircle; color: 'success' | 'warning' | 'danger' }
+> = {
+	Going: { icon: CheckCircle, color: 'success' },
+	Maybe: { icon: HelpCircle, color: 'warning' },
+	'Not Going': { icon: XCircle, color: 'danger' },
+};
+
+interface AttendeeListProps {
+	attendees: EventWithRSVPs['attendees'];
+	show: boolean;
+}
+
+const AttendeeList = ({ attendees, show }: AttendeeListProps) => {
+	if (!show) return null;
+
+	if (attendees.length === 0) {
+		return (
+			<Typography variant="body-italic" color="muted">
+				No responses yet. Spread the word or be the first to join! ✨
+			</Typography>
+		);
+	}
+
+	return (
+		<Flex direction="column" gap="sm" fullWidth>
+			{attendees.map((attendee, index) => {
+				const statusInfo = STATUS_CONFIG[attendee.rsvp_status];
+				return (
+					<Flex key={attendee.id || index} justify="space-between" align="center" fullWidth>
+						<Flex direction="column" gap="2xs">
+							<Typography variant="body">{attendee.guest_name || 'Guest'}</Typography>
+							{attendee.guest_name !== attendee.email && (
+								<Typography variant="body" color="muted">
+									{attendee.email || '—'}
+								</Typography>
+							)}
+						</Flex>
+						<Typography color={statusInfo.color}>
+							<Icon icon={statusInfo.icon} />
+						</Typography>
+					</Flex>
+				);
+			})}
+		</Flex>
+	);
+};
 
 export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 	const [copied, setCopied] = useState(false);
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const { data: user } = useUser();
 
 	useEffect(() => {
 		return () => {
@@ -80,18 +132,18 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 							</Flex>
 						</Flex>
 
-						{event.description && (
-							<Typography variant="body" mt="sm">
-								{event.description}
-							</Typography>
-						)}
+						{event.description && <Typography variant="body">{event.description}</Typography>}
 					</Flex>
 				</TabPanel>
 				<TabPanel id="interested">
-					<Flex gap="xs" wrap>
-						<Badge variant="success">{event.goingCount} Going</Badge>
-						<Badge variant="warning">{event.maybeCount} Maybe</Badge>
-						<Badge variant="danger">{event.notGoingCount} Can&apos;t Make It</Badge>
+					<Flex direction="column" gap="md" fullWidth>
+						<Flex gap="xs" wrap>
+							<Badge variant="success">{event.goingCount} Going</Badge>
+							<Badge variant="warning">{event.maybeCount} Maybe</Badge>
+							<Badge variant="danger">{event.notGoingCount} Can&apos;t Make It</Badge>
+						</Flex>
+
+						<AttendeeList attendees={event.attendees} show={!!user} />
 					</Flex>
 				</TabPanel>
 			</Tabs>
