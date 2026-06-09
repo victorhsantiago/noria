@@ -1,8 +1,8 @@
 import React, { ElementType, HTMLAttributes, ReactNode } from 'react';
 import './typography.css';
-import { Spacing } from '../layout/flex';
+import { Spacing } from '../types';
 
-export type TypographyVariant = 'h1' | 'h2-caps' | 'h3' | 'body' | 'body-small' | 'label';
+export type TypographyVariant = 'h1' | 'h2-caps' | 'h3' | 'body' | 'body-bold' | 'body-italic' | 'body-small' | 'label';
 export type TypographyColor = 'foreground' | 'muted' | 'primary' | 'success' | 'warning' | 'danger';
 export type TypographyAlign = 'left' | 'center' | 'right';
 
@@ -22,6 +22,8 @@ const defaultElementMap: Record<TypographyVariant, ElementType> = {
 	'h2-caps': 'h2',
 	h3: 'h3',
 	body: 'p',
+	'body-bold': 'p',
+	'body-italic': 'p',
 	'body-small': 'p',
 	label: 'span',
 };
@@ -31,6 +33,8 @@ const defaultColorMap: Record<TypographyVariant, TypographyColor> = {
 	'h2-caps': 'muted',
 	h3: 'foreground',
 	body: 'foreground',
+	'body-bold': 'foreground',
+	'body-italic': 'muted',
 	'body-small': 'muted',
 	label: 'muted',
 };

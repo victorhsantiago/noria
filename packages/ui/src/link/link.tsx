@@ -1,7 +1,7 @@
 import React, { ComponentPropsWithoutRef } from 'react';
 import NextLink from 'next/link';
 import './link.css';
-import { Spacing } from '../layout/flex';
+import { Spacing } from '../types';
 
 export type LinkProps = ComponentPropsWithoutRef<typeof NextLink> & {
 	mt?: Spacing;

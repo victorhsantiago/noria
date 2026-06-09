@@ -1,11 +1,11 @@
 import React, { ElementType, HTMLAttributes } from 'react';
 import './flex.css';
 
+import { Spacing, TextAlign } from '../types';
+
 export type FlexDirection = 'row' | 'column' | 'row-reverse' | 'column-reverse';
 export type FlexJustify = 'start' | 'center' | 'end' | 'space-between' | 'space-around';
 export type FlexAlign = 'start' | 'center' | 'end' | 'stretch';
-export type Spacing = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-export type TextAlign = 'left' | 'center' | 'right';
 
 export interface FlexProps extends HTMLAttributes<HTMLElement> {
 	direction?: FlexDirection;

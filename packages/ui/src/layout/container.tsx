@@ -1,6 +1,6 @@
 import React, { ElementType, HTMLAttributes } from 'react';
 import './container.css';
-import { Spacing } from './flex';
+import { Spacing } from '../types';
 
 export type MaxWidth = 'sm' | 'md' | 'lg' | 'xl' | string;
 

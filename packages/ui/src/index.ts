@@ -18,3 +18,4 @@ export * from './dialog/dialog';
 export * from './menu/menu';
 export * from './tabs/tabs';
 export * from './skeleton/skeleton';
+export * from './types';

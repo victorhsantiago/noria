@@ -1,6 +1,6 @@
 import React, { ElementType, ComponentPropsWithoutRef, CSSProperties } from 'react';
 import './card.css';
-import { Spacing } from '../layout/flex';
+import { Spacing } from '../types';
 
 export type CardProps<T extends ElementType> = {
 	/** The HTML element or React component to render the card as. Defaults to 'div'. */
