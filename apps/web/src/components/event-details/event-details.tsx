@@ -16,13 +16,13 @@ import {
 } from '@noria/ui';
 import { Calendar, Clock, MapPin, Copy, CheckCircle, HelpCircle, XCircle } from 'lucide-react';
 import { AddToCalendar } from './add-to-calendar';
-import { EventWithRSVPs } from '@/hooks/use-dashboard';
+import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 import { formatEventDateOnly, formatTimeOnly } from '@/utils/date';
 import { useState, useRef, useEffect } from 'react';
 import { EventOrganizerMenu } from './event-organizer-menu';
 import { EventRsvpActions } from './event-rsvp-actions';
 import { useUser } from '@/hooks/use-auth';
-import { RsvpStatus } from '@noria/schemas';
+import type { RsvpStatus } from '@noria/schemas';
 import './event-details.css';
 
 const STATUS_CONFIG: Record<
@@ -108,7 +108,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 			<Tabs>
 				<TabList aria-label="Event details and attendees">
 					<Tab id="info">Info</Tab>
-					<Tab id="interested">{event.goingCount + event.maybeCount} Interested</Tab>
+					<Tab id="interested">Who&apos;s coming? ({event.goingCount + event.maybeCount})</Tab>
 				</TabList>
 
 				<TabPanel id="info">
@@ -139,7 +139,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 					<Flex direction="column" gap="md" fullWidth>
 						<Flex gap="xs" wrap>
 							<Badge variant="success">{event.goingCount} Going</Badge>
-							<Badge variant="warning">{event.maybeCount} Maybe</Badge>
+							<Badge variant="warning">{event.maybeCount} Still Deciding</Badge>
 							<Badge variant="danger">{event.notGoingCount} Can&apos;t Make It</Badge>
 						</Flex>
 

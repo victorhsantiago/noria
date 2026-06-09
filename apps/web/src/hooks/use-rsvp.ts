@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { RsvpStatus } from '@noria/schemas';
+import type { RsvpStatus } from '@noria/schemas';
 import { toastQueue } from '@noria/ui';
 import { createClient } from '@/utils/supabase/client';
 
@@ -10,7 +10,7 @@ const TOAST_MESSAGES: Record<RsvpStatus, { title: string; description: string }>
 	},
 	Maybe: {
 		title: 'Noted! 📝',
-		description: "We've got you down as a maybe. Hope you can make it!",
+		description: "We've got you down as still deciding. Hope you can make it!",
 	},
 	'Not Going': {
 		title: 'Bummer! 😔',

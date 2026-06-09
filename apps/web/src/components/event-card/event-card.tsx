@@ -2,7 +2,7 @@
 
 import { Card, Badge, Typography, Flex, Skeleton, Link } from '@noria/ui';
 
-import { EventWithRSVPs } from '@/hooks/use-dashboard';
+import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 import { formatEventDate } from '@/utils/date';
 
 export const EventCard = ({
@@ -29,9 +29,9 @@ export const EventCard = ({
 						{highlight && (
 							<Flex gap="xs" wrap>
 								{event.goingCount > 0 && <Badge variant="success">{event.goingCount} Going</Badge>}
-								{event.maybeCount > 0 && <Badge variant="warning">{event.maybeCount} Maybe</Badge>}
+								{event.maybeCount > 0 && <Badge variant="warning">{event.maybeCount} Still Deciding</Badge>}
 								{event.notGoingCount > 0 && (
-									<Badge variant="danger">{event.notGoingCount} Not Going</Badge>
+									<Badge variant="danger">{event.notGoingCount} Can&apos;t Make It</Badge>
 								)}
 								{event.goingCount === 0 && event.maybeCount === 0 && event.notGoingCount === 0 && (
 									<Badge variant="info">No one yet</Badge>

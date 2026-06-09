@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Modal, Dialog, Flex, Button, TextField } from '@noria/ui';
-import { RsvpStatus } from '@noria/schemas';
+import type { RsvpStatus } from '@noria/schemas';
 import { useEffect } from 'react';
 
 const formSchema = z
@@ -58,7 +58,7 @@ export const GuestRsvpModal = ({
 
 	const getStatusLabel = (s: RsvpStatus) => {
 		if (s === 'Going') return 'Going';
-		if (s === 'Maybe') return 'Maybe';
+		if (s === 'Maybe') return 'Still Deciding';
 		return "Can't Make It";
 	};
 

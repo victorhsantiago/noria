@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { Button, Flex } from '@noria/ui';
 import { useUser } from '@/hooks/use-auth';
 import { useRsvp } from '@/hooks/use-rsvp';
-import { GuestRsvpModal, GuestRsvpFormValues } from './guest-rsvp-modal';
-import { RsvpStatus } from '@noria/schemas';
-import { EventWithRSVPs } from '@/hooks/use-dashboard';
+import { GuestRsvpModal } from './guest-rsvp-modal';
+import type { GuestRsvpFormValues } from './guest-rsvp-modal';
+import type { RsvpStatus } from '@noria/schemas';
+import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 
 export const EventRsvpActions = ({ event }: { event: EventWithRSVPs }) => {
 	const { data: user } = useUser();
@@ -62,7 +63,7 @@ export const EventRsvpActions = ({ event }: { event: EventWithRSVPs }) => {
 					Going
 				</Button>
 				<Button fullWidth variant="secondary" onPress={handleRsvpMaybe} isDisabled={isPending}>
-					Maybe
+					Still Deciding
 				</Button>
 				<Button fullWidth variant="danger" onPress={handleRsvpNotGoing} isDisabled={isPending}>
 					Can&apos;t Make It
