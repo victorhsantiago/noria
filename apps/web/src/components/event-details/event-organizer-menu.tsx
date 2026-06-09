@@ -18,7 +18,7 @@ import {
 import { MoreVertical, Edit2, Trash2, CopyPlus } from 'lucide-react';
 import { useUser } from '@/hooks/use-auth';
 import { useDeleteEvent } from '@/hooks/use-events';
-import { EventWithRSVPs } from '@/hooks/use-dashboard';
+import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 
 export const EventOrganizerMenu = ({ event }: { event: EventWithRSVPs }) => {
 	const { data: user } = useUser();

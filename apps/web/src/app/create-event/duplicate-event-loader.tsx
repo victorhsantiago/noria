@@ -2,7 +2,7 @@
 
 import { EventForm } from '@/components/event-form/event-form';
 import { useEventById } from '@/hooks/use-events';
-import { EventWithRSVPs } from '@/hooks/use-dashboard';
+import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 
 interface DuplicateEventLoaderProps {
 	id: string;

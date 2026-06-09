@@ -1,4 +1,4 @@
-import { EventWithRSVPs } from '@/hooks/use-dashboard';
+import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 
 const formatGoogleDate = (dateString: string) => {
 	const date = new Date(dateString);

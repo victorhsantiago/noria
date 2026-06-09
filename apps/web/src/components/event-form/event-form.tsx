@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation';
 import { useCreateEvent, useUpdateEvent } from '@/hooks/use-events';
 import { useState } from 'react';
 import { getLocalTimeZone, CalendarDate, Time, today, now } from '@internationalized/date';
-import { EventWithRSVPs } from '@/hooks/use-dashboard'; // Note: you might want to move this type
+import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 
 const formSchema = z
 	.object({

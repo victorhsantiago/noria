@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { z } from 'zod';
 import { createClient } from '@/utils/supabase/client';
+import { EventSchema } from '@noria/schemas';
+import type { Attendees } from '@noria/database';
 
 export const useEventById = (id: string) => {
 	return useSuspenseQuery({
@@ -33,29 +34,19 @@ export const useEventById = (id: string) => {
 			return {
 				...event,
 				attendees,
-				goingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Going')
-					.length,
-				maybeCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Maybe')
-					.length,
+				goingCount: attendees.filter(
+					(a: { rsvp_status: Attendees['rsvp_status'] }) => a.rsvp_status === 'Going',
+				).length,
+				maybeCount: attendees.filter(
+					(a: { rsvp_status: Attendees['rsvp_status'] }) => a.rsvp_status === 'Maybe',
+				).length,
 				notGoingCount: attendees.filter(
-					(a: { rsvp_status: string }) => a.rsvp_status === 'Not Going',
+					(a: { rsvp_status: Attendees['rsvp_status'] }) => a.rsvp_status === 'Not Going',
 				).length,
 			};
 		},
 	});
 };
-
-const eventSchema = z.object({
-	title: z.string().min(1, 'Title is required').max(100, 'Title cannot exceed 100 characters'),
-	description: z.string().max(500, 'Description cannot exceed 500 characters').optional(),
-	location: z
-		.string()
-		.min(1, 'Location is required')
-		.max(150, 'Location cannot exceed 150 characters'),
-	start_datetime: z.string(),
-	duration: z.string().min(1, 'Duration is required'),
-	frequency: z.string().min(1, 'Frequency is required'),
-});
 
 export const useCreateEvent = () => {
 	const queryClient = useQueryClient();
@@ -79,7 +70,7 @@ export const useCreateEvent = () => {
 				frequency: formData.get('frequency')?.toString() || '',
 			};
 
-			const parsed = eventSchema.parse(rawData);
+			const parsed = EventSchema.parse(rawData);
 
 			const { error } = await supabase
 				.from('events')
@@ -129,7 +120,7 @@ export const useUpdateEvent = (id: string) => {
 				frequency: formData.get('frequency')?.toString() || '',
 			};
 
-			const parsed = eventSchema.parse(rawData);
+			const parsed = EventSchema.parse(rawData);
 
 			const { error } = await supabase
 				.from('events')

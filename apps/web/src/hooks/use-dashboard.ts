@@ -1,24 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { createClient } from '@/utils/supabase/client';
-import { RsvpStatus } from '@noria/schemas';
+import type { Attendees, Events } from '@noria/database';
 
-export type EventWithRSVPs = {
-	id: string;
-	title: string;
-	description: string | null;
-	location: string;
-	start_datetime: string;
-	duration: string | null;
-	frequency: string | null;
-	organizer_id: string;
-	attendees: {
-		id?: string;
-		guest_name?: string;
-		email?: string | null;
-		rsvp_status: RsvpStatus;
-		user_id?: string | null;
-		created_at?: string | null;
-	}[];
+export type EventWithRSVPs = Events & {
+	attendees: Pick<
+		Attendees,
+		'id' | 'guest_name' | 'email' | 'rsvp_status' | 'user_id' | 'created_at'
+	>[];
 	goingCount: number;
 	maybeCount: number;
 	notGoingCount: number;
@@ -55,13 +43,16 @@ export const useDashboardData = (userId: string | undefined) => {
 				const attendees = event.attendees || [];
 				return {
 					...event,
-					attendees,
-					goingCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Going')
-						.length,
-					maybeCount: attendees.filter((a: { rsvp_status: string }) => a.rsvp_status === 'Maybe')
-						.length,
+					attendees: attendees as EventWithRSVPs['attendees'],
+					goingCount: attendees.filter(
+						(a: { rsvp_status: Attendees['rsvp_status'] }) => a.rsvp_status === 'Going',
+					).length,
+					maybeCount: attendees.filter(
+						(a: { rsvp_status: Attendees['rsvp_status'] }) => a.rsvp_status === 'Maybe',
+					).length,
 					notGoingCount: attendees.filter(
-						(a: { rsvp_status: string }) => a.rsvp_status === 'Not Going',
+						(a: { rsvp_status: Attendees['rsvp_status'] }) =>
+							a.rsvp_status === 'Not Going',
 					).length,
 				};
 			});

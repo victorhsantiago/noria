@@ -2,7 +2,7 @@
 
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from '@noria/ui';
 import { CalendarDays } from 'lucide-react';
-import { EventWithRSVPs } from '@/hooks/use-dashboard';
+import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 import {
 	generateGoogleCalendarUrl,
 	generateYahooCalendarUrl,
