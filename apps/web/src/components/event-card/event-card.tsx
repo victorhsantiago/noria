@@ -29,7 +29,9 @@ export const EventCard = ({
 						{highlight && (
 							<Flex gap="xs" wrap>
 								{event.goingCount > 0 && <Badge variant="success">{event.goingCount} Going</Badge>}
-								{event.maybeCount > 0 && <Badge variant="warning">{event.maybeCount} Still Deciding</Badge>}
+								{event.maybeCount > 0 && (
+									<Badge variant="warning">{event.maybeCount} Still Deciding</Badge>
+								)}
 								{event.notGoingCount > 0 && (
 									<Badge variant="danger">{event.notGoingCount} Can&apos;t Make It</Badge>
 								)}

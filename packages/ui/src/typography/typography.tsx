@@ -2,7 +2,15 @@ import React, { ElementType, HTMLAttributes, ReactNode } from 'react';
 import './typography.css';
 import { Spacing } from '../types';
 
-export type TypographyVariant = 'h1' | 'h2-caps' | 'h3' | 'body' | 'body-bold' | 'body-italic' | 'body-small' | 'label';
+export type TypographyVariant =
+	| 'h1'
+	| 'h2-caps'
+	| 'h3'
+	| 'body'
+	| 'body-bold'
+	| 'body-italic'
+	| 'body-small'
+	| 'label';
 export type TypographyColor = 'foreground' | 'muted' | 'primary' | 'success' | 'warning' | 'danger';
 export type TypographyAlign = 'left' | 'center' | 'right';
 

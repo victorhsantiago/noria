@@ -26,11 +26,14 @@ type RsvpVariables = {
 	};
 };
 
-export const useRsvp = (eventId: string) => {
+export const useRsvp = (eventId: string, startDatetime?: string) => {
 	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
 		mutationFn: async ({ status, guestDetails }: RsvpVariables) => {
+			if (startDatetime && new Date(startDatetime) < new Date()) {
+				throw new Error('Cannot RSVP to or update responses for past events.');
+			}
 			const supabase = createClient();
 			const {
 				data: { user },
@@ -112,11 +115,11 @@ export const useRsvp = (eventId: string) => {
 			queryClient.invalidateQueries({ queryKey: ['dashboard'] });
 			queryClient.invalidateQueries({ queryKey: ['event', eventId] });
 		},
-		onError: () => {
+		onError: (error: Error) => {
 			toastQueue.add(
 				{
 					title: 'Oops!',
-					description: 'We hit a snag saving your response. Give it another try!',
+					description: error.message || 'We hit a snag saving your response. Give it another try!',
 					type: 'danger',
 				},
 				{ timeout: 5000 },

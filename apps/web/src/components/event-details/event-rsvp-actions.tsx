@@ -11,7 +11,7 @@ import type { EventWithRSVPs } from '@/hooks/use-dashboard';
 
 export const EventRsvpActions = ({ event }: { event: EventWithRSVPs }) => {
 	const { data: user } = useUser();
-	const { isPending, handleRSVP } = useRsvp(event.id);
+	const { isPending, handleRSVP } = useRsvp(event.id, event.start_datetime);
 
 	const [guestModalOpen, setGuestModalOpen] = useState(false);
 	const [selectedRsvp, setSelectedRsvp] = useState<RsvpStatus>('Going');

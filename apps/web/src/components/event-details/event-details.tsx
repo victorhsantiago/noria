@@ -78,6 +78,7 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 	const [copied, setCopied] = useState(false);
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const { data: user } = useUser();
+	const isPastEvent = new Date(event.start_datetime) < new Date();
 
 	useEffect(() => {
 		return () => {
@@ -148,14 +149,18 @@ export const EventDetails = ({ event }: { event: EventWithRSVPs }) => {
 				</TabPanel>
 			</Tabs>
 
-			<Separator />
-
-			<EventRsvpActions event={event} />
+			{!isPastEvent && (
+				<>
+					<Separator />
+					<EventRsvpActions event={event} />
+				</>
+			)}
 
 			<Separator />
 
 			<Flex gap="sm" wrap justify="end" className="noria-event-actions">
 				<Button
+					isDisabled={isPastEvent}
 					variant="secondary"
 					onPress={handleCopy}
 					icon={copied ? CheckCircle : Copy}

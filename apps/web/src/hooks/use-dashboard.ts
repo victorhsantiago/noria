@@ -51,8 +51,7 @@ export const useDashboardData = (userId: string | undefined) => {
 						(a: { rsvp_status: Attendees['rsvp_status'] }) => a.rsvp_status === 'Maybe',
 					).length,
 					notGoingCount: attendees.filter(
-						(a: { rsvp_status: Attendees['rsvp_status'] }) =>
-							a.rsvp_status === 'Not Going',
+						(a: { rsvp_status: Attendees['rsvp_status'] }) => a.rsvp_status === 'Not Going',
 					).length,
 				};
 			});
