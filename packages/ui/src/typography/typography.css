@@ -1,80 +1,128 @@
 .noria-typography {
-  margin: 0;
-  transition: color 0.2s ease;
+	margin: 0;
+	transition: color 0.2s ease;
 }
 
 /* Colors */
-.noria-typography--color-foreground { color: var(--foreground); }
-.noria-typography--color-muted { color: var(--muted); }
-.noria-typography--color-primary { color: var(--primary); }
-.noria-typography--color-success { color: var(--success); }
-.noria-typography--color-warning { color: var(--warning); }
-.noria-typography--color-danger { color: var(--danger); }
+.noria-typography--color-foreground {
+	color: var(--foreground);
+}
+.noria-typography--color-muted {
+	color: var(--muted);
+}
+.noria-typography--color-primary {
+	color: var(--primary);
+}
+.noria-typography--color-success {
+	color: var(--success);
+}
+.noria-typography--color-warning {
+	color: var(--warning);
+}
+.noria-typography--color-danger {
+	color: var(--danger);
+}
 
 /* Alignments */
-.noria-typography--align-left { text-align: left; }
-.noria-typography--align-center { text-align: center; }
-.noria-typography--align-right { text-align: right; }
+.noria-typography--align-left {
+	text-align: left;
+}
+.noria-typography--align-center {
+	text-align: center;
+}
+.noria-typography--align-right {
+	text-align: right;
+}
 
 /* Variants */
 .noria-typography--variant-h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
+	font-size: 1.5rem;
+	font-weight: 700;
 }
 
 .noria-typography--variant-h2-caps {
-  font-size: 1.125rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+	font-family: var(--font-outfit), sans-serif;
+	font-size: 1.125rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
 }
 
 .noria-typography--variant-h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
+	font-size: 1.25rem;
+	font-weight: 600;
 }
 
 .noria-typography--variant-body {
-  font-size: 1rem;
-  font-weight: 400;
+	font-size: 1rem;
+	font-weight: 400;
 }
 
 .noria-typography--variant-body-bold {
-  font-size: 1rem;
-  font-weight: 600;
+	font-size: 1rem;
+	font-weight: 600;
 }
 
 .noria-typography--variant-body-italic {
-  font-size: 1rem;
-  font-style: italic;
-  font-weight: 400;
+	font-size: 1rem;
+	font-style: italic;
+	font-weight: 400;
 }
 
 .noria-typography--variant-body-small {
-  font-size: 0.875rem;
-  font-weight: 400;
+	font-size: 0.875rem;
+	font-weight: 400;
 }
 
 .noria-typography--variant-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+	font-family: var(--font-outfit), sans-serif;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
 }
 
 /* Spacing */
-.noria-typography--mt-xs { margin-top: var(--space-xs); }
-.noria-typography--mt-sm { margin-top: var(--space-sm); }
-.noria-typography--mt-md { margin-top: var(--space-md); }
-.noria-typography--mt-lg { margin-top: var(--space-lg); }
-.noria-typography--mt-xl { margin-top: var(--space-xl); }
-.noria-typography--mt-2xl { margin-top: var(--space-2xl); }
-.noria-typography--mt-none { margin-top: 0; }
+.noria-typography--mt-xs {
+	margin-top: var(--space-xs);
+}
+.noria-typography--mt-sm {
+	margin-top: var(--space-sm);
+}
+.noria-typography--mt-md {
+	margin-top: var(--space-md);
+}
+.noria-typography--mt-lg {
+	margin-top: var(--space-lg);
+}
+.noria-typography--mt-xl {
+	margin-top: var(--space-xl);
+}
+.noria-typography--mt-2xl {
+	margin-top: var(--space-2xl);
+}
+.noria-typography--mt-none {
+	margin-top: 0;
+}
 
-.noria-typography--mb-xs { margin-bottom: var(--space-xs); }
-.noria-typography--mb-sm { margin-bottom: var(--space-sm); }
-.noria-typography--mb-md { margin-bottom: var(--space-md); }
-.noria-typography--mb-lg { margin-bottom: var(--space-lg); }
-.noria-typography--mb-xl { margin-bottom: var(--space-xl); }
-.noria-typography--mb-2xl { margin-bottom: var(--space-2xl); }
-.noria-typography--mb-none { margin-bottom: 0; }
+.noria-typography--mb-xs {
+	margin-bottom: var(--space-xs);
+}
+.noria-typography--mb-sm {
+	margin-bottom: var(--space-sm);
+}
+.noria-typography--mb-md {
+	margin-bottom: var(--space-md);
+}
+.noria-typography--mb-lg {
+	margin-bottom: var(--space-lg);
+}
+.noria-typography--mb-xl {
+	margin-bottom: var(--space-xl);
+}
+.noria-typography--mb-2xl {
+	margin-bottom: var(--space-2xl);
+}
+.noria-typography--mb-none {
+	margin-bottom: 0;
+}

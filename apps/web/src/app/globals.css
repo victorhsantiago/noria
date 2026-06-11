@@ -56,6 +56,26 @@ h6 {
   overflow-wrap: break-word;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif), serif;
+  font-weight: 400;
+}
+
+h1.uppercase,
+h2.uppercase,
+h3.uppercase,
+h4.uppercase,
+h5.uppercase,
+h6.uppercase,
+[class*="uppercase"] {
+  font-family: var(--font-outfit), sans-serif;
+}
+
 a {
   color: inherit;
   text-decoration: none;

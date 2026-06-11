@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Outfit } from 'next/font/google';
+import { Outfit, Lora } from 'next/font/google';
 import './globals.css';
 import '@noria/ui/styles.css';
 import { ThemeProvider } from '@/components';
@@ -8,6 +8,11 @@ import { Providers } from './providers';
 
 const outfit = Outfit({
 	variable: '--font-outfit',
+	subsets: ['latin'],
+});
+
+const lora = Lora({
+	variable: '--font-serif',
 	subsets: ['latin'],
 });
 
@@ -24,7 +29,7 @@ const RootLayout = ({
 	modal: React.ReactNode;
 }>) => {
 	return (
-		<html lang="en" className={outfit.variable} suppressHydrationWarning>
+		<html lang="en" className={`${outfit.variable} ${lora.variable}`} suppressHydrationWarning>
 			<body>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 					<Providers>
