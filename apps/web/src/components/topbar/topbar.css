@@ -1,0 +1,57 @@
+.noria-topbar {
+	width: 100%;
+	background: var(--background);
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.05),
+		0 2px 4px -1px rgba(0, 0, 0, 0.03);
+	transition:
+		background-color 0.3s ease,
+		border-color 0.3s ease,
+		box-shadow 0.3s ease;
+}
+
+.dark .noria-topbar {
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.2),
+		0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.topbar-brand {
+	font-weight: 700;
+	font-size: 1.5rem;
+	text-decoration: none;
+	cursor: pointer;
+	transition: opacity 0.2s ease;
+}
+
+.topbar-brand:hover {
+	opacity: 0.8;
+}
+
+/* User email display styling inside the menu */
+.menu-user-info {
+	display: flex;
+	flex-direction: column;
+	padding: var(--space-2xs) 0;
+	font-size: 0.85rem;
+}
+
+.menu-user-label {
+	color: var(--muted);
+	font-weight: 500;
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: 2px;
+}
+
+.menu-user-email {
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 180px;
+}
