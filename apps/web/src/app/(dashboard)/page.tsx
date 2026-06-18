@@ -29,7 +29,7 @@ const HomePage = () => {
 					<Flex direction="column" mb="lg">
 						<Typography variant="h1">Dashboard</Typography>
 						<Typography variant="body" color="muted" mt="xs">
-							Welcome back 👋 <strong>{user?.email || '...'}</strong>
+							Welcome back 👋 <strong>{user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email || '...'}</strong>
 						</Typography>
 					</Flex>
 

@@ -72,10 +72,12 @@ export const Topbar = () => {
 								<Button variant="secondary" icon={MenuIcon} aria-label="Account Menu" />
 								<Popover placement="bottom right">
 									<Menu onAction={handleMenuAction}>
-										<MenuItem id="user-info" isDisabled textValue={`Signed in as ${user.email}`}>
+										<MenuItem id="user-info" isDisabled textValue={`Signed in as ${user.user_metadata?.full_name || user.user_metadata?.name || user.email}`}>
 											<div className="menu-user-info">
 												<span className="menu-user-label">Signed in as</span>
-												<span className="menu-user-email">{user.email}</span>
+												<span className="menu-user-email">
+													{user.user_metadata?.full_name || user.user_metadata?.name || user.email}
+												</span>
 											</div>
 										</MenuItem>
 										<MenuItem id="theme-toggle" textValue="Toggle Theme">

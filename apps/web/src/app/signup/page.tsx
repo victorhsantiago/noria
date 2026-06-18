@@ -5,10 +5,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, TextField, Card, Alert, Typography, Flex, Separator, Link } from '@noria/ui';
-import { Mail, Key } from 'lucide-react';
+import { Mail, Key, User } from 'lucide-react';
 import { useSignup, useSignInWithOAuth } from '@/hooks/use-auth';
 
 const signupSchema = z.object({
+	name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
 	email: z.string().email({ message: 'Invalid email address' }),
 	password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
 });
@@ -28,7 +29,7 @@ const SignupPage = () => {
 		formState: { errors },
 	} = useForm<SignupFormValues>({
 		resolver: zodResolver(signupSchema),
-		defaultValues: { email: '', password: '' },
+		defaultValues: { name: '', email: '', password: '' },
 	});
 
 	const onSubmit = (data: SignupFormValues) => {
@@ -36,6 +37,7 @@ const SignupPage = () => {
 		setSuccess(null);
 
 		const formData = new FormData();
+		formData.append('name', data.name);
 		formData.append('email', data.email);
 		formData.append('password', data.password);
 
@@ -68,6 +70,24 @@ const SignupPage = () => {
 				{success && <Alert variant="success">{success}</Alert>}
 
 				<Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" gap="sm">
+					<Controller
+						control={control}
+						name="name"
+						render={({ field }) => (
+							<TextField
+								label="Full Name"
+								placeholder="Jane Doe"
+								startIcon={User}
+								isInvalid={!!errors.name}
+								errorMessage={errors.name?.message}
+								value={field.value}
+								onChange={field.onChange}
+								onBlur={field.onBlur}
+								name={field.name}
+							/>
+						)}
+					/>
+
 					<Controller
 						control={control}
 						name="email"
