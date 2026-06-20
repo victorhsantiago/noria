@@ -39,8 +39,8 @@ export const EventOrganizerMenu = ({ event }: { event: EventWithRSVPs }) => {
 		}
 	};
 
-	const handleDeleteConfirm = (closeDialog: () => void) => {
-		deleteEvent(undefined, {
+	const handleDeleteConfirm = (closeDialog: () => void, deleteType: 'single' | 'future' = 'single') => {
+		deleteEvent(deleteType, {
 			onSuccess: () => {
 				toastQueue.add(
 					{
@@ -102,20 +102,40 @@ export const EventOrganizerMenu = ({ event }: { event: EventWithRSVPs }) => {
 						<Flex direction="column" gap="md" p="lg">
 							<Typography variant="h3">Delete Event</Typography>
 							<Typography variant="body">
-								Are you sure you want to delete <strong>{event.title}</strong>? This action cannot
-								be undone.
+								{event.recurrence_group_id
+									? 'This is a recurring event. Do you want to delete only this instance, or this and all future occurrences in the series?'
+									: <>Are you sure you want to delete <strong>{event.title}</strong>? This action cannot be undone.</>}
 							</Typography>
 							<Flex gap="sm" justify="end" mt="md">
 								<Button variant="secondary" onPress={close} isDisabled={isDeleting}>
 									Cancel
 								</Button>
-								<Button
-									variant="danger"
-									isDisabled={isDeleting}
-									onPress={() => handleDeleteConfirm(close)}
-								>
-									{isDeleting ? 'Deleting...' : 'Delete'}
-								</Button>
+								{event.recurrence_group_id ? (
+									<>
+										<Button
+											variant="danger"
+											isDisabled={isDeleting}
+											onPress={() => handleDeleteConfirm(close, 'single')}
+										>
+											{isDeleting ? 'Deleting...' : 'Delete this instance'}
+										</Button>
+										<Button
+											variant="danger"
+											isDisabled={isDeleting}
+											onPress={() => handleDeleteConfirm(close, 'future')}
+										>
+											{isDeleting ? 'Deleting...' : 'Delete this and all future'}
+										</Button>
+									</>
+								) : (
+									<Button
+										variant="danger"
+										isDisabled={isDeleting}
+										onPress={() => handleDeleteConfirm(close, 'single')}
+									>
+										{isDeleting ? 'Deleting...' : 'Delete'}
+									</Button>
+								)}
 							</Flex>
 						</Flex>
 					)}

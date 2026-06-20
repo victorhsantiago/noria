@@ -13,6 +13,9 @@ import {
 	toastQueue,
 	TextArea,
 	Flex,
+	Modal,
+	Dialog,
+	Typography,
 } from '@noria/ui';
 import { useRouter } from 'next/navigation';
 import { useCreateEvent, useUpdateEvent } from '@/hooks/use-events';
@@ -45,6 +48,8 @@ export interface EventFormProps {
 
 export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventFormProps) => {
 	const router = useRouter();
+	const [isUpdateChoiceOpen, setUpdateChoiceOpen] = useState(false);
+	const [pendingData, setPendingData] = useState<FormValues | null>(null);
 
 	const [initialDate] = useState(() => {
 		if (initialData?.start_datetime) {
@@ -131,6 +136,15 @@ export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventForm
 	}
 
 	const onSubmit = (data: FormValues) => {
+		if (mode === 'edit' && initialData?.recurrence_group_id) {
+			setPendingData(data);
+			setUpdateChoiceOpen(true);
+		} else {
+			executeSubmit(data);
+		}
+	};
+
+	const executeSubmit = (data: FormValues, updateType?: 'single' | 'future') => {
 		const formData = new FormData();
 		formData.append('title', data.title);
 		if (data.description) formData.append('description', data.description);
@@ -146,6 +160,10 @@ export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventForm
 		const durationStr = `${data.duration.hour.toString().padStart(2, '0')}:${data.duration.minute.toString().padStart(2, '0')}`;
 		formData.append('duration', durationStr);
 		formData.append('frequency', data.frequency);
+
+		if (updateType) {
+			formData.append('update_type', updateType);
+		}
 
 		const mutationOptions = {
 			onSuccess: () => {
@@ -290,6 +308,45 @@ export const EventForm = ({ mode = 'create', initialData, onSuccess }: EventForm
 						? 'Update Event'
 						: 'Create Event'}
 			</Button>
+			<Modal isOpen={isUpdateChoiceOpen} onOpenChange={setUpdateChoiceOpen}>
+				<Dialog>
+					{({ close }) => (
+						<Flex direction="column" gap="md" p="lg">
+							<Typography variant="h3">Update Recurring Event</Typography>
+							<Typography variant="body">
+								This is a recurring event. Do you want to update only this occurrence, or this and all future occurrences in the series?
+							</Typography>
+							<Flex gap="sm" justify="end" mt="md">
+								<Button variant="secondary" onPress={close}>
+									Cancel
+								</Button>
+								<Button
+									variant="primary"
+									onPress={() => {
+										if (pendingData) {
+											executeSubmit(pendingData, 'single');
+										}
+										close();
+									}}
+								>
+									This instance only
+								</Button>
+								<Button
+									variant="primary"
+									onPress={() => {
+										if (pendingData) {
+											executeSubmit(pendingData, 'future');
+										}
+										close();
+									}}
+								>
+									All future events
+								</Button>
+							</Flex>
+						</Flex>
+					)}
+				</Dialog>
+			</Modal>
 		</Flex>
 	);
 };
