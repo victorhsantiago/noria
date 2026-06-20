@@ -17,6 +17,8 @@ export const EventSchema = z.object({
 	start_datetime: z.string(),
 	duration: z.string().min(1, 'Duration is required').nullable().optional(),
 	frequency: z.string().min(1, 'Frequency is required'),
+	parent_event_id: z.string().uuid().nullable().optional(),
+	recurrence_group_id: z.string().uuid().nullable().optional(),
 });
 
 export type Event = z.infer<typeof EventSchema>;
